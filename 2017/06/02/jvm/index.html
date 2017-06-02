@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>jvm | 大帅的博客</title>
+    <title>大帅的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="lupeng">
     
 
     
-    <meta name="description" content="Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能力越强，系统运行速度越快。 Tomcat 7.png Tomcat 的优化不像其它软件">
+    <meta name="description" content="title: jvmdate: 2017-06-02 09:58:43tags:  Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jvm">
+<meta property="og:title" content="大帅的博客">
 <meta property="og:url" content="http://lupeng219.github.io/2017/06/02/jvm/index.html">
 <meta property="og:site_name" content="大帅的博客">
-<meta property="og:description" content="Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能力越强，系统运行速度越快。 Tomcat 7.png Tomcat 的优化不像其它软件">
-<meta property="og:updated_time" content="2017-06-02T05:05:02.945Z">
+<meta property="og:description" content="title: jvmdate: 2017-06-02 09:58:43tags:  Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能">
+<meta property="og:updated_time" content="2017-06-02T05:14:56.769Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jvm">
-<meta name="twitter:description" content="Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能力越强，系统运行速度越快。 Tomcat 7.png Tomcat 的优化不像其它软件">
+<meta name="twitter:title" content="大帅的博客">
+<meta name="twitter:description" content="title: jvmdate: 2017-06-02 09:58:43tags:  Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能">
 
     
     
@@ -70,14 +70,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/06/02/jvm/" title="jvm" itemprop="url">jvm</a>
+      <a href="/2017/06/02/jvm/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="lupeng" target="_blank" itemprop="author">lupeng</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-02T01:58:43.000Z" itemprop="datePublished"> 发表于 2017-06-02</time>
+    <time datetime="2017-06-02T01:58:43.629Z" itemprop="datePublished"> 发表于 2017-06-02</time>
     
   </p>
 </header>
@@ -90,7 +90,10 @@
 		
 		</div>
 		
-		<h1 id="Tomcat-调优及-JVM-参数优化"><a href="#Tomcat-调优及-JVM-参数优化" class="headerlink" title="Tomcat 调优及 JVM 参数优化"></a>Tomcat 调优及 JVM 参数优化</h1><p>Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能力越强，系统运行速度越快。</p>
+		<hr>
+<p>title: jvm<br>date: 2017-06-02 09:58:43<br>tags:</p>
+<hr>
+<h1 id="Tomcat-调优及-JVM-参数优化"><a href="#Tomcat-调优及-JVM-参数优化" class="headerlink" title="Tomcat 调优及 JVM 参数优化"></a>Tomcat 调优及 JVM 参数优化</h1><p>Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能力越强，系统运行速度越快。</p>
 <p>Tomcat 7.png</p>
 <p>Tomcat 的优化不像其它软件那样，简简单单的修改几个参数就可以了，它的优化主要有三方面，分为系统优化，Tomcat 本身的优化，Java 虚拟机（JVM）调优。系统优化就不在介绍了，接下来就详细的介绍一下 Tomcat 本身与 JVM 优化，以 Tomcat 7 为例。</p>
 <h1 id="一、Tomcat-本身优化"><a href="#一、Tomcat-本身优化" class="headerlink" title="一、Tomcat 本身优化"></a>一、Tomcat 本身优化</h1><p>Tomcat 的自身参数的优化，这块很像 ApacheHttp Server。修改一下 xml 配置文件中的参数，调整最大连接数，超时等。此外，我们安装 Tomcat 是，优化就已经开始了。</p>
@@ -209,7 +212,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://lupeng219.github.io/2017/06/02/jvm/" data-title="jvm | 大帅的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="http://lupeng219.github.io/2017/06/02/jvm/" data-title="大帅的博客" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
