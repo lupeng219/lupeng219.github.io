@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://lupeng219.github.io/2017/06/02/jvm/index.html">
 <meta property="og:site_name" content="大帅的博客">
 <meta property="og:description" content="Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能力越强，系统运行速度越快。 Tomcat 7.png Tomcat 的优化不像其它软件">
-<meta property="og:updated_time" content="2017-06-02T02:08:01.056Z">
+<meta property="og:updated_time" content="2017-06-02T05:05:02.945Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jvm">
 <meta name="twitter:description" content="Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能力越强，系统运行速度越快。 Tomcat 7.png Tomcat 的优化不像其它软件">
@@ -86,23 +86,19 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Tomcat-调优及-JVM-参数优化"><span class="toc-number">1.</span> <span class="toc-text">Tomcat 调优及 JVM 参数优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、JVM-优化"><span class="toc-number">2.</span> <span class="toc-text">二、JVM 优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、JVM-参数配置方法"><span class="toc-number">2.1.</span> <span class="toc-text">1、JVM 参数配置方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、JVM-参数属性"><span class="toc-number">2.2.</span> <span class="toc-text">2、JVM 参数属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、设置系统属性"><span class="toc-number">2.3.</span> <span class="toc-text">3、设置系统属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、常见的-Java-内存溢出有以下三种"><span class="toc-number">2.4.</span> <span class="toc-text">4、常见的 Java 内存溢出有以下三种</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Tomcat-调优及-JVM-参数优化"><span class="toc-number">1.</span> <span class="toc-text">Tomcat 调优及 JVM 参数优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Tomcat-本身优化"><span class="toc-number">2.</span> <span class="toc-text">一、Tomcat 本身优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、工作方式选择"><span class="toc-number">2.1.</span> <span class="toc-text">1、工作方式选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、Connector-连接器的配置"><span class="toc-number">2.2.</span> <span class="toc-text">2、Connector 连接器的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、配置文件优化"><span class="toc-number">2.3.</span> <span class="toc-text">3、配置文件优化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、JVM-优化"><span class="toc-number">3.</span> <span class="toc-text">二、JVM 优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、JVM-参数配置方法"><span class="toc-number">3.1.</span> <span class="toc-text">1、JVM 参数配置方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、JVM-参数属性"><span class="toc-number">3.2.</span> <span class="toc-text">2、JVM 参数属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、设置系统属性"><span class="toc-number">3.3.</span> <span class="toc-text">3、设置系统属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、常见的-Java-内存溢出有以下三种"><span class="toc-number">3.4.</span> <span class="toc-text">4、常见的 Java 内存溢出有以下三种</span></a></li></ol></li></ol>
 		
 		</div>
 		
 		<h1 id="Tomcat-调优及-JVM-参数优化"><a href="#Tomcat-调优及-JVM-参数优化" class="headerlink" title="Tomcat 调优及 JVM 参数优化"></a>Tomcat 调优及 JVM 参数优化</h1><p>Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能力越强，系统运行速度越快。</p>
 <p>Tomcat 7.png</p>
 <p>Tomcat 的优化不像其它软件那样，简简单单的修改几个参数就可以了，它的优化主要有三方面，分为系统优化，Tomcat 本身的优化，Java 虚拟机（JVM）调优。系统优化就不在介绍了，接下来就详细的介绍一下 Tomcat 本身与 JVM 优化，以 Tomcat 7 为例。</p>
-<p>一、Tomcat 本身优化</p>
-<p>Tomcat 的自身参数的优化，这块很像 ApacheHttp Server。修改一下 xml 配置文件中的参数，调整最大连接数，超时等。此外，我们安装 Tomcat 是，优化就已经开始了。</p>
-<p>1、工作方式选择</p>
-<p>为了提升性能，首先就要对代码进行动静分离，让 Tomcat 只负责 jsp 文件的解析工作。如采用 Apache 和 Tomcat 的整合方式，他们之间的连接方案有三种选择，JK、http_proxy 和 ajp_proxy。相对于 JK 的连接方式，后两种在配置上比较简单的，灵活性方面也一点都不逊色。但就稳定性而言不像JK 这样久经考验，所以建议采用 JK 的连接方式。<br>2、Connector 连接器的配置</p>
-<p>之前文件介绍过的 Tomcat 连接器的三种方式： bio、nio 和 apr，三种方式性能差别很大，apr 的性能最优， bio 的性能最差。而 Tomcat 7 使用的 Connector  默认就启用的 Apr 协议，但需要系统安装 Apr 库，否则就会使用 bio 方式。</p>
-<p>3、配置文件优化<br>配置文件优化其实就是对 server.xml 优化，可以提大大提高 Tomcat 的处理请求的能力，下面我们来看 Tomcat 容器内的优化。</p>
+<h1 id="一、Tomcat-本身优化"><a href="#一、Tomcat-本身优化" class="headerlink" title="一、Tomcat 本身优化"></a>一、Tomcat 本身优化</h1><p>Tomcat 的自身参数的优化，这块很像 ApacheHttp Server。修改一下 xml 配置文件中的参数，调整最大连接数，超时等。此外，我们安装 Tomcat 是，优化就已经开始了。</p>
+<h2 id="1、工作方式选择"><a href="#1、工作方式选择" class="headerlink" title="1、工作方式选择"></a>1、工作方式选择</h2><p>为了提升性能，首先就要对代码进行动静分离，让 Tomcat 只负责 jsp 文件的解析工作。如采用 Apache 和 Tomcat 的整合方式，他们之间的连接方案有三种选择，JK、http_proxy 和 ajp_proxy。相对于 JK 的连接方式，后两种在配置上比较简单的，灵活性方面也一点都不逊色。但就稳定性而言不像JK 这样久经考验，所以建议采用 JK 的连接方式。 </p>
+<h2 id="2、Connector-连接器的配置"><a href="#2、Connector-连接器的配置" class="headerlink" title="2、Connector 连接器的配置"></a>2、Connector 连接器的配置</h2><p>之前文件介绍过的 Tomcat 连接器的三种方式： bio、nio 和 apr，三种方式性能差别很大，apr 的性能最优， bio 的性能最差。而 Tomcat 7 使用的 Connector  默认就启用的 Apr 协议，但需要系统安装 Apr 库，否则就会使用 bio 方式。</p>
+<h2 id="3、配置文件优化"><a href="#3、配置文件优化" class="headerlink" title="3、配置文件优化"></a>3、配置文件优化</h2><p>配置文件优化其实就是对 server.xml 优化，可以提大大提高 Tomcat 的处理请求的能力，下面我们来看 Tomcat 容器内的优化。</p>
 <p>默认配置下，Tomcat 会为每个连接器创建一个绑定的线程池（最大线程数 200），服务启动时，默认创建了 5 个空闲线程随时等待用户请求。</p>
-<p>首先，打开 ${TOMCAT_HOME}/conf/server.xml，搜索【&lt;Executor name=”tomcatThreadPool”】，开启并调整为</p>
-<p>1</p>
-<p>2<br>    <executor name="tomcatThreadPool" nameprefix="catalina-exec-" maxthreads="500" minsparethreads="20" maxsparethreads="50" maxidletime="60000"><br>注意， Tomcat 7 在开启线程池前，一定要安装好 Apr 库，并可以启用，否则会有错误报出，shutdown.sh 脚本无法关闭进程。</executor></p>
+<p>首先，打开 ${TOMCAT_HOME}/conf/server.xml，搜索【<executor name="tomcatThreadPool" 】，开启并调整为="" <executor="" nameprefix="catalina-exec-" maxthreads="500" minsparethreads="20" maxsparethreads="50" maxidletime="60000"><br>注意， Tomcat 7 在开启线程池前，一定要安装好 Apr 库，并可以启用，否则会有错误报出，shutdown.sh 脚本无法关闭进程。</executor></p>
 <p>然后，修改<connector …="">节点，增加 executor 属性，搜索【port=”8080”】，调整为</connector></p>
 <pre><code>&lt;Connector executor=&quot;tomcatThreadPool&quot;
            port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
@@ -245,7 +241,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Tomcat-调优及-JVM-参数优化"><span class="toc-number">1.</span> <span class="toc-text">Tomcat 调优及 JVM 参数优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、JVM-优化"><span class="toc-number">2.</span> <span class="toc-text">二、JVM 优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、JVM-参数配置方法"><span class="toc-number">2.1.</span> <span class="toc-text">1、JVM 参数配置方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、JVM-参数属性"><span class="toc-number">2.2.</span> <span class="toc-text">2、JVM 参数属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、设置系统属性"><span class="toc-number">2.3.</span> <span class="toc-text">3、设置系统属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、常见的-Java-内存溢出有以下三种"><span class="toc-number">2.4.</span> <span class="toc-text">4、常见的 Java 内存溢出有以下三种</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Tomcat-调优及-JVM-参数优化"><span class="toc-number">1.</span> <span class="toc-text">Tomcat 调优及 JVM 参数优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Tomcat-本身优化"><span class="toc-number">2.</span> <span class="toc-text">一、Tomcat 本身优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、工作方式选择"><span class="toc-number">2.1.</span> <span class="toc-text">1、工作方式选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、Connector-连接器的配置"><span class="toc-number">2.2.</span> <span class="toc-text">2、Connector 连接器的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、配置文件优化"><span class="toc-number">2.3.</span> <span class="toc-text">3、配置文件优化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、JVM-优化"><span class="toc-number">3.</span> <span class="toc-text">二、JVM 优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、JVM-参数配置方法"><span class="toc-number">3.1.</span> <span class="toc-text">1、JVM 参数配置方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、JVM-参数属性"><span class="toc-number">3.2.</span> <span class="toc-text">2、JVM 参数属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、设置系统属性"><span class="toc-number">3.3.</span> <span class="toc-text">3、设置系统属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、常见的-Java-内存溢出有以下三种"><span class="toc-number">3.4.</span> <span class="toc-text">4、常见的 Java 内存溢出有以下三种</span></a></li></ol></li></ol>
  
   </div>
 
