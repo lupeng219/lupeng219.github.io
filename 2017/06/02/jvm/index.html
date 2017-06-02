@@ -11,16 +11,16 @@
     
 
     
-    <meta name="description" content="title: jvmdate: 2017-06-02 09:58:43tags:  Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能">
+    <meta name="description" content="Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能力越强，系统运行速度越快。 Tomcat 7.png Tomcat 的优化不像其它">
 <meta property="og:type" content="article">
 <meta property="og:title" content="大帅的博客">
 <meta property="og:url" content="http://lupeng219.github.io/2017/06/02/jvm/index.html">
 <meta property="og:site_name" content="大帅的博客">
-<meta property="og:description" content="title: jvmdate: 2017-06-02 09:58:43tags:  Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能">
-<meta property="og:updated_time" content="2017-06-02T05:14:56.769Z">
+<meta property="og:description" content="Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能力越强，系统运行速度越快。 Tomcat 7.png Tomcat 的优化不像其它">
+<meta property="og:updated_time" content="2017-06-02T09:34:52.374Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大帅的博客">
-<meta name="twitter:description" content="title: jvmdate: 2017-06-02 09:58:43tags:  Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能">
+<meta name="twitter:description" content="Tomcat 调优及 JVM 参数优化Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能力越强，系统运行速度越快。 Tomcat 7.png Tomcat 的优化不像其它">
 
     
     
@@ -91,7 +91,6 @@
 		</div>
 		
 		<hr>
-<p>title: jvm<br>date: 2017-06-02 09:58:43<br>tags:</p>
 <hr>
 <h1 id="Tomcat-调优及-JVM-参数优化"><a href="#Tomcat-调优及-JVM-参数优化" class="headerlink" title="Tomcat 调优及 JVM 参数优化"></a>Tomcat 调优及 JVM 参数优化</h1><p>Tomcat 的缺省配置是不能稳定长期运行的，也就是不适合生产环境，它会死机，让你不断重新启动，甚至在午夜时分唤醒你。对于操作系统优化来说，是尽可能的增大可使用的内存容量、提高CPU 的频率，保证文件系统的读写速率等。经过压力测试验证，在并发连接很多的情况下，CPU 的处理能力越强，系统运行速度越快。</p>
 <p>Tomcat 7.png</p>
