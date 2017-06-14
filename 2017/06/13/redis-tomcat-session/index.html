@@ -18,12 +18,12 @@
 <meta property="og:url" content="http://lupeng219.github.io/2017/06/13/redis-tomcat-session/index.html">
 <meta property="og:site_name" content="鹿大帅的博客">
 <meta property="og:description" content="目前的web应用集群，使用Nginx做负载均衡，将upstream配置成ip_hash的方式，这种模式下，Nginx会根据来源IP和后端配置来做hash分配，确保固定IP只访问一个后端 upstream YOUR_NAME {  ip_hash; server 192.168.8.15:8080; server 192.168.8.17:8080; } 但是，由于固定某个IP只能访问单独的一个后端">
-<meta property="og:image" content="http://lupeng219.github.io/2017/06/13/redis-tomcat-session/1.png">
-<meta property="og:updated_time" content="2017-06-14T07:24:41.252Z">
+<meta property="og:image" content="http://lupeng219.github.io/2017/06/13/redis-tomcat-session/img/1.png">
+<meta property="og:updated_time" content="2017-06-14T07:27:16.556Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis+tomcat+nginx 实现 session共享">
 <meta name="twitter:description" content="目前的web应用集群，使用Nginx做负载均衡，将upstream配置成ip_hash的方式，这种模式下，Nginx会根据来源IP和后端配置来做hash分配，确保固定IP只访问一个后端 upstream YOUR_NAME {  ip_hash; server 192.168.8.15:8080; server 192.168.8.17:8080; } 但是，由于固定某个IP只能访问单独的一个后端">
-<meta name="twitter:image" content="http://lupeng219.github.io/2017/06/13/redis-tomcat-session/1.png">
+<meta name="twitter:image" content="http://lupeng219.github.io/2017/06/13/redis-tomcat-session/img/1.png">
 
     
     
@@ -152,7 +152,7 @@ fair;
 <p>我选用的是redis而不是Memcached，是因为Redis具有更丰富的数据结构，比如可以为Key指定过期时间，从而不需要我们定期的刷新缓存。</p>
 <p><strong>1.</strong> <strong>下载jar包</strong></p>
 <p>下载tomcat-redis-session-manager相应的jar包，</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="img/1.png" alt=""></p>
 <p>下载地址<br><a href="http://download.csdn.net/detail/xiaoxiaosasasa/9403043" target="_blank" rel="external">http://download.csdn.net/detail/xiaoxiaosasasa/9403043</a></p>
 <p>把下载的jar包拷贝到Tomcat目录下的lib中。</p>
 <p><strong>2.</strong>  <strong>在Tomcat的conf目录下，编辑context.xml</strong>。</p>
