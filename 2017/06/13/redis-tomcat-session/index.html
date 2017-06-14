@@ -18,7 +18,7 @@
 <meta property="og:url" content="http://lupeng219.github.io/2017/06/13/redis-tomcat-session/index.html">
 <meta property="og:site_name" content="鹿大帅的博客">
 <meta property="og:description" content="目前的web应用集群，使用Nginx做负载均衡，将upstream配置成ip_hash的方式，这种模式下，Nginx会根据来源IP和后端配置来做hash分配，确保固定IP只访问一个后端 upstream YOUR_NAME {  ip_hash; server 192.168.8.15:8080; server 192.168.8.17:8080; } 但是，由于固定某个IP只能访问单独的一个后端">
-<meta property="og:updated_time" content="2017-06-14T06:35:29.082Z">
+<meta property="og:updated_time" content="2017-06-14T06:58:41.226Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis+tomcat+nginx 实现 session共享">
 <meta name="twitter:description" content="目前的web应用集群，使用Nginx做负载均衡，将upstream配置成ip_hash的方式，这种模式下，Nginx会根据来源IP和后端配置来做hash分配，确保固定IP只访问一个后端 upstream YOUR_NAME {  ip_hash; server 192.168.8.15:8080; server 192.168.8.17:8080; } 但是，由于固定某个IP只能访问单独的一个后端">
@@ -154,12 +154,13 @@ fair;
 <p>把下载的jar包拷贝到Tomcat目录下的lib中。</p>
 <p><strong>2.</strong>  <strong>在Tomcat的conf目录下，编辑context.xml</strong>。</p>
 <p>如果你是用Redis单点，则可以仿照如下配置：</p>
-<p>&lt;Valve className=”com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve” /》<br>  &lt;Manager className=”com.orangefunction.tomcat.redissessions.RedisSessionManager”<br>   host=”47.##.##.217”<br>   port=”6379”<br>   database=”0”</p>
+<p>&lt;Valve className=”com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve” /》<br>  &lt;Manager className=”com.orangefunction.tomcat.redissessions.RedisSessionManager”<br>   host=”47.93.60.217”<br>   port=”6379”<br>   database=”0”<br>   maxInactiveInterval=”60” /》 </p>
 <p>如果是Redis集群环境，则可仿照如下配置：</p>
 <p>&lt;Valve className=”com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve” /》</p>
 <p>&lt;Manager className=”com.orangefunction.tomcat.redissessions.RedisSessionManager”<br>    database=”1”<br>    maxInactiveInterval=”60”<br>    sentinelMaster=”mymaster”<br>    sentinels=”192.168.8.43:26379,192.168.8.45:26379,192.168.8.47:26379”</p>
 <p>启动Tomcat，访问应用，即可在Redis中看到效果。</p>
 <p>关于测试，可以将Nginx Upstream配置为轮询后，仅留一台应用服务器启动，登陆操作，然后启动另外一台，停止第一台服务，继续操作，发现并未受任何影响，即可。</p>
+<p>资料：<a href="http://blog.csdn.net/onlysunnyboy/article/details/50513305" target="_blank" rel="external">http://blog.csdn.net/onlysunnyboy/article/details/50513305</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
