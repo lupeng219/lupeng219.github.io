@@ -5,26 +5,15 @@
   
 
   
-  <title>maven | 鹿朋</title>
+  <title>鹿朋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.右键新建项目选择maven下的Maven Project 2.选择maven project，显示创建maven项目的窗口，勾选如图所示，Create a simple project 3.然后输入包名 ，改成war。  4.现在的右键项目选择properties 选择project facets 在右侧显示中的java 1.5改成1.7 或者开发规则的版本。然后把Dy前的对勾去掉然后点击Ap">
-<meta name="keywords" content="java">
-<meta property="og:type" content="article">
-<meta property="og:title" content="maven">
-<meta property="og:url" content="http://lupeng219.github.io/2018/05/15/maven/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="鹿朋">
+<meta property="og:url" content="http://lupeng219.github.io/page/6/index.html">
 <meta property="og:site_name" content="鹿朋">
-<meta property="og:description" content="1.右键新建项目选择maven下的Maven Project 2.选择maven project，显示创建maven项目的窗口，勾选如图所示，Create a simple project 3.然后输入包名 ，改成war。  4.现在的右键项目选择properties 选择project facets 在右侧显示中的java 1.5改成1.7 或者开发规则的版本。然后把Dy前的对勾去掉然后点击Ap">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://i.imgur.com/VUzrf2R.png">
-<meta property="og:image" content="https://i.imgur.com/o09RQK0.png">
-<meta property="og:image" content="https://i.imgur.com/40kDSYX.png">
-<meta property="og:image" content="https://i.imgur.com/LfDLrMK.png">
-<meta property="og:image" content="https://i.imgur.com/S32rY50.png">
-<meta property="og:updated_time" content="2018-05-15T03:07:56.016Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="maven">
-<meta name="twitter:description" content="1.右键新建项目选择maven下的Maven Project 2.选择maven project，显示创建maven项目的窗口，勾选如图所示，Create a simple project 3.然后输入包名 ，改成war。  4.现在的右键项目选择properties 选择project facets 在右侧显示中的java 1.5改成1.7 或者开发规则的版本。然后把Dy前的对勾去掉然后点击Ap">
-<meta name="twitter:image" content="https://i.imgur.com/VUzrf2R.png">
+<meta name="twitter:title" content="鹿朋">
   
     <link rel="alternate" href="/atom.xml" title="鹿朋" type="application/atom+xml">
   
@@ -71,10 +60,12 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-maven" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main">
+  
+    <article id="post-GC" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/15/maven/" class="article-date">
-  <time datetime="2018-05-15T03:03:21.000Z" itemprop="datePublished">2018-05-15</time>
+    <a href="/2018/05/15/GC/" class="article-date">
+  <time datetime="2018-05-15T02:58:16.000Z" itemprop="datePublished">2018-05-15</time>
 </a>
     
   </div>
@@ -84,8 +75,8 @@
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      maven
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/15/GC/">GC</a>
     </h1>
   
 
@@ -93,16 +84,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1.右键新建项目选择maven下的Maven Project<br><img src="https://i.imgur.com/VUzrf2R.png" alt=""></p>
-<p>2.选择maven project，显示创建maven项目的窗口，勾选如图所示，Create a simple project<br><img src="https://i.imgur.com/o09RQK0.png" alt=""></p>
-<p>3.然后输入包名 ，改成war。</p>
-<p><img src="https://i.imgur.com/40kDSYX.png" alt=""></p>
-<p>4.现在的右键项目选择properties 选择project facets 在右侧显示中的java 1.5改成1.7 或者开发规则的版本。<br>然后把Dy前的对勾去掉然后点击Apply ，然后在勾选Dy，点击下方出现的Further–available,填写Content directory内容src/main/webapp.勾选下方的Generate web.xml,然后点击OK，点击Apply 再点击OK。<br><img src="https://i.imgur.com/LfDLrMK.png" alt=""><br><img src="https://i.imgur.com/S32rY50.png" alt=""></p>
+        <p>Minor GC、Major GC和Full GC之间的区别</p>
+<p>文章要求读者熟悉 JVM 内置的通用垃圾回收原则。堆内存划分为 Eden、Survivor 和 Tenured/Old 空间，代假设和其他不同的 GC 算法超出了本文讨论的范围。<br>Minor GC</p>
+<p>从年轻代空间（包括 Eden 和 Survivor 区域）回收内存被称为 Minor GC。这一定义既清晰又易于理解。但是，当发生Minor GC事件的时候，有一些有趣的地方需要注意到：</p>
+<pre><code>当 JVM 无法为一个新的对象分配空间时会触发 Minor GC，比如当 Eden 区满了。所以分配率越高，越频繁执行 Minor GC。
+
+内存池被填满的时候，其中的内容全部会被复制，指针会从0开始跟踪空闲内存。Eden 和 Survivor 区进行了标记和复制操作，取代了经典的标记、扫描、压缩、清理操作。所以 Eden 和 Survivor 区不存在内存碎片。写指针总是停留在所使用内存池的顶部。
+
+执行 Minor GC 操作时，不会影响到永久代。从永久代到年轻代的引用被当成 GC roots，从年轻代到永久代的引用在标记阶段被直接忽略掉。
+质疑常规的认知，所有的 Minor GC 都会触发“全世界的暂停（stop-the-world）”，停止应用程序的线程。对于大部分应用程序，停顿导致的延迟都是可以忽略不计的。其中的真相就 是，大部分 Eden 区中的对象都能被认为是垃圾，永远也不会被复制到 Survivor 区或者老年代空间。如果正好相反，Eden 区大部分新生对象不符合 GC 条件，Minor GC 执行时暂停的时间将会长很多.
+</code></pre><p>所以 Minor GC 的情况就相当清楚了——每次 Minor GC 会清理年轻代的内存。<br>Major GC vs Full GC</p>
+<p>大家应该注意到，目前，这些术语无论是在 JVM 规范还是在垃圾收集研究论文中都没有正式的定义。但是我们一看就知道这些在我们已经知道的基础之上做出的定义是正确的，Minor GC 清理年轻带内存应该被设计得简单：</p>
+<pre><code>Major GC 是清理老年代。
+
+Full GC 是清理整个堆空间—包括年轻代和老年代。
+</code></pre><p>很不幸，实际上它还有点复杂且令人困惑。首先，许多 Major GC 是由 Minor GC 触发的，所以很多情况下将这两种 GC 分离是不太可能的。另一方面，许多现代垃圾收集机制会清理部分永久代空间，所以使用“cleaning”一词只是部分正确。<br>结论</p>
+<p>考虑到这种情况，最好避免以 Minor、Major、Full GC 这种方式来思考问题。而应该监控应用延迟或者吞吐量，然后将 GC 事件和结果联系起来。</p>
+<p>随着这些 GC 事件的发生，你需要额外的关注某些信息，GC 事件是强制所有应用程序线程停止了还是并行的处理了部分事件。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/15/maven/" data-id="cjh8ihn9g0003xku7qve6n378" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2018/05/15/GC/" data-id="cjh8ihn980000xku7joaadlek" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -110,28 +113,16 @@
     </footer>
   </div>
   
-    
-<nav id="article-nav">
-  
-    <a href="/2018/05/15/docker/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          docker
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/05/15/redis-tomcat-session/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">redis-tomcat-session</div>
-    </a>
-  
-</nav>
+</article>
+
 
   
-</article>
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/5/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">下一页 &raquo;</a>
+  </nav>
 
 </section>
         
