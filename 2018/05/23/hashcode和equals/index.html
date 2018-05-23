@@ -5,15 +5,20 @@
   
 
   
-  <title>鹿朋</title>
+  <title>hashcode和equals | 鹿朋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="鹿朋">
-<meta property="og:url" content="http://lupeng219.github.io/index.html">
+  <meta name="description" content="从Object类的hashCode()和equals()方法讲起 #：   最近看了Object类的源码，对hashCode() 和equals()方法有了更深的认识。重写equals()方法就必须重写hashCode()方法的原因，从源头Object类讲起就更好理解了。 先来看Object关于hashCode()和equals()的源码： [java] view plain copy publi">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hashcode和equals">
+<meta property="og:url" content="http://lupeng219.github.io/2018/05/23/hashcode和equals/index.html">
 <meta property="og:site_name" content="鹿朋">
+<meta property="og:description" content="从Object类的hashCode()和equals()方法讲起 #：   最近看了Object类的源码，对hashCode() 和equals()方法有了更深的认识。重写equals()方法就必须重写hashCode()方法的原因，从源头Object类讲起就更好理解了。 先来看Object关于hashCode()和equals()的源码： [java] view plain copy publi">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-23T06:44:41.002Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="鹿朋">
+<meta name="twitter:title" content="hashcode和equals">
+<meta name="twitter:description" content="从Object类的hashCode()和equals()方法讲起 #：   最近看了Object类的源码，对hashCode() 和equals()方法有了更深的认识。重写equals()方法就必须重写hashCode()方法的原因，从源头Object类讲起就更好理解了。 先来看Object关于hashCode()和equals()的源码： [java] view plain copy publi">
   
   
     <link rel="icon" href="/favicon.png">
@@ -56,9 +61,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-hashcode和equals" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hashcode和equals" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/05/23/hashcode和equals/" class="article-date">
   <time datetime="2018-05-23T06:33:08.000Z" itemprop="datePublished">2018-05-23</time>
@@ -71,8 +74,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/23/hashcode和equals/">hashcode和equals</a>
+    <h1 class="article-title" itemprop="name">
+      hashcode和equals
     </h1>
   
 
@@ -112,16 +115,19 @@
     </footer>
   </div>
   
-</article>
-
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/15/rule/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">rule</div>
+    </a>
+  
+</nav>
 
   
-
-
-  <nav id="page-nav">
-    
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
-  </nav>
+</article>
 
 </section>
         
