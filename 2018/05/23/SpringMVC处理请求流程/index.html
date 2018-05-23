@@ -5,15 +5,23 @@
   
 
   
-  <title>鹿朋</title>
+  <title>SpringMVC处理请求流程 | 鹿朋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="鹿朋">
-<meta property="og:url" content="http://lupeng219.github.io/index.html">
+  <meta name="description" content="SpringMVC核心处理流程： 1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器 2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller） 3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndV">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC处理请求流程">
+<meta property="og:url" content="http://lupeng219.github.io/2018/05/23/SpringMVC处理请求流程/index.html">
 <meta property="og:site_name" content="鹿朋">
+<meta property="og:description" content="SpringMVC核心处理流程： 1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器 2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller） 3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndV">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.imgur.com/Jv5cYfb.jpg">
+<meta property="og:image" content="https://i.imgur.com/vNE3FMm.png">
+<meta property="og:updated_time" content="2018-05-23T07:14:10.335Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="鹿朋">
+<meta name="twitter:title" content="SpringMVC处理请求流程">
+<meta name="twitter:description" content="SpringMVC核心处理流程： 1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器 2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller） 3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndV">
+<meta name="twitter:image" content="https://i.imgur.com/Jv5cYfb.jpg">
   
   
     <link rel="icon" href="/favicon.png">
@@ -56,9 +64,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-SpringMVC处理请求流程" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-SpringMVC处理请求流程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/05/23/SpringMVC处理请求流程/" class="article-date">
   <time datetime="2018-05-23T07:10:40.000Z" itemprop="datePublished">2018-05-23</time>
@@ -71,8 +77,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/23/SpringMVC处理请求流程/">SpringMVC处理请求流程</a>
+    <h1 class="article-title" itemprop="name">
+      SpringMVC处理请求流程
     </h1>
   
 
@@ -104,16 +110,19 @@
     </footer>
   </div>
   
-</article>
-
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/23/Java中hashSet与treeSet的去重原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java中hashSet与treeSet的去重原理</div>
+    </a>
+  
+</nav>
 
   
-
-
-  <nav id="page-nav">
-    
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
-  </nav>
+</article>
 
 </section>
         
