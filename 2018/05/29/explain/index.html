@@ -5,15 +5,27 @@
   
 
   
-  <title>鹿朋</title>
+  <title>mysql中explain查看sql语句执行效率 | 鹿朋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="鹿朋">
-<meta property="og:url" content="http://lupeng219.github.io/index.html">
+  <meta name="description" content="explain显示了MySQL如何使用索引来处理select语句以及连接表。可以帮助选择更好的索引和写出更优化的查询语句。 explain 列的解释  table:显示这一行的数据是哪个表的。  type:显示连接使用了哪种连接，从最好到最差的连接类型为const、eq_reg、ref、range、index和all。   possible_keys：显示可能应用在这张表中的索引。如果为空，没有可">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql中explain查看sql语句执行效率">
+<meta property="og:url" content="http://lupeng219.github.io/2018/05/29/explain/index.html">
 <meta property="og:site_name" content="鹿朋">
+<meta property="og:description" content="explain显示了MySQL如何使用索引来处理select语句以及连接表。可以帮助选择更好的索引和写出更优化的查询语句。 explain 列的解释  table:显示这一行的数据是哪个表的。  type:显示连接使用了哪种连接，从最好到最差的连接类型为const、eq_reg、ref、range、index和all。   possible_keys：显示可能应用在这张表中的索引。如果为空，没有可">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.imgur.com/5gpopEA.png">
+<meta property="og:image" content="https://i.imgur.com/1bZgtir.jpg">
+<meta property="og:image" content="https://i.imgur.com/Uzkphxx.jpg">
+<meta property="og:image" content="https://i.imgur.com/nLeUfsO.jpg">
+<meta property="og:image" content="https://i.imgur.com/G7Kwypn.png">
+<meta property="og:image" content="https://i.imgur.com/Z6qjx8g.png">
+<meta property="og:updated_time" content="2018-05-29T09:35:40.495Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="鹿朋">
+<meta name="twitter:title" content="mysql中explain查看sql语句执行效率">
+<meta name="twitter:description" content="explain显示了MySQL如何使用索引来处理select语句以及连接表。可以帮助选择更好的索引和写出更优化的查询语句。 explain 列的解释  table:显示这一行的数据是哪个表的。  type:显示连接使用了哪种连接，从最好到最差的连接类型为const、eq_reg、ref、range、index和all。   possible_keys：显示可能应用在这张表中的索引。如果为空，没有可">
+<meta name="twitter:image" content="https://i.imgur.com/5gpopEA.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -56,9 +68,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-explain" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-explain" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/05/29/explain/" class="article-date">
   <time datetime="2018-05-29T09:15:08.000Z" itemprop="datePublished">2018-05-29</time>
@@ -71,8 +81,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/29/explain/">mysql中explain查看sql语句执行效率</a>
+    <h1 class="article-title" itemprop="name">
+      mysql中explain查看sql语句执行效率
     </h1>
   
 
@@ -207,16 +217,19 @@
     </footer>
   </div>
   
-</article>
-
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/25/kafka安装及配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">kafka安装及配置</div>
+    </a>
+  
+</nav>
 
   
-
-
-  <nav id="page-nav">
-    
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
-  </nav>
+</article>
 
 </section>
         
