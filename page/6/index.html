@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hashcode和equals" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Java中hashSet与treeSet的去重原理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/23/hashcode和equals/" class="article-date">
-  <time datetime="2018-05-23T06:33:08.000Z" itemprop="datePublished">2018-05-23</time>
+    <a href="/2018/05/23/Java中hashSet与treeSet的去重原理/" class="article-date">
+  <time datetime="2018-05-23T06:53:36.000Z" itemprop="datePublished">2018-05-23</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/23/hashcode和equals/">hashcode和equals</a>
+      <a class="article-title" href="/2018/05/23/Java中hashSet与treeSet的去重原理/">Java中hashSet与treeSet的去重原理</a>
     </h1>
   
 
@@ -80,31 +80,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#<strong>从Object类的hashCode()和equals()方法讲起</strong>：<br>   最近看了Object类的源码，对hashCode() 和equals()方法有了更深的认识。重写equals()方法就必须重写hashCode()方法的原因，从源头Object类讲起就更好理解了。</p>
-<p>先来看Object关于hashCode()和equals()的源码：</p>
-<p>[java] view plain copy</p>
-<pre><code>public native int hashCode();  
-</code></pre><p>[java] view plain copy</p>
-<pre><code>public boolean equals(Object obj) {  
-    return (this == obj);  
-}  
-</code></pre><p>光从代码中我们可以知道，hashCode()方法是一个本地native方法，返回的是对象引用中存储的对象的内存地址，而equals方法是利用==来比较的也是对象的内存地址。从上边我们可以看出，hashCode方法和equals方法是一致的.</p>
-<p>hashCode()和equals()保持一致，如果equals方法返回true，那么两个对象的hasCode()返回值必须一样。如果equals方法返回false，hashcode可以不一样，但是这样不利于哈希表的性能，一般我们也不要这样做。重写equals()方法就必须重写hashCode()方法的原因也就显而易见了。</p>
-<h1 id="重写的作用："><a href="#重写的作用：" class="headerlink" title="重写的作用："></a><strong>重写的作用</strong>：</h1><p>  如果重写（用于需求，比如建立一个Person类，比较相等我只比较其属性身份证相等就可不管其他属性，这时候重写）equals，就得重写hashCode，和其对象相等保持一致。如果不重写，那么调用的Object中的方法一定保持一致。</p>
-<ol>
-<li><p>重写equals()方法就必须重写hashCode()方法主要是针对HashSet和Map集合类型。集合框架只能存入对象（对象的引用（基本类型数据：自动装箱））。</p>
-<p>在向HashSet集合中存入一个元素时，HashSet会调用该对象（存入对象）的hashCode()方法来得到该对象的hashCode()值，然后根据该hashCode值决定该对象在HashSet中存储的位置。简单的说：HashSet集合判断两个元素相等的标准是：两个对象通过equals()方法比较相等，并且两个对象的HashCode()方法返回值也相等。如果两个元素通过equals()方法比较返回true，但是它们的hashCode()方法返回值不同，HashSet会把它们存储在不同的位置，依然可以添加成功。同样：在Map集合中，例如其子类Hashtable（jdk1.0错误的命名规范），HashMap，存储的数据是&lt;key,value&gt;对，key，value都是对象，被封装在Map.Entry，即：每个集合元素都是Map.Entry对象。在Map集合中，判断key相等标准也是：两个key通过equals()方法比较返回true，两个key的hashCode的值也必须相等。判断valude是否相等equal()相等即可。</p>
-</li>
-</ol>
-<p><strong>重写hashCode()的原则</strong></p>
-<pre><code>（1）同一个对象多次调用hashCode()方法应该返回相同的值；
-（2）当两个对象通过equals()方法比较返回true时，这两个对象的hashCode()应该返回相等的（int）值；
-（3）对象中用作equals()方法比较标准的Filed(成员变量（类属性）)，都应该用来计算hashCode值。
-</code></pre>
+        <p>地球人都知道set集合是不含重复元素的，那么其去重原理是什么，我们又可以做哪些用途呢？</p>
+<p><strong>1. treeSet去重原理：compareTo</strong></p>
+<p>可以实现排序及去重：如果compareTo返回0，说明是重复的，返回的是自己的某个属性和另一个对象的某个属性的差值，如果是负数，则往前面排，如果是正数，往后面排；</p>
+<p>应用：类实现compareable接口，覆写其compareto方法，根据自己的需要改变其排序及去重规则，比如person类，根据其年龄进行去重和排序。</p>
+<p><strong>2.hashSet去重原理</strong>：<strong>hashCode,equals是否相同</strong></p>
+<p>两个方法可以快速生成，hashCode是几个属性的hashCode共同计算的结果</p>
+<p>（基本数据类型的实现类生成的hashCode是其拆箱后的值的比较，跟引用数据类型的规则不同，如Integer类）</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/23/hashcode和equals/" data-id="cjkrnqkbd000ckgu7m61fx1pd" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2018/05/23/Java中hashSet与treeSet的去重原理/" data-id="cjkt3anwv0003lku735lygux4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -120,7 +107,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/5/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/5/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/7/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -166,6 +153,10 @@
       <ul>
         
           <li>
+            <a href="/2018/08/14/Zabbix/">Zabbix</a>
+          </li>
+        
+          <li>
             <a href="/2018/08/13/DevOps/">DevOps</a>
           </li>
         
@@ -179,10 +170,6 @@
         
           <li>
             <a href="/2018/05/23/SpringMVC处理请求流程/">SpringMVC处理请求流程</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/23/Java中hashSet与treeSet的去重原理/">Java中hashSet与treeSet的去重原理</a>
           </li>
         
       </ul>
