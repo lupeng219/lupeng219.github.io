@@ -5,15 +5,20 @@
   
 
   
-  <title>鹿朋</title>
+  <title>springBoot--springCloud | 鹿朋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="鹿朋">
-<meta property="og:url" content="http://lupeng219.github.io/page/7/index.html">
+  <meta name="description" content="1.什么是springboot? springboot 是一种全新的开发框架，简化了spring开发的配置 2.为什么用springboot? springboot特点：                 嵌入的tomcat，无需部署war包运行。                 简化maven配置。                 自动配置spring。                 绝对没有代">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springBoot--springCloud">
+<meta property="og:url" content="http://lupeng219.github.io/2018/11/01/springBoot/index.html">
 <meta property="og:site_name" content="鹿朋">
+<meta property="og:description" content="1.什么是springboot? springboot 是一种全新的开发框架，简化了spring开发的配置 2.为什么用springboot? springboot特点：                 嵌入的tomcat，无需部署war包运行。                 简化maven配置。                 自动配置spring。                 绝对没有代">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-01T02:36:22.279Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="鹿朋">
+<meta name="twitter:title" content="springBoot--springCloud">
+<meta name="twitter:description" content="1.什么是springboot? springboot 是一种全新的开发框架，简化了spring开发的配置 2.为什么用springboot? springboot特点：                 嵌入的tomcat，无需部署war包运行。                 简化maven配置。                 自动配置spring。                 绝对没有代">
   
   
     <link rel="icon" href="/favicon.png">
@@ -56,12 +61,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-SpringMVC处理请求流程" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-springBoot" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/23/SpringMVC处理请求流程/" class="article-date">
-  <time datetime="2018-05-23T07:10:40.000Z" itemprop="datePublished">2018-05-23</time>
+    <a href="/2018/11/01/springBoot/" class="article-date">
+  <time datetime="2018-11-01T02:15:41.000Z" itemprop="datePublished">2018-11-01</time>
 </a>
     
   </div>
@@ -71,8 +74,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/23/SpringMVC处理请求流程/">SpringMVC处理请求流程</a>
+    <h1 class="article-title" itemprop="name">
+      springBoot--springCloud
     </h1>
   
 
@@ -80,23 +83,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://i.imgur.com/Jv5cYfb.jpg" alt=""></p>
-<p>SpringMVC核心处理流程：</p>
-<p>1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器</p>
-<p>2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller）</p>
-<p>3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndView对象（包括模型数据、逻辑视图名）</p>
-<p>4、ViewResolver视图解析器，先根据ModelAndView中设置的View解析具体视图</p>
-<p>5、然后再将Model模型中的数据渲染到View上</p>
-<p>这些过程都是以DispatcherServlet为中轴线进行的。</p>
-<p>下面简要说一下，用户是如何从发出请求到DispatcherServlet前端控制器</p>
-<p>1、web.xml中配置了SpringMVC的servlet</p>
-<p><img src="https://i.imgur.com/vNE3FMm.png" alt=""></p>
-<p>2、服务器启动时就会初始化servlet，然后会根据url-pattern设定的规则拦截用户发来的请求</p>
+        <p>1.<strong>什么是springboot?</strong></p>
+<pre><code>springboot 是一种全新的开发框架，简化了spring开发的配置
+</code></pre><p>2.<strong>为什么用springboot?</strong></p>
+<pre><code>springboot特点：
+                嵌入的tomcat，无需部署war包运行。
+                简化maven配置。
+                自动配置spring。
+                绝对没有代码生成和对xml没有要求配置。
+                可以支持你快速的开发出 restful 风格的微服务架构。
+                方便整合其它工具（mysql，redis）
+</code></pre><p>3.<strong>什么是springCloud?</strong></p>
+<p>springCloud是一系列框架的有序集合。它利用Spring Boot的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用Spring Boot的开发风格做到一键启动和部署。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/23/SpringMVC处理请求流程/" data-id="cjnxzie0e0004bcu71u265x48" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2018/11/01/springBoot/" data-id="cjnxzie0t000jbcu7sxx1ni17" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -104,16 +107,19 @@
     </footer>
   </div>
   
-</article>
-
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/15/IntelliJ Idea取消Could not autowire. No beans of 'xxxx' type found的错误提示/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Idea取消Could not autowire type found的错误提示</div>
+    </a>
+  
+</nav>
 
   
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/page/6/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/8/">下一页 &raquo;</a>
-  </nav>
+</article>
 
 </section>
         
