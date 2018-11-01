@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-rule" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-hashcode和equals" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/15/rule/" class="article-date">
-  <time datetime="2018-05-15T03:13:09.000Z" itemprop="datePublished">2018-05-15</time>
+    <a href="/2018/05/23/hashcode和equals/" class="article-date">
+  <time datetime="2018-05-23T06:33:08.000Z" itemprop="datePublished">2018-05-23</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/15/rule/">rule</a>
+      <a class="article-title" href="/2018/05/23/hashcode和equals/">hashcode和equals</a>
     </h1>
   
 
@@ -80,21 +80,34 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>（1） WHY——为什么？为什么要这么做？理由何在？原因是什么？</p>
-<p>（2） WHAT——是什么？目的是什么？做什么工作？</p>
-<p>（3） WHERE——何处？在哪里做？从哪里入手？</p>
-<p>（4） WHEN——何时？什么时间完成？什么时机最适宜？</p>
-<p>（5） WHO——谁？由谁来承担？谁来完成？谁负责？</p>
-<p>（6） HOW——怎么做？如何提高效率？如何实施？方法怎样？</p>
-<p>（7） HOW MUCH——多少？</p>
-
+        <p>#<strong>从Object类的hashCode()和equals()方法讲起</strong>：<br>   最近看了Object类的源码，对hashCode() 和equals()方法有了更深的认识。重写equals()方法就必须重写hashCode()方法的原因，从源头Object类讲起就更好理解了。</p>
+<p>先来看Object关于hashCode()和equals()的源码：</p>
+<p>[java] view plain copy</p>
+<pre><code>public native int hashCode();  
+</code></pre><p>[java] view plain copy</p>
+<pre><code>public boolean equals(Object obj) {  
+    return (this == obj);  
+}  
+</code></pre><p>光从代码中我们可以知道，hashCode()方法是一个本地native方法，返回的是对象引用中存储的对象的内存地址，而equals方法是利用==来比较的也是对象的内存地址。从上边我们可以看出，hashCode方法和equals方法是一致的.</p>
+<p>hashCode()和equals()保持一致，如果equals方法返回true，那么两个对象的hasCode()返回值必须一样。如果equals方法返回false，hashcode可以不一样，但是这样不利于哈希表的性能，一般我们也不要这样做。重写equals()方法就必须重写hashCode()方法的原因也就显而易见了。</p>
+<h1 id="重写的作用："><a href="#重写的作用：" class="headerlink" title="重写的作用："></a><strong>重写的作用</strong>：</h1><p>  如果重写（用于需求，比如建立一个Person类，比较相等我只比较其属性身份证相等就可不管其他属性，这时候重写）equals，就得重写hashCode，和其对象相等保持一致。如果不重写，那么调用的Object中的方法一定保持一致。</p>
+<ol>
+<li><p>重写equals()方法就必须重写hashCode()方法主要是针对HashSet和Map集合类型。集合框架只能存入对象（对象的引用（基本类型数据：自动装箱））。</p>
+<p>在向HashSet集合中存入一个元素时，HashSet会调用该对象（存入对象）的hashCode()方法来得到该对象的hashCode()值，然后根据该hashCode值决定该对象在HashSet中存储的位置。简单的说：HashSet集合判断两个元素相等的标准是：两个对象通过equals()方法比较相等，并且两个对象的HashCode()方法返回值也相等。如果两个元素通过equals()方法比较返回true，但是它们的hashCode()方法返回值不同，HashSet会把它们存储在不同的位置，依然可以添加成功。同样：在Map集合中，例如其子类Hashtable（jdk1.0错误的命名规范），HashMap，存储的数据是&lt;key,value&gt;对，key，value都是对象，被封装在Map.Entry，即：每个集合元素都是Map.Entry对象。在Map集合中，判断key相等标准也是：两个key通过equals()方法比较返回true，两个key的hashCode的值也必须相等。判断valude是否相等equal()相等即可。</p>
+</li>
+</ol>
+<p><strong>重写hashCode()的原则</strong></p>
+<pre><code>（1）同一个对象多次调用hashCode()方法应该返回相同的值；
+（2）当两个对象通过equals()方法比较返回true时，这两个对象的hashCode()应该返回相等的（int）值；
+（3）对象中用作equals()方法比较标准的Filed(成员变量（类属性）)，都应该用来计算hashCode值。
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/15/rule/" data-id="cjnxzie0w000obcu79zvhl2aj" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2018/05/23/hashcode和equals/" data-id="cjny0lnjp000dt8u75jldphhg" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人/">个人</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
 
     </footer>
   </div>
@@ -107,7 +120,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/9/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/11/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/9/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/11/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -153,6 +166,10 @@
       <ul>
         
           <li>
+            <a href="/2018/11/01/微服务/">微服务</a>
+          </li>
+        
+          <li>
             <a href="/2018/11/01/springBoot/">springBoot--springCloud</a>
           </li>
         
@@ -166,10 +183,6 @@
         
           <li>
             <a href="/2018/08/13/DevOps/">DevOps</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/29/explain/">mysql中explain查看sql语句执行效率</a>
           </li>
         
       </ul>
