@@ -5,15 +5,26 @@
   
 
   
-  <title>鹿朋</title>
+  <title>java_锁 | 鹿朋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="鹿朋">
-<meta property="og:url" content="http://lupeng219.github.io/index.html">
+  <meta name="description" content="基础知识之一：锁的类型锁从宏观上分为：悲观锁与乐观锁 乐观锁乐观锁是一种乐观思想，即认为读多写少，遇到并发写的可能性低，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，采取在写时先读出当前版本号，然后加锁操作（比较跟上一次的版本号，如果一样则更新），如果失败则要重复读-比较-写的操作。 java中的乐观锁基本都是通过CAS操作实现的，">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java_锁">
+<meta property="og:url" content="http://lupeng219.github.io/2019/01/25/java-锁/index.html">
 <meta property="og:site_name" content="鹿朋">
+<meta property="og:description" content="基础知识之一：锁的类型锁从宏观上分为：悲观锁与乐观锁 乐观锁乐观锁是一种乐观思想，即认为读多写少，遇到并发写的可能性低，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，采取在写时先读出当前版本号，然后加锁操作（比较跟上一次的版本号，如果一样则更新），如果失败则要重复读-比较-写的操作。 java中的乐观锁基本都是通过CAS操作实现的，">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.imgur.com/dDSPKZ9.png">
+<meta property="og:image" content="https://i.imgur.com/fQolieO.png">
+<meta property="og:image" content="https://i.imgur.com/m8ClTpE.png">
+<meta property="og:image" content="https://i.imgur.com/jTQ9bOA.png">
+<meta property="og:image" content="https://i.imgur.com/IHdWxyH.png">
+<meta property="og:updated_time" content="2019-01-25T07:35:49.429Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="鹿朋">
+<meta name="twitter:title" content="java_锁">
+<meta name="twitter:description" content="基础知识之一：锁的类型锁从宏观上分为：悲观锁与乐观锁 乐观锁乐观锁是一种乐观思想，即认为读多写少，遇到并发写的可能性低，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，采取在写时先读出当前版本号，然后加锁操作（比较跟上一次的版本号，如果一样则更新），如果失败则要重复读-比较-写的操作。 java中的乐观锁基本都是通过CAS操作实现的，">
+<meta name="twitter:image" content="https://i.imgur.com/dDSPKZ9.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -56,9 +67,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-java-锁" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-java-锁" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/25/java-锁/" class="article-date">
   <time datetime="2019-01-25T06:16:20.000Z" itemprop="datePublished">2019-01-25</time>
@@ -71,8 +80,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/25/java-锁/">java_锁</a>
+    <h1 class="article-title" itemprop="name">
+      java_锁
     </h1>
   
 
@@ -213,16 +222,19 @@
     </footer>
   </div>
   
-</article>
-
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/02/springCloud-Eureka/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">springCloud-Eureka</div>
+    </a>
+  
+</nav>
 
   
-
-
-  <nav id="page-nav">
-    
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
-  </nav>
+</article>
 
 </section>
         
