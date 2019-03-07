@@ -80,13 +80,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>Spring Batch 作为 Spring 的子项目，是一款基于 Spring 的企业批处理框架。通过它可以构建出健壮的企业批处理应用。Spring Batch 不仅提供了统一的读写接口、丰富的任务处理方式、灵活的事务管理及并发处理，同时还支持日志、监控、任务重启与跳过等特性，大大简化了批处理应用开发，将开发人员从复杂的任务配置管理过程中解放出来，使他们可以更多地去关注核心的业务处理过程。</p>
+<p><strong>Spring Batch 结构</strong></p>
+<hr>
+<p>首先，Spring Batch运行的基本单位是一个Job，一个Job就做一件批处理的事情。<br>一个Job包含很多Step，step就是每个job要执行的单个步骤。</p>
+<p>如下图所示，Step里面，会有Tasklet，Tasklet是一个任务单元，它是属于可以重复利用的东西。<br>然后是Chunk，chunk就是数据块，你需要定义多大的数据量是一个chunk。</p>
+<p>Chunk里面就是不断循环的一个流程，读数据，处理数据，然后写数据。Spring Batch会不断的循环这个流程，直到批处理数据完成。</p>
+<p><img src="https://i.imgur.com/iMcgE7v.jpg" alt=""></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2019/03/07/springBatch/" data-id="cjsy4ie36000vxwu7205llsgg" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2019/03/07/springBatch/" data-id="cjsy4lqye0010y4u7bn8jz0vf" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
     </footer>
   </div>
   
