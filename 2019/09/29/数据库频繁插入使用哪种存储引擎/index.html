@@ -5,22 +5,20 @@
   
 
   
-  <title>kafka安装及配置 | 鹿朋</title>
+  <title>数据库频繁插入使用哪种存储引擎 | 鹿朋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="安装JDK   安装zookeeperwget http://apache.forsale.plus/zookeeper/zookeeper-3.4.12/zookeeper-3.4.12.tar.gz    tar zxf zookeeper-3.4.12.tar.gz   修改配置文件内容如下所示: mkdir /usr/local/zookeeper-3.4.12/data mkdir /">
-<meta name="keywords" content="java">
+  <meta name="description" content="https://mp.weixin.qq.com/s/3_6k9duYkzQfW86FgnUz5A">
+<meta name="keywords" content="数据库">
 <meta property="og:type" content="article">
-<meta property="og:title" content="kafka安装及配置">
-<meta property="og:url" content="http://lupeng219.github.io/2018/05/25/kafka安装及配置/index.html">
+<meta property="og:title" content="数据库频繁插入使用哪种存储引擎">
+<meta property="og:url" content="http://lupeng219.github.io/2019/09/29/数据库频繁插入使用哪种存储引擎/index.html">
 <meta property="og:site_name" content="鹿朋">
-<meta property="og:description" content="安装JDK   安装zookeeperwget http://apache.forsale.plus/zookeeper/zookeeper-3.4.12/zookeeper-3.4.12.tar.gz    tar zxf zookeeper-3.4.12.tar.gz   修改配置文件内容如下所示: mkdir /usr/local/zookeeper-3.4.12/data mkdir /">
+<meta property="og:description" content="https://mp.weixin.qq.com/s/3_6k9duYkzQfW86FgnUz5A">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://i.imgur.com/DyTL1kO.png">
-<meta property="og:updated_time" content="2018-05-25T09:04:05.883Z">
+<meta property="og:updated_time" content="2019-09-29T02:24:05.656Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="kafka安装及配置">
-<meta name="twitter:description" content="安装JDK   安装zookeeperwget http://apache.forsale.plus/zookeeper/zookeeper-3.4.12/zookeeper-3.4.12.tar.gz    tar zxf zookeeper-3.4.12.tar.gz   修改配置文件内容如下所示: mkdir /usr/local/zookeeper-3.4.12/data mkdir /">
-<meta name="twitter:image" content="https://i.imgur.com/DyTL1kO.png">
+<meta name="twitter:title" content="数据库频繁插入使用哪种存储引擎">
+<meta name="twitter:description" content="https://mp.weixin.qq.com/s/3_6k9duYkzQfW86FgnUz5A">
   
   
     <link rel="icon" href="/favicon.png">
@@ -63,10 +61,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-kafka安装及配置" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-数据库频繁插入使用哪种存储引擎" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/25/kafka安装及配置/" class="article-date">
-  <time datetime="2018-05-25T08:04:35.000Z" itemprop="datePublished">2018-05-25</time>
+    <a href="/2019/09/29/数据库频繁插入使用哪种存储引擎/" class="article-date">
+  <time datetime="2019-09-29T02:22:52.000Z" itemprop="datePublished">2019-09-29</time>
 </a>
     
   </div>
@@ -77,7 +75,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      kafka安装及配置
+      数据库频繁插入使用哪种存储引擎
     </h1>
   
 
@@ -85,40 +83,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li>安装JDK  </li>
-<li><p>安装zookeeper<br>wget <a href="http://apache.forsale.plus/zookeeper/zookeeper-3.4.12/zookeeper-3.4.12.tar.gz" target="_blank" rel="noopener">http://apache.forsale.plus/zookeeper/zookeeper-3.4.12/zookeeper-3.4.12.tar.gz</a></p>
-<p>   tar zxf zookeeper-3.4.12.tar.gz</p>
-</li>
-</ol>
-<p>修改配置文件内容如下所示:</p>
-<p>mkdir /usr/local/zookeeper-3.4.12/data</p>
-<p>mkdir /usr/local/zookeeper-3.4.12/logs</p>
-<p>cp /conf/zoo.sample.cfg /conf/zoo.cfg </p>
-<p>在zoo.cfg中修改以下内容</p>
-<pre><code>dataDir=/data/zk/data/zookeeper
-dataLogDir=/data/zk/data/logs
-</code></pre><p>启动服务</p>
-<pre><code>/data/zk/bin/zkServer.sh start
-/data/zk/bin/zkServer.sh stop
-/data/zk/bin/zkServer.sh status
-</code></pre><p>验证服务</p>
-<h3 id="查看相关端口号-root-localhost-ss-lnpt-grep-java"><a href="#查看相关端口号-root-localhost-ss-lnpt-grep-java" class="headerlink" title="查看相关端口号[root@localhost ~]# ss -lnpt|grep java"></a>查看相关端口号[root@localhost ~]# ss -lnpt|grep java</h3><p>   3.安装kafka</p>
-<pre><code>wget https://mirrors.tuna.tsinghua.edu.cn/apache/kafka/1.1.0/kafka_2.11-1.1.0.tgz
-tar -zxvf kafka_2.11-1.1.0.tgz
-</code></pre><p>修改配置</p>
-<pre><code>vi server.properties
-</code></pre><p><img src="https://i.imgur.com/DyTL1kO.png" alt=""></p>
-<p>启动服务</p>
-<p>./data/kafka/bin/kafka-server-start.sh /data/kafka/config/server.properties</p>
+        <p><a href="https://mp.weixin.qq.com/s/3_6k9duYkzQfW86FgnUz5A" title="微信公众号文章地址" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/3_6k9duYkzQfW86FgnUz5A</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/25/kafka安装及配置/" data-id="ck14d21qz000jvgu7nnstc5x7" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2019/09/29/数据库频繁插入使用哪种存储引擎/" data-id="ck14d21rk001bvgu7x8gsyzyb" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
 
     </footer>
   </div>
@@ -126,19 +99,10 @@ tar -zxvf kafka_2.11-1.1.0.tgz
     
 <nav id="article-nav">
   
-    <a href="/2018/05/29/explain/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          mysql中explain查看sql语句执行效率
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/05/23/SpringMVC处理请求流程/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/09/29/springBean循环引用/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">SpringMVC处理请求流程</div>
+      <div class="article-nav-title">springBean循环引用</div>
     </a>
   
 </nav>
