@@ -5,15 +5,20 @@
   
 
   
-  <title>Tag: 数据库 | 鹿朋</title>
+  <title>DO、DTO、BO、AO、VO、POJO定义 | 鹿朋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="鹿朋">
-<meta property="og:url" content="http://lupeng219.github.io/tags/数据库/index.html">
+  <meta name="description" content="分层领域模型规约： DO（ Data Object）：与数据库表结构一一对应，通过DAO层向上传输数据源对象。 DTO（ Data Transfer Object）：数据传输对象，Service或Manager向外传输的对象。 BO（ Business Object）：业务对象。 由Service层输出的封装业务逻辑的对象。 AO（ Application Object）：应用对象。 在Web层与">
+<meta name="keywords" content="个人">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DO、DTO、BO、AO、VO、POJO定义">
+<meta property="og:url" content="http://lupeng219.github.io/2019/09/29/DO、DTO、BO、AO、VO、POJO定义/index.html">
 <meta property="og:site_name" content="鹿朋">
+<meta property="og:description" content="分层领域模型规约： DO（ Data Object）：与数据库表结构一一对应，通过DAO层向上传输数据源对象。 DTO（ Data Transfer Object）：数据传输对象，Service或Manager向外传输的对象。 BO（ Business Object）：业务对象。 由Service层输出的封装业务逻辑的对象。 AO（ Application Object）：应用对象。 在Web层与">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-29T03:23:19.144Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="鹿朋">
+<meta name="twitter:title" content="DO、DTO、BO、AO、VO、POJO定义">
+<meta name="twitter:description" content="分层领域模型规约： DO（ Data Object）：与数据库表结构一一对应，通过DAO层向上传输数据源对象。 DTO（ Data Transfer Object）：数据传输对象，Service或Manager向外传输的对象。 BO（ Business Object）：业务对象。 由Service层输出的封装业务逻辑的对象。 AO（ Application Object）：应用对象。 在Web层与">
   
   
     <link rel="icon" href="/favicon.png">
@@ -56,69 +61,66 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/09/29/数据库频繁插入使用哪种存储引擎/" class="archive-article-date">
-  <time datetime="2019-09-29T02:22:52.000Z" itemprop="datePublished">9月 29</time>
+        <section id="main"><article id="post-DO、DTO、BO、AO、VO、POJO定义" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/29/DO、DTO、BO、AO、VO、POJO定义/" class="article-date">
+  <time datetime="2019-09-29T03:21:31.000Z" itemprop="datePublished">2019-09-29</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/29/数据库频繁插入使用哪种存储引擎/">数据库频繁插入使用哪种存储引擎</a>
+    <h1 class="article-title" itemprop="name">
+      DO、DTO、BO、AO、VO、POJO定义
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
       
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/05/29/explain/" class="archive-article-date">
-  <time datetime="2018-05-29T09:15:08.000Z" itemprop="datePublished">5月 29</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/29/explain/">mysql中explain查看sql语句执行效率</a>
-    </h1>
-  
+        <h2 id="分层领域模型规约："><a href="#分层领域模型规约：" class="headerlink" title="分层领域模型规约："></a>分层领域模型规约：</h2><hr>
+<p>DO（ Data Object）：与数据库表结构一一对应，通过DAO层向上传输数据源对象。</p>
+<p>DTO（ Data Transfer Object）：数据传输对象，Service或Manager向外传输的对象。</p>
+<p>BO（ Business Object）：业务对象。 由Service层输出的封装业务逻辑的对象。</p>
+<p>AO（ Application Object）：应用对象。 在Web层与Service层之间抽象的复用对象模型，极为贴近展示层，复用度不高。</p>
+<p>VO（ View Object）：显示层对象，通常是Web向模板渲染引擎层传输的对象。</p>
+<p>POJO（ Plain Ordinary Java Object）：在本手册中， POJO专指只有setter/getter/toString的简单类，包括DO/DTO/BO/VO等。</p>
+<p>Query：数据查询对象，各层接收上层的查询请求。 注意超过2个参数的查询封装，禁止使用Map类来传输。</p>
+<hr>
+<h2 id="领域模型命名规约："><a href="#领域模型命名规约：" class="headerlink" title="领域模型命名规约："></a>领域模型命名规约：</h2><p>数据对象：xxxDO，xxx即为数据表名。</p>
+<p>数据传输对象：xxxDTO，xxx为业务领域相关的名称。</p>
+<p>展示对象：xxxVO，xxx一般为网页名称。</p>
+<p>POJO是DO/DTO/BO/VO的统称，禁止命名成xxxPOJO。</p>
 
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://lupeng219.github.io/2019/09/29/DO、DTO、BO、AO、VO、POJO定义/" data-id="ck14f63mf000f0ku7p26a5ded" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人/">个人</a></li></ul>
 
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/29/数据库频繁插入使用哪种存储引擎/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数据库频繁插入使用哪种存储引擎</div>
+    </a>
+  
+</nav>
+
+  
+</article>
 
 </section>
         

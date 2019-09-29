@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-数据库频繁插入使用哪种存储引擎" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-DO、DTO、BO、AO、VO、POJO定义" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/09/29/数据库频繁插入使用哪种存储引擎/" class="article-date">
-  <time datetime="2019-09-29T02:22:52.000Z" itemprop="datePublished">2019-09-29</time>
+    <a href="/2019/09/29/DO、DTO、BO、AO、VO、POJO定义/" class="article-date">
+  <time datetime="2019-09-29T03:21:31.000Z" itemprop="datePublished">2019-09-29</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/29/数据库频繁插入使用哪种存储引擎/">数据库频繁插入使用哪种存储引擎</a>
+      <a class="article-title" href="/2019/09/29/DO、DTO、BO、AO、VO、POJO定义/">DO、DTO、BO、AO、VO、POJO定义</a>
     </h1>
   
 
@@ -80,15 +80,27 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://mp.weixin.qq.com/s/3_6k9duYkzQfW86FgnUz5A" title="微信公众号文章地址" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/3_6k9duYkzQfW86FgnUz5A</a></p>
+        <h2 id="分层领域模型规约："><a href="#分层领域模型规约：" class="headerlink" title="分层领域模型规约："></a>分层领域模型规约：</h2><hr>
+<p>DO（ Data Object）：与数据库表结构一一对应，通过DAO层向上传输数据源对象。</p>
+<p>DTO（ Data Transfer Object）：数据传输对象，Service或Manager向外传输的对象。</p>
+<p>BO（ Business Object）：业务对象。 由Service层输出的封装业务逻辑的对象。</p>
+<p>AO（ Application Object）：应用对象。 在Web层与Service层之间抽象的复用对象模型，极为贴近展示层，复用度不高。</p>
+<p>VO（ View Object）：显示层对象，通常是Web向模板渲染引擎层传输的对象。</p>
+<p>POJO（ Plain Ordinary Java Object）：在本手册中， POJO专指只有setter/getter/toString的简单类，包括DO/DTO/BO/VO等。</p>
+<p>Query：数据查询对象，各层接收上层的查询请求。 注意超过2个参数的查询封装，禁止使用Map类来传输。</p>
+<hr>
+<h2 id="领域模型命名规约："><a href="#领域模型命名规约：" class="headerlink" title="领域模型命名规约："></a>领域模型命名规约：</h2><p>数据对象：xxxDO，xxx即为数据表名。</p>
+<p>数据传输对象：xxxDTO，xxx为业务领域相关的名称。</p>
+<p>展示对象：xxxVO，xxx一般为网页名称。</p>
+<p>POJO是DO/DTO/BO/VO的统称，禁止命名成xxxPOJO。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2019/09/29/数据库频繁插入使用哪种存储引擎/" data-id="ck14d21rk001bvgu7x8gsyzyb" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2019/09/29/DO、DTO、BO、AO、VO、POJO定义/" data-id="ck14f63mf000f0ku7p26a5ded" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人/">个人</a></li></ul>
 
     </footer>
   </div>
@@ -101,7 +113,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -147,6 +159,10 @@
       <ul>
         
           <li>
+            <a href="/2019/09/29/DO、DTO、BO、AO、VO、POJO定义/">DO、DTO、BO、AO、VO、POJO定义</a>
+          </li>
+        
+          <li>
             <a href="/2019/09/29/数据库频繁插入使用哪种存储引擎/">数据库频繁插入使用哪种存储引擎</a>
           </li>
         
@@ -160,10 +176,6 @@
         
           <li>
             <a href="/2019/01/25/java-锁/">java_锁</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/02/springCloud-Eureka/">springCloud-Eureka</a>
           </li>
         
       </ul>
