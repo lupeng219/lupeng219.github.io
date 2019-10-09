@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-redis-tomcat-session" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-maven" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/15/redis-tomcat-session/" class="article-date">
-  <time datetime="2018-05-15T03:01:56.000Z" itemprop="datePublished">2018-05-15</time>
+    <a href="/2018/05/15/maven/" class="article-date">
+  <time datetime="2018-05-15T03:03:21.000Z" itemprop="datePublished">2018-05-15</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/15/redis-tomcat-session/">redis-tomcat-session</a>
+      <a class="article-title" href="/2018/05/15/maven/">maven</a>
     </h1>
   
 
@@ -80,66 +80,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>目前的web应用集群，使用Nginx做负载均衡，将upstream配置成ip_hash的方式，这种模式下，Nginx会根据来源IP和后端配置来做hash分配，确保固定IP只访问一个后端</p>
-<p>upstream YOUR_NAME {</p>
-<p>ip_hash;<br>server 192.168.8.15:8080;<br>server 192.168.8.17:8080;</p>
-<p>}</p>
-<p>但是，由于固定某个IP只能访问单独的一个后端，如果宕机或者需要升级程序时做停机重启，正在操作的用户就会退出到登录页面，不仅用户体验很差，而且正在做的操作不能保证成功，容易产生脏数据等。<br>从Nginx upstream配置说起</p>
-<p>1）轮询<br>upstream YOUR_NAME {</p>
-<p>server 192.168.8.15:8080;<br>server 192.168.8.17:8080;</p>
-<p>}</p>
-<p>2）权重：该策略可解决服务器性能不等的情况下轮询比率的调配</p>
-<p>upstream YOUR_NAME {</p>
-<p>server 192.168.8.15:8080 weight=2;<br>server 192.168.8.17:8080 weight=3;</p>
-<p>}</p>
-<p>3）ip_hash<br>upstream YOUR_NAME {</p>
-<p>ip_hash;<br>server 192.168.8.15:8080;<br>server 192.168.8.17:8080;</p>
-<p>}</p>
-<p>4）fair：需要安装Upstream Fair Balancer Module。该策略根据后端服务的响应时间来分配，响应时间短的后端优先分配<br>upstream YOUR_NAME {</p>
-<p>server 192.168.8.15:8080;<br>server 192.168.8.17:8080;<br>fair;</p>
-<p>}</p>
-<p>5）一致性Hash：需要安装Upstream Consistent Hash Module，该策略可以根据给定的字符串进行Hash分配，具体参见官方Wiki。</p>
-<p>由此可见，我们迫切的需要使用轮训的方式来做负载均衡，那对于大规模集群部署的web应用来讲，轮训的方式就要Session必须进行共享。<br>Session共享机制</p>
-<p>在集群系统下实现Session共享机制一般有如下两种方案：</p>
-<pre><code>应用服务器间的Session复制共享（如Tomcat自带的Session共享）
-
-基于缓存数据库的Session共享（如使用Memcached、Redis）
-</code></pre><p>应用服务器间的Session复制共享</p>
-<p>Session复制共享，主要是指集群环境下，多台应用服务器之间同步Session，使其保持一致，对外透明。如果其中一台服务器发生故障，根据负载均衡的原理，Web服务器（Apache/Nginx）会遍历寻找可用节点，分发请求，由于Session已同步，故能保证用户的Session信息不会丢失。</p>
-<p>此方案的不足之处：</p>
-<pre><code>技术复杂,必须在同一种中间件之间完成(如Tomcat-Tomcat之间).
-
-Session复制带来的性能损失会快速增加.特别是当Session中保存了较大的对象,而且对象变化较快时, 性能下降更加显著. 这种特性使得Web应用的水平扩展受到了限制。
-
-Session内容序列化（Serialize），会消耗系统性能。
-
-Session内容通过广播同步给成员，会造成网络流量瓶颈，即便是内网瓶颈。
-</code></pre><p>基于缓存数据库的Session共享</p>
-<p>基于缓存数据库的Session共享是指使用如Memcached、Redis等Cache DB来存取Session信息：应用服务器接受新请求将Session信息保存到Cache DB中，当应用服务器发生故障，Web服务器（Apache/Nginx）会遍历寻找可用节点，分发请求，当应用服务器发现Session不在本机内存，则会去Cache DB中查找，如果找到，则复制到本机，这样就实现了Session的共享和高可用。</p>
-<p>我选用的是redis而不是Memcached，是因为Redis具有更丰富的数据结构，比如可以为Key指定过期时间，从而不需要我们定期的刷新缓存。</p>
-<ol>
-<li>下载jar包</li>
-</ol>
-<p>下载tomcat-redis-session-manager相应的jar包，</p>
-<p>下载地址<br><a href="http://download.csdn.net/detail/u014230881/9870474" target="_blank" rel="noopener">http://download.csdn.net/detail/u014230881/9870474</a></p>
-<p>把下载的jar包拷贝到Tomcat目录下的lib中。</p>
-<ol start="2">
-<li>在Tomcat的conf目录下，编辑context.xml。</li>
-</ol>
-<p>如果你是用Redis单点，则可以仿照如下配置：</p>
-<p>&lt;Valve className=”com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve” /》</p>
-<p>&lt;Manager className=”com.orangefunction.tomcat.redissessions.RedisSessionManager”<br>host=”47.93.60.217”<br>port=”6379”<br>database=”0”<br>maxInactiveInterval=”60” /》</p>
-<p>如果是Redis集群环境，则可仿照如下配置：</p>
-<p>&lt;Valve className=”com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve” /》</p>
-<p>&lt;Manager className=”com.orangefunction.tomcat.redissessions.RedisSessionManager”<br>database=”1”<br>maxInactiveInterval=”60”<br>sentinelMaster=”mymaster”<br>sentinels=”192.168.8.43:26379,192.168.8.45:26379,192.168.8.47:26379”</p>
-<p>启动Tomcat，访问应用，即可在Redis中看到效果。</p>
-<p>关于测试，可以将Nginx Upstream配置为轮询后，仅留一台应用服务器启动，登陆操作，然后启动另外一台，停止第一台服务，继续操作，发现并未受任何影响，即可。</p>
-<p>资料：<a href="http://blog.csdn.net/onlysunnyboy/article/details/50513305" target="_blank" rel="noopener">http://blog.csdn.net/onlysunnyboy/article/details/50513305</a></p>
+        <p>1.右键新建项目选择maven下的Maven Project<br><img src="https://i.imgur.com/VUzrf2R.png" alt=""></p>
+<p>2.选择maven project，显示创建maven项目的窗口，勾选如图所示，Create a simple project<br><img src="https://i.imgur.com/o09RQK0.png" alt=""></p>
+<p>3.然后输入包名 ，改成war。</p>
+<p><img src="https://i.imgur.com/40kDSYX.png" alt=""></p>
+<p>4.现在的右键项目选择properties 选择project facets 在右侧显示中的java 1.5改成1.7 或者开发规则的版本。<br>然后把Dy前的对勾去掉然后点击Apply ，然后在勾选Dy，点击下方出现的Further–available,填写Content directory内容src/main/webapp.勾选下方的Generate web.xml,然后点击OK，点击Apply 再点击OK。<br><img src="https://i.imgur.com/LfDLrMK.png" alt=""><br><img src="https://i.imgur.com/S32rY50.png" alt=""></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/15/redis-tomcat-session/" data-id="ck1ingp2v00186ou7xvu7tqro" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2018/05/15/maven/" data-id="ck1inropw000v0su7ft25r836" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -155,7 +105,7 @@ Session内容通过广播同步给成员，会造成网络流量瓶颈，即便�
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/22/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/24/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/22/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/24/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -188,7 +138,7 @@ Session内容通过广播同步给成员，会造成网络流量瓶颈，即便�
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
     </div>
   </div>
 
@@ -199,6 +149,10 @@ Session内容通过广播同步给成员，会造成网络流量瓶颈，即便�
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/10/09/高级Java知识图谱/">高级Java知识图谱</a>
+          </li>
         
           <li>
             <a href="/2019/09/30/DDD领域驱动设计/">DDD领域驱动设计</a>
@@ -214,10 +168,6 @@ Session内容通过广播同步给成员，会造成网络流量瓶颈，即便�
         
           <li>
             <a href="/2019/09/29/springBean循环引用/">springBean循环引用</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/07/springBatch/">springBatch</a>
           </li>
         
       </ul>
