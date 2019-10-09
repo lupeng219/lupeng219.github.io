@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-kafka安装及配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-SpringMVC处理请求流程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/25/kafka安装及配置/" class="article-date">
-  <time datetime="2018-05-25T08:04:35.000Z" itemprop="datePublished">2018-05-25</time>
+    <a href="/2018/05/23/SpringMVC处理请求流程/" class="article-date">
+  <time datetime="2018-05-23T07:10:40.000Z" itemprop="datePublished">2018-05-23</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/25/kafka安装及配置/">kafka安装及配置</a>
+      <a class="article-title" href="/2018/05/23/SpringMVC处理请求流程/">SpringMVC处理请求流程</a>
     </h1>
   
 
@@ -80,37 +80,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li>安装JDK  </li>
-<li><p>安装zookeeper<br>wget <a href="http://apache.forsale.plus/zookeeper/zookeeper-3.4.12/zookeeper-3.4.12.tar.gz" target="_blank" rel="noopener">http://apache.forsale.plus/zookeeper/zookeeper-3.4.12/zookeeper-3.4.12.tar.gz</a></p>
-<p>   tar zxf zookeeper-3.4.12.tar.gz</p>
-</li>
-</ol>
-<p>修改配置文件内容如下所示:</p>
-<p>mkdir /usr/local/zookeeper-3.4.12/data</p>
-<p>mkdir /usr/local/zookeeper-3.4.12/logs</p>
-<p>cp /conf/zoo.sample.cfg /conf/zoo.cfg </p>
-<p>在zoo.cfg中修改以下内容</p>
-<pre><code>dataDir=/data/zk/data/zookeeper
-dataLogDir=/data/zk/data/logs
-</code></pre><p>启动服务</p>
-<pre><code>/data/zk/bin/zkServer.sh start
-/data/zk/bin/zkServer.sh stop
-/data/zk/bin/zkServer.sh status
-</code></pre><p>验证服务</p>
-<h3 id="查看相关端口号-root-localhost-ss-lnpt-grep-java"><a href="#查看相关端口号-root-localhost-ss-lnpt-grep-java" class="headerlink" title="查看相关端口号[root@localhost ~]# ss -lnpt|grep java"></a>查看相关端口号[root@localhost ~]# ss -lnpt|grep java</h3><p>   3.安装kafka</p>
-<pre><code>wget https://mirrors.tuna.tsinghua.edu.cn/apache/kafka/1.1.0/kafka_2.11-1.1.0.tgz
-tar -zxvf kafka_2.11-1.1.0.tgz
-</code></pre><p>修改配置</p>
-<pre><code>vi server.properties
-</code></pre><p><img src="https://i.imgur.com/DyTL1kO.png" alt=""></p>
-<p>启动服务</p>
-<p>./data/kafka/bin/kafka-server-start.sh /data/kafka/config/server.properties</p>
+        <p><img src="https://i.imgur.com/Jv5cYfb.jpg" alt=""></p>
+<p>SpringMVC核心处理流程：</p>
+<p>1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器</p>
+<p>2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller）</p>
+<p>3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndView对象（包括模型数据、逻辑视图名）</p>
+<p>4、ViewResolver视图解析器，先根据ModelAndView中设置的View解析具体视图</p>
+<p>5、然后再将Model模型中的数据渲染到View上</p>
+<p>这些过程都是以DispatcherServlet为中轴线进行的。</p>
+<p>下面简要说一下，用户是如何从发出请求到DispatcherServlet前端控制器</p>
+<p>1、web.xml中配置了SpringMVC的servlet</p>
+<p><img src="https://i.imgur.com/vNE3FMm.png" alt=""></p>
+<p>2、服务器启动时就会初始化servlet，然后会根据url-pattern设定的规则拦截用户发来的请求</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/25/kafka安装及配置/" data-id="ck1imqsia001g0cu7cqaa1fvm" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2018/05/23/SpringMVC处理请求流程/" data-id="ck1ingp2000096ou78yn8sr66" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -126,7 +112,7 @@ tar -zxvf kafka_2.11-1.1.0.tgz
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/15/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/17/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/15/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/17/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -159,7 +145,7 @@ tar -zxvf kafka_2.11-1.1.0.tgz
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
     </div>
   </div>
 
@@ -170,10 +156,6 @@ tar -zxvf kafka_2.11-1.1.0.tgz
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="/2019/10/09/高级Java知识图谱/">高级Java知识图谱</a>
-          </li>
         
           <li>
             <a href="/2019/09/30/DDD领域驱动设计/">DDD领域驱动设计</a>
@@ -189,6 +171,10 @@ tar -zxvf kafka_2.11-1.1.0.tgz
         
           <li>
             <a href="/2019/09/29/springBean循环引用/">springBean循环引用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/07/springBatch/">springBatch</a>
           </li>
         
       </ul>
