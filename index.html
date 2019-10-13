@@ -152,12 +152,154 @@ public int age;
 <p>……1） 数据对象： xxxDO， xxx 即为数据表名。</p>
 <p>……2） 数据传输对象： xxxDTO， xxx 为业务领域相关的名称。</p>
 <p>……3） 展示对象： xxxVO， xxx 一般为网页名称。</p>
-<p>……4） POJO 是 DO/DTO/BO/VO 的统称，禁止命名成 xxxPOJO。</p>
+<p>…..4） POJO 是 DO/DTO/BO/VO 的统称，禁止命名成 xxxPOJO。</p>
+<h2 id="二-常量定义"><a href="#二-常量定义" class="headerlink" title="(二) 常量定义"></a>(二) 常量定义</h2><p>16.【强制】 不允许任何魔法值（ 即未经预先定义的常量） 直接出现在代码中。</p>
+<p>…..反例： String key = “Id#taobao_” + tradeId;</p>
+<p>…..cache.put(key, value);</p>
+<p>…..// 缓存 get 时，由于在代码复制时，漏掉下划线，导致缓存击穿而出现问题</p>
+<p>17.【强制】 在 long 或者 Long 赋值时， 数值后使用大写的 L，不能是小写的 l，小写容易跟数<br>字 1 混淆，造成误解。</p>
+<p>…..说明： Long a = 2l; 写的是数字的 21，还是 Long 型的 2。</p>
+<p>18.【推荐】 不要使用一个常量类维护所有常量， 要按常量功能进行归类，分开维护。</p>
+<p>…..说明： 大而全的常量类， 杂乱无章， 使用查找功能才能定位到修改的常量，不利于理解和维护。</p>
+<p>…..正例： 缓存相关常量放在类 CacheConsts 下；系统配置相关常量放在类 ConfigConsts 下.</p>
+<h2 id="四-OOP-规约"><a href="#四-OOP-规约" class="headerlink" title="(四) OOP 规约"></a>(四) OOP 规约</h2><p>19.【强制】 避免通过一个类的对象引用访问此类的静态变量或静态方法，无谓增加编译器解析<br>成本，直接用类名来访问即可。</p>
+<p>20.【强制】 所有的覆写方法，必须加@Override 注解。</p>
+<p>…..说明： getObject()与 get0bject()的问题。一个是字母的 O，一个是数字的 0，加@Override 可以准确判<br>断是否覆盖成功。另外，如果在抽象类中对方法签名进行修改，其实现类会马上编译报错。</p>
+<p>21.【强制】 外部正在调用或者二方库依赖的接口，不允许修改方法签名，避免对接口调用方产<br>生影响。接口过时必须加@Deprecated 注解，并清晰地说明采用的新接口或者新服务是什<br>么。</p>
+<p>22.【强制】 不能使用过时的类或方法</p>
+<p>23.【强制】 Object 的 equals 方法容易抛空指针异常，应使用常量或确定有值的对象来调用<br>equals。</p>
+<p>…..正例： “test”.equals(object);</p>
+<p>…..反例： object.equals(“test”);</p>
+<p>…..说明： 推荐使用 java.util.Objects#equals（ JDK7 引入的工具类） 。</p>
+<p>24.【强制】 所有整型包装类对象之间值的比较， 全部使用 equals 方法比较。</p>
+<p>…..说明： 对于 Integer var = ? 在-128 至 127 范围内的赋值， Integer 对象是在 IntegerCache.cache 产<br>生，会复用已有对象，这个区间内的 Integer 值可以直接使用==进行判断，但是这个区间之外的所有数<br>据，都会在堆上产生，并不会复用已有对象，这是一个大坑，推荐使用 equals 方法进行判断。</p>
+<p>25.【强制】浮点数之间的等值判断，基本数据类型不能用==来比较，包装数据类型不能用<br>equals 来判断。</p>
+<p>…..说明： 浮点数采用“尾数+阶码” 的编码方式，类似于科学计数法的“有效数字+指数” 的表示方式。二进Java 开发手册<br>8/44<br>制无法精确表示大部分的十进制小数，</p>
+<pre><code>反例：
+    float a = 1.0f - 0.9f;
+    float b = 0.9f - 0.8f;
+    if (a == b) {
+    // 预期进入此代码快，执行其它业务逻辑
+    // 但事实上 a==b 的结果为 false
+    }
+    Float x = Float.valueOf(a);
+    Float y = Float.valueOf(b);
+    if (x.equals(y)) {
+    // 预期进入此代码快，执行其它业务逻辑
+    // 但事实上 equals 的结果为 false
+    }
+正例：
+    (1) 使用 BigDecimal 来定义值，再进行浮点数的运算操作。
+    BigDecimal a = new BigDecimal(&quot;1.0&quot;);
+    BigDecimal b = new BigDecimal(&quot;0.9&quot;);
+    BigDecimal c = new BigDecimal(&quot;0.8&quot;);
+    BigDecimal x = a.subtract(b);
+    BigDecimal y = b.subtract(c);
+    if (x.equals(y)) {
+    System.out.println(&quot;true&quot;);
+    }
+</code></pre><p><strong>补充：对于bigdecimal的大小比较，用equals方法的话会不仅会比较值的大小，还会比较两个对象的精确度，而compareto方法则不会比较精确度，只比较数值的大小。</strong></p>
+<p>26.【强制】 为了防止精度损失， 禁止使用构造方法 BigDecimal(double)的方式把 double 值转<br>化为 BigDecimal 对象。</p>
+<p>…..说明： BigDecimal(double)存在精度损失风险，在精确计算或值比较的场景中可能会导致业务逻辑异常。<br>如： BigDecimal g = new BigDecimal(0.1f); 实际的存储值为： 0.10000000149</p>
+<p>……正例： 优先推荐入参为 String 的构造方法，或使用 BigDecimal 的 valueOf 方法，此方法内部其实执行了<br>Double 的 toString，而 Double 的 toString 按 double 的实际能表达的精度对尾数进行了截断。<br>BigDecimal recommend1 = new BigDecimal(“0.1”);<br>BigDecimal recommend2 = BigDecimal.valueOf(0.1);</p>
+<p>27.【强制】 定义数据对象 DO 类时，属性类型要与数据库字段类型相匹配。</p>
+<p>…..正例： 数据库字段的 bigint 必须与类属性的 Long 类型相对应。</p>
+<p>…..反例： 某个案例的数据库表 id 字段定义类型 bigint unsigned(unsigned 就是将数字类型无符号化， 例如 int 型的范围：-2^31 ~ 2^31 - 1，而unsigned int的范围：0 ~ 2^32。)，实际类对象属性为 Integer，随着 id 越来<br>越大，超过 Integer 的表示范围而溢出成为负数。</p>
+<p>28.【强制】关于基本数据类型与包装数据类型的使用标准如下：</p>
+<p>…..1） 【强制】 所有的 POJO 类属性必须使用包装数据类型。</p>
+<p>…..2） 【强制】 RPC 方法的返回值和参数必须使用包装数据类型。</p>
+<p>…..说明：数据库的查询结果可能是 null，因为自动拆箱，用基本数据类型接收有 NPE 风险。</p>
+<p>29.【强制】 POJO 类必须写 toString 方法。</p>
+<p>…..说明： 在方法执行抛出异常时，可以直接调用 POJO 的 toString()方法打印其属性值，便于排查问题。</p>
+<p>30.【推荐】 慎用 Object 的 clone 方法来拷贝对象。</p>
+<p>…..说明： 对象 clone 方法默认是浅拷贝，若想实现深拷贝需覆写 clone 方法实现域对象的深度遍历式拷贝。</p>
+<p>31.【推荐】循环体内，字符串的连接方式，使用StringBuilder的append方法进行扩展。 说明：下例中，反编译出的字节码文件显示每次循环都会new出一个StringBuilder对象，然后进行append操作，最后通过toString方法返回String对象，造成内存资源浪费。</p>
+<pre><code>反例：
 
+String str = &quot;start&quot;;
+for (int i = 0; i &lt; 100; i++) {
+ str = str + &quot;hello&quot;;
+}
+</code></pre><h2 id="五-集合处理"><a href="#五-集合处理" class="headerlink" title="(五) 集合处理"></a>(五) 集合处理</h2><p>32.【强制】 关于 hashCode 和 equals 的处理，只要覆写 equals，就必须覆写 hashCode</p>
+<p>…..说明：HashCode是编译器为不同对象产生的不同整数，根据equal方法的定义：如果两个对象是相等（equal）的，那么两个对象调用 hashCode必须产生相同的整数结果，即：equal为true，hashCode必须为true，equal为false，hashCode也必须 为false，所以必须重写hashCode来保证与equal同步。</p>
+<p>33.【强制】ArrayList 的 subList 结果不可强转成 ArrayList，否则会抛出 ClassCastException 异<br>常， 即 java.util.RandomAccessSubList cannot be cast to java.util.ArrayList。<br>说明： subList 返回的是 ArrayList 的内部类 SubList， 并不是 ArrayList 而是 ArrayList 的一个视图，对<br>于 SubList 子列表的所有操作最终会反映到原列表上</p>
+<p>34.【强制】 Collections 类返回的对象，如： emptyList()/singletonList()等都是 immutable<br>list，不可对其进行添加或者删除元素的操作。</p>
+<p>…..说明：如果查询无结果，返回 Collections.emptyList()空集合对象，调用方一旦进行了添加元素的操作，就<br>会触发 UnsupportedOperationException 异常</p>
+<p>35.【强制】 使用集合转数组的方法，必须使用集合的 toArray(T[] array)，传入的是类型完全一<br>致、长度为 0 的空数组</p>
+<p>……反例： 直接使用 toArray 无参方法存在问题，此方法返回值只能是 Object[]类，若强转其它类型数组将出<br>现 ClassCastException 错误。</p>
+<pre><code>正例：
+List&lt;String&gt; list = new ArrayList&lt;&gt;(2);
+list.add(&quot;guan&quot;);
+list.add(&quot;bao&quot;);
+String[] array = list.toArray(new String[0]);
+</code></pre><p>…..说明： 使用 toArray 带参方法，数组空间大小的 length：</p>
+<p>1） 等于 0，动态创建与 size 相同的数组，性能最好。</p>
+<p>2） 大于 0 但小于 size，重新创建大小等于 size 的数组，增加 GC 负担。</p>
+<p>3） 等于 size，在高并发情况下，数组创建完成之后， size 正在变大的情况下，负面影响与上相同。</p>
+<p>4） 大于 size，空间浪费，且在 size 处插入 null 值，存在 NPE 隐患</p>
+<p>36.【强制】 泛型通配符&lt;? extends T&gt;来接收返回的数据，此写法的泛型集合不能使用 add 方<br>法， 而&lt;? super T&gt;不能使用 get 方法，作为接口调用赋值时易出错。</p>
+<p>……说明： 扩展说一下 PECS(Producer Extends Consumer Super)原则： 第一、 频繁往外读取内容的，适合<br>用&lt;? extends T&gt;。 第二、 经常往里插入的，适合用&lt;? super T&gt;</p>
+<p>37.【强制】 不要在 foreach 循环里进行元素的 remove/add 操作。 remove 元素请使用<br>Iterator 方式，如果并发操作，需要对 Iterator 对象加锁。</p>
+<pre><code>正例：
+List&lt;String&gt; list = new ArrayList&lt;&gt;();
+list.add(&quot;1&quot;);
+list.add(&quot;2&quot;);
+Iterator&lt;String&gt; iterator = list.iterator();
+while (iterator.hasNext()) {
+String item = iterator.next();
+if (删除元素的条件) {Java 开发手册
+13/44
+iterator.remove();
+}
+}
+反例：
+for (String item : list) {
+if (&quot;1&quot;.equals(item)) {
+list.remove(item);
+}
+}
+</code></pre><p>…..说明： 以上代码的执行结果肯定会出乎大家的意料，那么试一下把“1” 换成“2” ，会是同样的结果吗?<br>…..<a href="https://www.cnblogs.com/luyu1993/p/7148765.html" title="原因" target="_blank" rel="noopener">https://www.cnblogs.com/luyu1993/p/7148765.html</a></p>
+<p>38.【推荐】 集合初始化时， 指定集合初始值大小。</p>
+<p>…..说明： HashMap 使用 HashMap(int initialCapacity) 初始化。</p>
+<p>…..正例： initialCapacity = (需要存储的元素个数 / 负载因子) + 1。 注意负载因子（即 loader factor） 默认<br>为 0.75，如果暂时无法确定初始值大小，请设置为 16（即默认值） 。</p>
+<p>…..反例： HashMap 需要放置 1024 个元素，由于没有设置容量初始大小，随着元素不断增加，容量 7 次被<br>迫扩大， resize 需要重建 hash 表，严重影响性能。</p>
+<p>39.【推荐】 使用 entrySet 遍历 Map 类集合 KV，而不是 keySet 方式进行遍历。</p>
+<p>…..说明： keySet 其实是遍历了 2 次，一次是转为 Iterator 对象，另一次是从 hashMap 中取出 key 所对应<br>的 value。而 entrySet 只是遍历了一次就把 key 和 value 都放到了 entry 中，效率更高。如果是 JDK8，<br>使用 Map.forEach 方法。</p>
+<h2 id="六-并发处理"><a href="#六-并发处理" class="headerlink" title="(六) 并发处理"></a>(六) 并发处理</h2><p>40.【强制】 线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这<br>样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。</p>
+<p>…..说明： Executors 返回的线程池对象的弊端如下：</p>
+<p>…..1） FixedThreadPool 和 SingleThreadPool：<br>允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。</p>
+<p>…..2） CachedThreadPool：<br>允许的创建线程数量为 Integer.MAX_VALUE， 可能会创建大量的线程，从而导致OOM.</p>
+<p>41.【强制】 在使用阻塞等待获取锁的方式中，必须在 try 代码块之外，并且在加锁方法与 try 代<br>码块之间没有任何可能抛出异常的方法调用，避免加锁成功后，在 finally 中无法解锁。</p>
+<p>…..说明一： 如果在 lock 方法与 try 代码块之间的方法调用抛出异常，那么无法解锁，造成其它线程无法成功<br>获取锁。</p>
+<p>…..说明二： 如果 lock 方法在 try 代码块之内，可能由于其它方法抛出异常，导致在 finally 代码块中，<br>unlock 对未加锁的对象解锁，它会调用 AQS 的 tryRelease 方法（取决于具体实现类），抛出<br>IllegalMonitorStateException 异常。</p>
+<p>…..说明三： 在 Lock 对象的 lock 方法实现中可能抛出 unchecked 异常，产生的后果与说明二相同。</p>
+<pre><code>正例：
+    Lock lock = new XxxLock();
+    // ...
+    lock.lock();
+    try {
+    doSomething();
+    doOthers();
+    } finally {
+    lock.unlock();
+    }
+反例：
+    Lock lock = new XxxLock();
+    // ...
+    try {
+    // 如果此处抛出异常，则直接执行 finally 代码块
+    doSomething();
+    // 无论加锁是否成功， finally 代码块都会执行
+    lock.lock();
+    doOthers();
+    } finally {
+    lock.unlock();
+    }
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2019/10/13/阿里巴巴java开发规范解读/" data-id="ck1ondhcu0015z8u73a0luo2v" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2019/10/13/阿里巴巴java开发规范解读/" data-id="ck1otduf8001gewu7kmd0suzc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人/">个人</a></li></ul>
