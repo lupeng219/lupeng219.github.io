@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-DDD领域驱动设计" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-高级Java知识图谱" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/09/30/DDD领域驱动设计/" class="article-date">
-  <time datetime="2019-09-30T09:36:39.000Z" itemprop="datePublished">2019-09-30</time>
+    <a href="/2019/10/09/高级Java知识图谱/" class="article-date">
+  <time datetime="2019-10-09T02:28:58.000Z" itemprop="datePublished">2019-10-09</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/30/DDD领域驱动设计/">DDD领域驱动设计</a>
+      <a class="article-title" href="/2019/10/09/高级Java知识图谱/">高级Java知识图谱</a>
     </h1>
   
 
@@ -80,35 +80,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://blog.csdn.net/ityouknow/article/details/81572072" title="领域驱动" target="_blank" rel="noopener">https://blog.csdn.net/ityouknow/article/details/81572072</a></p>
-<h1 id="DDD基本概念"><a href="#DDD基本概念" class="headerlink" title="DDD基本概念"></a>DDD基本概念</h1><p><strong>实体（Entity）</strong></p>
-<p>当一个对象由其标识(而不是属性)区分时，这种对象称为实体(Entity)。比如当两个对象的标识不同时，即使两个对象的其他属性全都相同，我们也认为他们是两个完全不同的实体。</p>
-<p><strong>值对象（Value Object）</strong></p>
-<p>当一个对象用于对事物进行描述而没有唯一标识时，那么它被称作值对象。因为在领域中并不是任何时候一个事物都需要有一个唯一的标识，也就是说我们并不关心具体是哪个事物，只关心这个事物是什么。比如下单流程中，对于配送地址来说，只要是地址信息相同，我们就认为是同一个配送地址。由于不具有唯一标示，我们也不能说”这一个”值对象或者”那一个”值对象。</p>
-<p><strong>领域服务（Domain Service）</strong></p>
-<p>一些重要的领域行为或操作，它们不太适合建模为实体对象或者值对象，它们本质上只是一些操作，并不是具体的事物，另一方面这些操作往往又会涉及到多个领域对象的操作，它们只负责来协调这些领域对象完成操作而已，那么我们可以归类它们为领域服务。它实现了全部业务逻辑并且通过各种校验手段保证业务的正确性。同时呢，它也能避免在应用层出现领域逻辑。理解起来，领域服务有点facade的味道。</p>
-<p><strong>聚合及聚合根（Aggregate Aggregate Root）</strong></p>
-<p>聚合是通过定义领域对象之间清晰的所属关系以及边界来实现领域模型的内聚，以此来避免形成错综复杂的、难以维护的对象关系网。聚合定义了一组具有内聚关系的相关领域对象的集合，我们可以把聚合看作是一个修改数据的单元。</p>
-<p>聚合根属于实体对象，它是领域对象中一个高度内聚的核心对象。(聚合根具有全局的唯一标识，而实体只有在聚合内部有唯一的本地标识，值对象没有唯一标识，不存在这个值对象或那个值对象的说法)</p>
-<p>若一个聚合仅有一个实体，那这个实体就是聚合根；但要有多个实体，我们就要思考聚合内哪个对象有独立存在的意义且可以和外部领域直接进行交互。</p>
-<p><strong>工厂（Factory）</strong></p>
-<p>DDD中的工厂也是一种封装思想的体现。引入工厂的原因是：有时创建一个领域对象是一件相对比较复杂的事情，而不是简单的new操作。工厂的作用是隐藏创建对象的细节。事实上大部分情况下，领域对象的创建都不会相对太复杂，故我们仅需使用简单的构造函数创建对象就可以。隐藏创建对象细节的好处是显而易见的，这样就可以不会让领域层的业务逻辑泄露到应用层，同时也减轻应用层负担，它只要简单调用领域工厂来创建出期望的对象就可以了。</p>
-<p><strong>仓储（Repostitory）</strong></p>
-<p>资源仓储封装了基础设施来提供查询和持久化聚合操作。这样能够让我们始终关注在模型层面，把对象的存储和访问都委托给资源库来完成。它不是数据库的封装，而是领域层与基础设施之间的桥梁。DDD 关心的是领域内的模型，而不是数据库的操作。</p>
-<hr>
-<h1 id="领域驱动的好处"><a href="#领域驱动的好处" class="headerlink" title="领域驱动的好处"></a>领域驱动的好处</h1><p>用 DDD 可以很好的解决领域模型到设计模型的同步、演进最后映射到实际的代码逻辑，总的来说，DDD 开发模式有以下几个好处 ：</p>
-<p>DDD 能让我们知道如何抽象出限界上下文以及如何去分而治之。</p>
-<p>分而治之 : 把复杂的大规模软件拆分成若干个子模块，每一个模块都能独立运行和解决相关问题。并且分割后各个部分可以组装成为一个整体。</p>
-<p>抽象 : 使用抽象能够精简问题空间，而且问题越小越容易理解，比如说我们要对接支付，抽象的纬度应该是支付，而不是具体的微信支付还是支付宝支付。</p>
-<p>DDD 的限界上下文可以完美匹配微服务的要求。在系统复杂之后，我们都需要用分治来拆解问题。一般有两种方式，技术维度和业务维度。技术维度是类似 MVC 这 样，业务维度则是指按业务领域来划分系统。 微服务架构更强调从业务维度去做分治来应对系统复杂度， 而 DDD 也是同样的着重业务视角。</p>
+        <p><img src="/2019/10/09/高级Java知识图谱/高级java知识框架.jpg" alt="BP"><br><img src="/2019/10/09/高级Java知识图谱/java锁体系.jpg" alt=""><br><img src="/2019/10/09/高级Java知识图谱/java基础体系.png" alt=""></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2019/09/30/DDD领域驱动设计/" data-id="ck1q7qhc7001ncou74hpgk84l" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2019/10/09/高级Java知识图谱/" data-id="ck1smrgga001ntwu7t76oio50" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人/">个人</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
 
     </footer>
   </div>
@@ -121,7 +101,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -167,6 +147,10 @@
       <ul>
         
           <li>
+            <a href="/2019/10/16/InnoDB架构/">InnoDB架构</a>
+          </li>
+        
+          <li>
             <a href="/2019/10/13/阿里巴巴java开发规范解读/">阿里巴巴java开发规范解读</a>
           </li>
         
@@ -180,10 +164,6 @@
         
           <li>
             <a href="/2019/09/29/DO、DTO、BO、AO、VO、POJO定义/">DO、DTO、BO、AO、VO、POJO定义</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/29/数据库频繁插入使用哪种存储引擎/">数据库频繁插入使用哪种存储引擎</a>
           </li>
         
       </ul>
