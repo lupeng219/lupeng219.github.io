@@ -80,7 +80,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://mp.weixin.qq.com/s/zKHNaWY5AS0OMmag1mQTKQ" title="微信公众号-架构师之路" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/zKHNaWY5AS0OMmag1mQTKQ</a></p>
+        <p><a href="http://1t.click/aMYA" target="_blank" rel="noopener">http://1t.click/aMYA</a></p>
 <h1 id="mysql架构图"><a href="#mysql架构图" class="headerlink" title="mysql架构图"></a>mysql架构图</h1><p><img src="/2019/10/16/InnoDB架构/a.png" alt=""></p>
 <h2 id="mysql-分为三层："><a href="#mysql-分为三层：" class="headerlink" title="mysql 分为三层："></a>mysql 分为三层：</h2><pre><code>1.客户端：各种编程语言的connector.
 
@@ -108,23 +108,23 @@
 <p>目的是提升InnoDB性能，加速读请求，避免每次数据访问都进行磁盘IO。</p>
 <p>画外音：和系统架构设计中缓存的功能有点像，避免每次访问数据库。</p>
 <p>这里面涉及的技术点包括：预读，局部性原理，LRU，预读失败+缓冲池污染，新生代老生代双链LRU。</p>
-<p>细节参见:（<a href="https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&amp;mid=2651962450&amp;idx=1&amp;sn=ce17c4da8d20ce275f75d0f2ef5e40c9&amp;chksm=bd2d098e8a5a809834aaa07da0d7546555385543fb6d687a7cf94d183ab061cd301a76547411&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&amp;mid=2651962450&amp;idx=1&amp;sn=ce17c4da8d20ce275f75d0f2ef5e40c9&amp;chksm=bd2d098e8a5a809834aaa07da0d7546555385543fb6d687a7cf94d183ab061cd301a76547411&amp;scene=21#wechat_redirect</a>）</p>
+<p>细节参见:<a href="http://1t.click/aMY8" target="_blank" rel="noopener">http://1t.click/aMY8</a></p>
 <p><strong>写缓冲(Change Buffer)</strong></p>
 <p>目的是提升InnoDB性能，加速写请求，避免每次写入都进行磁盘IO。</p>
 <p>画外音：我C，这个牛逼，写入居然都可以不进行磁盘IO？</p>
-<p>细节参见:<a href="https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&amp;mid=2651962467&amp;idx=1&amp;sn=899ea157b0fc6f849ec80a4d055a309b&amp;chksm=bd2d09bf8a5a80a972a2e16a190ed7dffe03f89015ead707bdfcc5aeb8388fb278f397c125f1&amp;scene=21#wechat_redirect" title="写缓存" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&amp;mid=2651962467&amp;idx=1&amp;sn=899ea157b0fc6f849ec80a4d055a309b&amp;chksm=bd2d09bf8a5a80a972a2e16a190ed7dffe03f89015ead707bdfcc5aeb8388fb278f397c125f1&amp;scene=21#wechat_redirect</a></p>
+<p>细节参见:<a href="http://1t.click/aMY6" target="_blank" rel="noopener">http://1t.click/aMY6</a></p>
 <p><strong>自适应哈希索引(Adaptive Hash Index)</strong></p>
 <p>目的是提升InnoDB性能，加速读请求，减少索引查询的寻路路径。</p>
 <p>这里面涉及的技术点包括：聚集索引，普通索引，哈希索引…</p>
-<p>细节参见:<a href="https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&amp;mid=2651962875&amp;idx=1&amp;sn=c6b3e7dc8a41609cfe070026bd27b71d&amp;chksm=bd2d08278a5a813108b1f4116341ff31170574b9098e2708cbc212b008a1fac8dfd1ffeabc6b&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&amp;mid=2651962875&amp;idx=1&amp;sn=c6b3e7dc8a41609cfe070026bd27b71d&amp;chksm=bd2d08278a5a813108b1f4116341ff31170574b9098e2708cbc212b008a1fac8dfd1ffeabc6b&amp;scene=21#wechat_redirect</a></p>
+<p>细节参见:<a href="http://1t.click/aMY3" target="_blank" rel="noopener">http://1t.click/aMY3</a></p>
 <p>日志缓冲(Log Buffer)</p>
 <p>目的是提升InnoDB性能，极大优化redo日志性能，并提供了高并发与强一致性的折衷方案。<br>这里面涉及的技术点包括：redo log作用，流程，三层架构，随机写优化为顺序写，次次写优化为批量写…</p>
-<p>细节参见:<a href="https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&amp;mid=2651962887&amp;idx=1&amp;sn=4806f481448b1c3ddfbbd53e732a7bb5&amp;chksm=bd2d0bdb8a5a82cd50bc155ed2ba57f105bfd76ff78992823ed85214b5c767eef17e691a2255&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&amp;mid=2651962887&amp;idx=1&amp;sn=4806f481448b1c3ddfbbd53e732a7bb5&amp;chksm=bd2d0bdb8a5a82cd50bc155ed2ba57f105bfd76ff78992823ed85214b5c767eef17e691a2255&amp;scene=21#wechat_redirect</a></p>
+<p>细节参见:<a href="http://1t.click/aMY2" target="_blank" rel="noopener">http://1t.click/aMY2</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2019/10/16/InnoDB架构/" data-id="ck29wi9ze000498u7e40ekuyl" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2019/10/16/InnoDB架构/" data-id="ck29wq4z30004s0u751r03ulk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
