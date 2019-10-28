@@ -17,7 +17,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://lupeng219.github.io/2019/10/16/InnoDB架构/a.png">
 <meta property="og:image" content="http://lupeng219.github.io/2019/10/16/InnoDB架构/2.png">
-<meta property="og:updated_time" content="2019-10-27T00:41:10.904Z">
+<meta property="og:updated_time" content="2019-10-28T04:06:59.040Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="InnoDB架构">
 <meta name="twitter:description" content="https://mp.weixin.qq.com/s/zKHNaWY5AS0OMmag1mQTKQ mysql架构图 mysql 分为三层：1.客户端：各种编程语言的connector.  2.mysql服务：内部包含各种组件，实现各种功能。  3.文件系统：数据存储与日志。 其中，MySQL服务内，可以以插件的形式，实现各种存储引擎。 在InnoDB，MyISAM，Memory…等各种存储引擎中">
@@ -124,12 +124,13 @@
 <p>这里面涉及的技术点包括：聚集索引，普通索引，哈希索引…</p>
 <p>细节参见:<a href="https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&amp;mid=2651962875&amp;idx=1&amp;sn=c6b3e7dc8a41609cfe070026bd27b71d&amp;chksm=bd2d08278a5a813108b1f4116341ff31170574b9098e2708cbc212b008a1fac8dfd1ffeabc6b&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&amp;mid=2651962875&amp;idx=1&amp;sn=c6b3e7dc8a41609cfe070026bd27b71d&amp;chksm=bd2d08278a5a813108b1f4116341ff31170574b9098e2708cbc212b008a1fac8dfd1ffeabc6b&amp;scene=21#wechat_redirect</a></p>
 <p>日志缓冲(Log Buffer)</p>
-<p>目的是提升InnoDB性能，极大优化redo日志性能，并提供了高并发与强一致性的折衷方案。<br>这里面涉及的技术点包括：redo log作用，流程，三层架构，随机写优化为顺序写，次次写优化为批量写…细节参见</p>
+<p>目的是提升InnoDB性能，极大优化redo日志性能，并提供了高并发与强一致性的折衷方案。<br>这里面涉及的技术点包括：redo log作用，流程，三层架构，随机写优化为顺序写，次次写优化为批量写…</p>
+<p>细节参见:<a href="https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&amp;mid=2651962887&amp;idx=1&amp;sn=4806f481448b1c3ddfbbd53e732a7bb5&amp;chksm=bd2d0bdb8a5a82cd50bc155ed2ba57f105bfd76ff78992823ed85214b5c767eef17e691a2255&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&amp;mid=2651962887&amp;idx=1&amp;sn=4806f481448b1c3ddfbbd53e732a7bb5&amp;chksm=bd2d0bdb8a5a82cd50bc155ed2ba57f105bfd76ff78992823ed85214b5c767eef17e691a2255&amp;scene=21#wechat_redirect</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2019/10/16/InnoDB架构/" data-id="ck289po5e000axcu7k9gzps1l" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2019/10/16/InnoDB架构/" data-id="ck29wi9ze000498u7e40ekuyl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
