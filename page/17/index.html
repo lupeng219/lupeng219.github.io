@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Zabbix" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="intellij-IntelliJ Idea取消Could not autowire. No beans of &#39;xxxx&#39; type found的错误提示" class="article article-type-intellij" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/14/Zabbix/" class="article-date">
-  <time datetime="2018-08-14T02:08:43.000Z" itemprop="datePublished">2018-08-14</time>
+    <a href="/2018/10/15/IntelliJ Idea取消Could not autowire. No beans of 'xxxx' type found的错误提示/" class="article-date">
+  <time datetime="2018-10-15T03:03:53.000Z" itemprop="datePublished">2018-10-15</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/14/Zabbix/">Zabbix</a>
+      <a class="article-title" href="/2018/10/15/IntelliJ Idea取消Could not autowire. No beans of 'xxxx' type found的错误提示/">Idea取消Could not autowire type found的错误提示</a>
     </h1>
   
 
@@ -80,121 +80,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>1.1 为什么要监控</strong></p>
-<ul>
-<li>在需要的时刻，提前提醒我们服务器出问题了</li>
-</ul>
-<ul>
-<li><p>当出问题之后，可以找到问题的根源</p>
-</li>
-<li><p>网站/服务器 的可用性</p>
-</li>
-</ul>
-<p><strong>1.1.1 网站可用性</strong></p>
-<p>　　在软件系统的高可靠性（也称为可用性，英文描述为HA，High Available）里有个衡量其可靠性的标准——X个9，这个X是代表数字3~5。X个9表示在软件系统1年时间的使用过程中，系统可以正常使用时间与总时间（1年）之比，我们通过下面的计算来感受下X个9在不同级别的可靠性差异。</p>
-<pre><code>1个9：(1-90%)*365=36.5天，表示该软件系统在连续运行1年时间里最多可能的业务中断时间是36.5天
-2个9：(1-99%)*365=3.65天 ， 表示该软件系统在连续运行1年时间里最多可能的业务中断时间是3.65天
-3个9：(1-99.9%)*365*24=8.76小时，表示该软件系统在连续运行1年时间里最多可能的业务中断时间是8.76小时。
-4个9：(1-99.99%)*365*24=0.876小时=52.6分钟，表示该软件系统在连续运行1年时间里最多可能的业务中断时间是52.6分钟。
-5个9：(1-99.999%)*365*24*60=5.26分钟，表示该软件系统在连续运行1年时间里最多可能的业务中断时间是5.26分钟。
-6个9：(1-99.9999%)*365*24*60*60=31秒， 示该软件系统在连续运行1年时间里最多可能的业务中断时间是31秒
-</code></pre><p><strong>1.2 监控什么东西</strong></p>
-<p> 监控一切需要监控的东西，只要能够想到，能够用命令实现的都能用来监控</p>
-<p><strong>1.2.1 监控范畴</strong></p>
-<p><img src="https://i.imgur.com/LThBsT0.png" alt=""></p>
-<p><strong>1.3 怎么来监控</strong></p>
-<p>1.3.1 远程管理服务器</p>
-<p>如果想远程管理服务器就有远程管理卡，比如Dell idRAC，HP ILO，IBM IMM</p>
-<p>1.3.2 监控硬件</p>
-<p>查看硬件的温度/风扇转速，电脑有鲁大师，服务器就有ipmitool。</p>
-<p>使用ipmitool实现对服务器的命令行远程管理</p>
-<pre><code>yum -y install OpenIPMI ipmitool  #-&gt;IPMI在物理机可以成功，虚拟机不行
-
-[root@KVM ~]# ipmitool sdr type Temperature
-Temp             | 01h | ns  |  3.1 | Disabled
-Temp             | 02h | ns  |  3.2 | Disabled
-Temp             | 05h | ns  | 10.1 | Disabled
-Temp             | 06h | ns  | 10.2 | Disabled
-Ambient Temp     | 0Eh | ok  |  7.1 | 22 degrees C
-Planar Temp      | 0Fh | ns  |  7.1 | Disabled
-IOH THERMTRIP    | 5Dh | ns  |  7.1 | Disabled
-CPU Temp Interf  | 76h | ns  |  7.1 | Disabled
-Temp             | 0Ah | ns  |  8.1 | Disabled
-Temp             | 0Bh | ns  |  8.1 | Disabled
-Temp             | 0Ch | ns  |  8.1 | Disabled
-</code></pre><p><strong>1.3.3 查看cpu相关</strong></p>
-<p>　　lscpu、uptime、top、htop vmstat mpstat</p>
-<p>   其中htop需要安装，安装依赖与epel源。</p>
-<pre><code>[znix@clsn ~]$lscpu
-Architecture:          x86_64
-CPU op-mode(s):        32-bit, 64-bit
-Byte Order:            Little Endian
-CPU(s):                1
-On-line CPU(s) list:   0
-Thread(s) per core:    1
-Core(s) per socket:    1
-Socket(s):             1
-NUMA node(s):          1
-Vendor ID:             GenuineIntel
-CPU family:            6
-Model:                 85
-Model name:            Intel(R) Xeon(R) Platinum 8163 CPU @ 2.50GHz
-Stepping:              4
-CPU MHz:               2494.150
-BogoMIPS:              4988.30
-Hypervisor vendor:     KVM
-Virtualization type:   full
-L1d cache:             32K
-L1i cache:             32K
-L2 cache:              1024K
-L3 cache:              33792K
-NUMA node0 CPU(s):     0
-</code></pre><p><strong>1.3.4 内存够不够可以用</strong></p>
-<p>　　free</p>
-<p>[znix@clsn ~]$free -h</p>
-<pre><code>         total       used       free     shared    buffers     cached
-Mem:          996M       867M       128M       712K       145M       450M
-
--/+ buffers/cache:       271M       725M
-Swap:         1.0G         0B       1.0G
-</code></pre><p><strong>1.3.5 磁盘剩多少写的快不快可以用</strong></p>
-<p>　　df、dd、iotop</p>
-<pre><code>[znix@clsn ~]$df -h
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/vda1        40G   24G   15G  62% /
-tmpfs           499M   20K  499M   1% /dev/shm
-/dev/vdb1        20G  4.4G   15G  24% /data
-</code></pre><p><strong>1.3.6 监控网络</strong></p>
-<p>　　iftop nethogs</p>
-<pre><code>iftop   监控主机间流量  -i 指定监控网卡
-nethogs 监控进程流量
-</code></pre><p><strong>1.4 监控工具总览</strong></p>
-<ul>
-<li>mrtg 流量监控出图</li>
-<li>nagios 监控</li>
-<li>cacti  流量监控出图</li>
-</ul>
-<p><strong>1.5 zabbix介绍</strong></p>
-<p>　　Zabbix 是由 Alexei Vladishev 开发的一种网络监视、管理系统，基于 Server-Client 架构。可用于监视各种网络服务、服务器和网络机器等状态。</p>
-<p>　　使用各种 Database-end 如 MySQL, PostgreSQL, SQLite, Oracle 或 IBM DB2 储存资料。Server 端基于 C语言、Web 管理端 frontend 则是基于 PHP 所制作的。Zabbix 可以使用多种方式监视。可以只使用 Simple Check 不需要安装 Client 端，亦可基于 SMTP 或 HTTP … 各种协定做死活监视。</p>
-<p>　　在客户端如 UNIX, Windows 中安装 Zabbix Agent 之后，可监视 CPU Load、网络使用状况、硬盘容量等各种状态。而就算没有安装 Agent 在监视对象中，Zabbix 也可以经由 SNMP、TCP、ICMP、利用 IPMI、SSH、telnet 对目标进行监视。</p>
-<p>另外，Zabbix 包含 XMPP 等各种 Item 警示功能。</p>
-<p><strong>1.5.2 zabbix监控范畴</strong></p>
-<p>　　²  硬件监控 ：Zabbix IPMI Interface</p>
-<p>　　²  系统监控 ：Zabbix Agent Interface</p>
-<p>　　²  Java 监控：ZabbixJMX Interface</p>
-<p>　　²  网络设备监抟：Zabbix SNMP Interface</p>
-<p>　　²  应用服务监控：Zabbix Agent UserParameter</p>
-<p>　　²  MySQL 数据库监控：percona-monitoring-pldlgins</p>
-<p>　　²  URL监控：Zabbix Web监控</p>
+        <p><strong>1. 问题描述</strong></p>
+<p>　　在Idea的spring工程里，经常会遇到Could not autowire. No beans of ‘xxxx’ type found的错误提示。但程序的编译和运行都是没有问题的，这个错误提示并不会产生影响。但红色的错误提示在有些有强迫症的程序员眼里，多多少少有些不太舒服。</p>
+<p> <img src="https://i.imgur.com/yyxctAn.png" alt=""></p>
+<p><strong>2. 解决方案</strong></p>
+<p>　　降低Autowired检测的级别，将Severity的级别由之前的error改成warning或其它可以忽略的级别。<br><img src="https://i.imgur.com/qn08iKp.png" alt=""></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/08/14/Zabbix/" data-id="ck2adbwlw000jhcu7poek5f86" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2018/10/15/IntelliJ Idea取消Could not autowire. No beans of 'xxxx' type found的错误提示/" data-id="ck2okdpaj0008oou7qd1iafs2" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人/">个人</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
 
     </footer>
   </div>
@@ -207,7 +105,7 @@ nethogs 监控进程流量
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/16/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/18/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/16/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/18/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -221,7 +119,7 @@ nethogs 监控进程流量
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人/">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法论/">方法论</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人/">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法论/">方法论</a></li></ul>
     </div>
   </div>
 
@@ -231,7 +129,7 @@ nethogs 监控进程流量
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 16.67px;">个人</a> <a href="/tags/数据库/" style="font-size: 13.33px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a>
+      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 16.67px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 13.33px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a>
     </div>
   </div>
 
@@ -240,7 +138,7 @@ nethogs 监控进程流量
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
     </div>
   </div>
 
@@ -251,6 +149,10 @@ nethogs 监控进程流量
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/11/07/区块链技术驱动金融/">区块链技术驱动金融</a>
+          </li>
         
           <li>
             <a href="/2019/10/28/习惯/">习惯</a>
@@ -266,10 +168,6 @@ nethogs 监控进程流量
         
           <li>
             <a href="/2019/10/13/阿里巴巴java开发规范解读/">阿里巴巴java开发规范解读</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/09/高级Java知识图谱/">高级Java知识图谱</a>
           </li>
         
       </ul>
