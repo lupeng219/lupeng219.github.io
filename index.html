@@ -81,11 +81,31 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><a href="https://mp.weixin.qq.com/s/bkoQ9g4cIcFFZBnpVh8ERQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/bkoQ9g4cIcFFZBnpVh8ERQ</a></p>
+<p>MySQL的buffer一页的大小为16k，文件系统一页的大小为4k,MySQL把一页的数据刷新到磁盘上需要文件系统4页。<br>以上操作并不是原子操作。如果执行到一半断电后，数据是会丢失的。页数据会丢失。重启后redo是无法进行修复这类页数据丢失问题的。修复的前提是页数据完整性正常。</p>
+<p>MySQL是如果解决这个问题的？</p>
+<p>能有一个副本对原来的页数据进行备份。这个存储副本的地方就是“Double writer buffer”.</p>
+<p>它与传统的buffer不同，它分为内存和磁盘两部分。</p>
+<p>第一步：页数据先memcopy到DWB的内存中。</p>
+<p>第二步：DWB内存会刷到DWB磁盘上。（DWB内存只有2M，由128个页组成）</p>
+<p>第三步：DWB内存会刷新到数据磁盘上。</p>
+<p>DWB要写两次磁盘会不会影响性能？</p>
+<p>分析DWB执行的三个步骤：</p>
+<p>1）.页数据memcopy到DWB的内存，速度很快。</p>
+<p>2）.DWB内存fsync刷到DWB的磁盘，属于顺序追加写，速度很快。</p>
+<p>3）.刷磁盘，随机写，本来就需要进行，不属于额外操作。</p>
+<p>画外音：<br>（1）write­-ahead-log之所以性能高，就是因为顺序追加写；<br>（2）有第三方测评，评估约10%性能损失；</p>
+<p>结尾</p>
+<p>MySQL有很强的数据安全性机制：</p>
+<p>（1）在异常崩溃时，如果不出现“页数据损坏”，能够通过redo恢复数据；</p>
+<p>（2）在出现“页数据损坏”时，能够通过double write buffer恢复页数据；</p>
+<p>double write buffer：</p>
+<p>（1）不是一个内存buffer，是一个内存/磁盘两层的结构，是InnoDB里On-Disk架构里很重要的一部分；</p>
+<p>（2）是一个通过写两次，保证页完整性的机制；</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2019/12/12/doubleWriteBuffer/" data-id="ck42onf3z000ivcu7lz137vv7" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2019/12/12/doubleWriteBuffer/" data-id="ck43vckoi000e98u7cbmvgjw7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
