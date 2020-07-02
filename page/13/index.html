@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-springBatch" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="spring-springBean循环引用" class="article article-type-spring" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/03/07/springBatch/" class="article-date">
-  <time datetime="2019-03-07T03:29:08.000Z" itemprop="datePublished">2019-03-07</time>
+    <a href="/2019/09/29/springBean循环引用/" class="article-date">
+  <time datetime="2019-09-29T02:06:28.000Z" itemprop="datePublished">2019-09-29</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/07/springBatch/">springBatch</a>
+      <a class="article-title" href="/2019/09/29/springBean循环引用/">springBean循环引用</a>
     </h1>
   
 
@@ -80,18 +80,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Spring Batch 作为 Spring 的子项目，是一款基于 Spring 的企业批处理框架。通过它可以构建出健壮的企业批处理应用。Spring Batch 不仅提供了统一的读写接口、丰富的任务处理方式、灵活的事务管理及并发处理，同时还支持日志、监控、任务重启与跳过等特性，大大简化了批处理应用开发，将开发人员从复杂的任务配置管理过程中解放出来，使他们可以更多地去关注核心的业务处理过程。</p>
-<p><strong>Spring Batch 结构</strong></p>
-<hr>
-<p>首先，Spring Batch运行的基本单位是一个Job，一个Job就做一件批处理的事情。<br>一个Job包含很多Step，step就是每个job要执行的单个步骤。</p>
-<p>如下图所示，Step里面，会有Tasklet，Tasklet是一个任务单元，它是属于可以重复利用的东西。<br>然后是Chunk，chunk就是数据块，你需要定义多大的数据量是一个chunk。</p>
-<p>Chunk里面就是不断循环的一个流程，读数据，处理数据，然后写数据。Spring Batch会不断的循环这个流程，直到批处理数据完成。</p>
-<p><img src="https://i.imgur.com/iMcgE7v.jpg" alt=""></p>
+        <p><a href="https://mp.weixin.qq.com/s/2TmCZ7GzgI9r0aD5q4u9LA" title="微信公众号-springbean 循环调用问题" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/2TmCZ7GzgI9r0aD5q4u9LA</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2019/03/07/springBatch/" data-id="ckc4j9go4001frku7z359pms4" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2019/09/29/springBean循环引用/" data-id="ckc4jgs6w00169ku7d6c5ftek" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -107,7 +101,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/12/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/14/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/12/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/14/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -153,6 +147,10 @@
       <ul>
         
           <li>
+            <a href="/2020/07/02/hexo教程/">hexo教程</a>
+          </li>
+        
+          <li>
             <a href="/2020/07/02/两链表相加/">两链表相加</a>
           </li>
         
@@ -166,10 +164,6 @@
         
           <li>
             <a href="/2019/10/28/习惯/">习惯</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/16/时序数据库/">时序数据库</a>
           </li>
         
       </ul>

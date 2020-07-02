@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-InnoDB架构" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-时序数据库" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/10/16/InnoDB架构/" class="article-date">
-  <time datetime="2019-10-16T01:59:46.000Z" itemprop="datePublished">2019-10-16</time>
+    <a href="/2019/10/16/时序数据库/" class="article-date">
+  <time datetime="2019-10-16T10:25:42.000Z" itemprop="datePublished">2019-10-16</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/16/InnoDB架构/">InnoDB架构</a>
+      <a class="article-title" href="/2019/10/16/时序数据库/">时序数据库</a>
     </h1>
   
 
@@ -80,51 +80,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://mp.weixin.qq.com/s/zKHNaWY5AS0OMmag1mQTKQ" title="微信公众号-架构师之路" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/zKHNaWY5AS0OMmag1mQTKQ</a></p>
-<h1 id="mysql架构图"><a href="#mysql架构图" class="headerlink" title="mysql架构图"></a>mysql架构图</h1><p><img src="/2019/10/16/InnoDB架构/a.png" alt=""></p>
-<h2 id="mysql-分为三层："><a href="#mysql-分为三层：" class="headerlink" title="mysql 分为三层："></a>mysql 分为三层：</h2><pre><code>1.客户端：各种编程语言的connector.
-
-2.mysql服务：内部包含各种组件，实现各种功能。
-
-3.文件系统：数据存储与日志。
-</code></pre><p>其中，MySQL服务内，可以以插件的形式，实现各种存储引擎。</p>
-<p>在InnoDB，MyISAM，Memory…等各种存储引擎中，InnoDB是使用范围最广的。</p>
-<p>画外音：事务，行锁，聚集索引，MVCC…众多特性让InnoDB备受青睐。</p>
-<h1 id="InnoDB简要架构"><a href="#InnoDB简要架构" class="headerlink" title="InnoDB简要架构"></a>InnoDB简要架构</h1><p><img src="/2019/10/16/InnoDB架构/2.png" alt=""></p>
-<h2 id="InnoDB-分为三层："><a href="#InnoDB-分为三层：" class="headerlink" title="InnoDB 分为三层："></a>InnoDB 分为三层：</h2><pre><code>1.内存结构：（In-memory structrue ）,这一层在mysql服务进程内。
-
-2.OS Cache 这一层属于内核态内存。
-
-3.磁盘结构：（On-Disk structrue）这一层在文件系统上
-</code></pre><p>这三层的交互关系：</p>
-<p>1.通过Os cache 落地数据。</p>
-<p>2.直接On-Direct落地数据。</p>
-<p>画外音：这是一个性能与一致性问题。</p>
-<h2 id="InnoDB内存结构包含哪些核心组件？"><a href="#InnoDB内存结构包含哪些核心组件？" class="headerlink" title="InnoDB内存结构包含哪些核心组件？"></a>InnoDB内存结构包含哪些核心组件？</h2><pre><code>1. 缓存池（Buffer Pool）
-2. 写缓存（Change Buffer）
-3. 自适应Hase索引（Adaptive Hash Index）
-4. 日志缓存（Log Buffer）
-</code></pre><p><strong>缓冲池(Buffer Pool)</strong></p>
-<p>目的是提升InnoDB性能，加速读请求，避免每次数据访问都进行磁盘IO。</p>
-<p>画外音：和系统架构设计中缓存的功能有点像，避免每次访问数据库。</p>
-<p>这里面涉及的技术点包括：预读，局部性原理，LRU，预读失败+缓冲池污染，新生代老生代双链LRU。</p>
-<p>细节参见:<a href="http://1t.click/aMY8" target="_blank" rel="noopener">http://1t.click/aMY8</a></p>
-<p><strong>写缓冲(Change Buffer)</strong></p>
-<p>目的是提升InnoDB性能，加速写请求，避免每次写入都进行磁盘IO。</p>
-<p>画外音：我C，这个牛逼，写入居然都可以不进行磁盘IO？</p>
-<p>细节参见:<a href="http://1t.click/aMY6" target="_blank" rel="noopener">http://1t.click/aMY6</a></p>
-<p><strong>自适应哈希索引(Adaptive Hash Index)</strong></p>
-<p>目的是提升InnoDB性能，加速读请求，减少索引查询的寻路路径。</p>
-<p>这里面涉及的技术点包括：聚集索引，普通索引，哈希索引…</p>
-<p>细节参见:<a href="http://1t.click/aMY3" target="_blank" rel="noopener">http://1t.click/aMY3</a></p>
-<p>日志缓冲(Log Buffer)</p>
-<p>目的是提升InnoDB性能，极大优化redo日志性能，并提供了高并发与强一致性的折衷方案。<br>这里面涉及的技术点包括：redo log作用，流程，三层架构，随机写优化为顺序写，次次写优化为批量写…</p>
-<p>细节参见:<a href="http://1t.click/aMY2" target="_blank" rel="noopener">http://1t.click/aMY2</a></p>
-
+        <p><a href="https://blog.csdn.net/phantom_111/article/details/88920956" title="介绍" target="_blank" rel="noopener">https://blog.csdn.net/phantom_111/article/details/88920956</a></p>
+<p><a href="https://mp.weixin.qq.com/s/KR3yOPycrXgtS_rMtwOKIg" title="介绍" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/KR3yOPycrXgtS_rMtwOKIg</a></p>
+<p><a href="https://www.taosdata.com/cn/" title="涛思数据" target="_blank" rel="noopener">https://www.taosdata.com/cn/</a></p>
+<h1 id="待完善。。。"><a href="#待完善。。。" class="headerlink" title="待完善。。。"></a>待完善。。。</h1>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2019/10/16/InnoDB架构/" data-id="ckc4j9gmr0004rku7fsvbw39a" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2019/10/16/时序数据库/" data-id="ckc4jgs82001w9ku7kuhswv8h" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
@@ -140,7 +103,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/5/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/7/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/5/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/7/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -186,6 +149,10 @@
       <ul>
         
           <li>
+            <a href="/2020/07/02/hexo教程/">hexo教程</a>
+          </li>
+        
+          <li>
             <a href="/2020/07/02/两链表相加/">两链表相加</a>
           </li>
         
@@ -199,10 +166,6 @@
         
           <li>
             <a href="/2019/10/28/习惯/">习惯</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/16/时序数据库/">时序数据库</a>
           </li>
         
       </ul>
