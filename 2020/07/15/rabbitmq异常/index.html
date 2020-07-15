@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="鹿朋">
 <meta property="og:description" content="1.钉钉报警，查看日志2020-07-15 14:00:02.660 ERROR [cash-loan-flow, 6e6394c11fbe52f8, 1179b55f3078ce15, true] [          ] --- [AMQP Connection 172.**.**.***:*****] [PublisherCallbackChannelImpl.java:771] org.s">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-15T06:31:25.493Z">
+<meta property="og:updated_time" content="2020-07-15T07:38:22.574Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="rabbitmq异常">
 <meta name="twitter:description" content="1.钉钉报警，查看日志2020-07-15 14:00:02.660 ERROR [cash-loan-flow, 6e6394c11fbe52f8, 1179b55f3078ce15, true] [          ] --- [AMQP Connection 172.**.**.***:*****] [PublisherCallbackChannelImpl.java:771] org.s">
@@ -85,7 +85,27 @@
       
         <h2 id="1-钉钉报警，查看日志"><a href="#1-钉钉报警，查看日志" class="headerlink" title="1.钉钉报警，查看日志"></a>1.钉钉报警，查看日志</h2><pre><code>2020-07-15 14:00:02.660 ERROR [cash-loan-flow, 6e6394c11fbe52f8, 1179b55f3078ce15, true] [          ] --- [AMQP Connection 172.**.**.***:*****] [PublisherCallbackChannelImpl.java:771] org.springframework.amqp.rabbit.support.PublisherCallbackChannelImpl - No listener for seq:965
 </code></pre><p>发现日志有No listener for seq 错误信息。</p>
-<h2 id="2-查看代码分析原因"><a href="#2-查看代码分析原因" class="headerlink" title="2.查看代码分析原因"></a>2.查看代码分析原因</h2><p>客户端使用的是java RabbitTemplate ，查看mq配置项有 factory.setPublisherConfirms(true);但是RabbitTemplate方法没有实现 rabbitTemplate.setConfirmCallback();导致mq在成功收到消息后回调生产者失败</p>
+<p>查看源码PublisherCallbackChannelImpl.java</p>
+<pre><code>else {
+        Listener listener = this.listenerForSeq.remove(seq);
+        if (listener != null) {
+            SortedMap&lt;Long, PendingConfirm&gt; confirmsForListener = this.pendingConfirms.get(listener);
+            PendingConfirm pendingConfirm;
+            if (remove) {
+                pendingConfirm = confirmsForListener.remove(seq);
+            }
+            else {
+                pendingConfirm = confirmsForListener.get(seq);
+            }
+            if (pendingConfirm != null) {
+                doHandleConfirm(ack, listener, pendingConfirm);
+            }
+        }
+        else {
+            logger.error(&quot;No listener for seq:&quot; + seq);
+        }
+    }
+</code></pre><h2 id="2-查看代码分析原因"><a href="#2-查看代码分析原因" class="headerlink" title="2.查看代码分析原因"></a>2.查看代码分析原因</h2><p>客户端使用的是java RabbitTemplate ，查看mq配置项有 factory.setPublisherConfirms(true);但是RabbitTemplate方法没有实现 rabbitTemplate.setConfirmCallback();导致mq在成功收到消息后回调生产者时失败</p>
 <pre><code> @Bean(&quot;contractTaskMessageConnectionFactory&quot;)
 public CachingConnectionFactory connectionFactory() {
     CachingConnectionFactory factory = new CachingConnectionFactory();
@@ -131,7 +151,7 @@ public RabbitTemplate rabbitTemplate(@Qualifier(&quot;asyncTaskConnectionFactory
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2020/07/15/rabbitmq异常/" data-id="ckcmzlcf90015zcu79pyih4oo" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2020/07/15/rabbitmq异常/" data-id="ckcn1zabb000zd8u7i7q4y2y4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生产环境问题/">生产环境问题</a></li></ul>
