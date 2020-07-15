@@ -5,23 +5,20 @@
   
 
   
-  <title>SpringMVC处理请求流程 | 鹿朋</title>
+  <title>rabbitmq异常 | 鹿朋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="SpringMVC核心处理流程： 1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器 2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller） 3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndV">
-<meta name="keywords" content="java">
+  <meta name="description" content="1.钉钉报警，查看日志2020-07-15 14:00:02.660 ERROR [cash-loan-flow, 6e6394c11fbe52f8, 1179b55f3078ce15, true] [          ] --- [AMQP Connection 172.**.**.***:*****] [PublisherCallbackChannelImpl.java:771] org.s">
+<meta name="keywords" content="生产环境问题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SpringMVC处理请求流程">
-<meta property="og:url" content="http://lupeng219.github.io/2018/05/23/SpringMVC处理请求流程/index.html">
+<meta property="og:title" content="rabbitmq异常">
+<meta property="og:url" content="http://lupeng219.github.io/2020/07/15/rabbitmq异常/index.html">
 <meta property="og:site_name" content="鹿朋">
-<meta property="og:description" content="SpringMVC核心处理流程： 1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器 2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller） 3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndV">
+<meta property="og:description" content="1.钉钉报警，查看日志2020-07-15 14:00:02.660 ERROR [cash-loan-flow, 6e6394c11fbe52f8, 1179b55f3078ce15, true] [          ] --- [AMQP Connection 172.**.**.***:*****] [PublisherCallbackChannelImpl.java:771] org.s">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://i.imgur.com/Jv5cYfb.jpg">
-<meta property="og:image" content="https://i.imgur.com/vNE3FMm.png">
-<meta property="og:updated_time" content="2018-05-23T07:14:10.335Z">
+<meta property="og:updated_time" content="2020-07-15T06:31:25.493Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SpringMVC处理请求流程">
-<meta name="twitter:description" content="SpringMVC核心处理流程： 1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器 2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller） 3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndV">
-<meta name="twitter:image" content="https://i.imgur.com/Jv5cYfb.jpg">
+<meta name="twitter:title" content="rabbitmq异常">
+<meta name="twitter:description" content="1.钉钉报警，查看日志2020-07-15 14:00:02.660 ERROR [cash-loan-flow, 6e6394c11fbe52f8, 1179b55f3078ce15, true] [          ] --- [AMQP Connection 172.**.**.***:*****] [PublisherCallbackChannelImpl.java:771] org.s">
   
   
     <link rel="icon" href="/favicon.png">
@@ -64,10 +61,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-SpringMVC处理请求流程" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-rabbitmq异常" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/23/SpringMVC处理请求流程/" class="article-date">
-  <time datetime="2018-05-23T07:10:40.000Z" itemprop="datePublished">2018-05-23</time>
+    <a href="/2020/07/15/rabbitmq异常/" class="article-date">
+  <time datetime="2020-07-15T06:13:23.000Z" itemprop="datePublished">2020-07-15</time>
 </a>
     
   </div>
@@ -78,7 +75,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      SpringMVC处理请求流程
+      rabbitmq异常
     </h1>
   
 
@@ -86,26 +83,58 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://i.imgur.com/Jv5cYfb.jpg" alt=""></p>
-<p>SpringMVC核心处理流程：</p>
-<p>1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器</p>
-<p>2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller）</p>
-<p>3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndView对象（包括模型数据、逻辑视图名）</p>
-<p>4、ViewResolver视图解析器，先根据ModelAndView中设置的View解析具体视图</p>
-<p>5、然后再将Model模型中的数据渲染到View上</p>
-<p>这些过程都是以DispatcherServlet为中轴线进行的。</p>
-<p>下面简要说一下，用户是如何从发出请求到DispatcherServlet前端控制器</p>
-<p>1、web.xml中配置了SpringMVC的servlet</p>
-<p><img src="https://i.imgur.com/vNE3FMm.png" alt=""></p>
-<p>2、服务器启动时就会初始化servlet，然后会根据url-pattern设定的规则拦截用户发来的请求</p>
+        <h2 id="1-钉钉报警，查看日志"><a href="#1-钉钉报警，查看日志" class="headerlink" title="1.钉钉报警，查看日志"></a>1.钉钉报警，查看日志</h2><pre><code>2020-07-15 14:00:02.660 ERROR [cash-loan-flow, 6e6394c11fbe52f8, 1179b55f3078ce15, true] [          ] --- [AMQP Connection 172.**.**.***:*****] [PublisherCallbackChannelImpl.java:771] org.springframework.amqp.rabbit.support.PublisherCallbackChannelImpl - No listener for seq:965
+</code></pre><p>发现日志有No listener for seq 错误信息。</p>
+<h2 id="2-查看代码分析原因"><a href="#2-查看代码分析原因" class="headerlink" title="2.查看代码分析原因"></a>2.查看代码分析原因</h2><p>客户端使用的是java RabbitTemplate ，查看mq配置项有 factory.setPublisherConfirms(true);但是RabbitTemplate方法没有实现 rabbitTemplate.setConfirmCallback();导致mq在成功收到消息后回调生产者失败</p>
+<pre><code> @Bean(&quot;contractTaskMessageConnectionFactory&quot;)
+public CachingConnectionFactory connectionFactory() {
+    CachingConnectionFactory factory = new CachingConnectionFactory();
+    factory.setChannelCacheSize(1024);
+    factory.setCacheMode(CachingConnectionFactory.CacheMode.CONNECTION);
+    factory.setChannelCacheSize(180 * 1000);
+    factory.setConnectionCacheSize(1024);
+    factory.setHost(uhost);
+    factory.setPort(uport);
+    factory.setUsername(uuser);
+    factory.setPassword(upassword);
+    factory.setVirtualHost(uvirtualHost);
+    // 开启了确认机制
+    factory.setPublisherConfirms(true);
+
+@Bean(&quot;contractTaskMessageRabbitTemplate&quot;)
+public RabbitTemplate rabbitTemplate(@Qualifier(&quot;asyncTaskConnectionFactory&quot;) CachingConnectionFactory connectionFactory) {
+
+    RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+    rabbitTemplate.setExchange(exchangeName);
+    rabbitTemplate.setRetryTemplate(attemptsRetry());
+    rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+      // 此处没有实现确认机制
+
+    return rabbitTemplate;
+}
+</code></pre><h2 id="3-解决问题"><a href="#3-解决问题" class="headerlink" title="3.解决问题"></a>3.解决问题</h2><p>在RabbitTemplate方法中实现 rabbitTemplate.setConfirmCallback();</p>
+<pre><code> @Bean(&quot;contractTaskMessageRabbitTemplate&quot;)
+public RabbitTemplate rabbitTemplate(@Qualifier(&quot;asyncTaskConnectionFactory&quot;) CachingConnectionFactory connectionFactory) {
+
+    RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+    rabbitTemplate.setExchange(exchangeName);
+    rabbitTemplate.setRetryTemplate(attemptsRetry());
+    rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+    // 此处实现确认机制
+    rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -&gt; {
+        if (!ack) {
+            log.error(&quot;消息确认失败，correlationData={},cause={},重新发送&quot;, correlationData, cause);
+        }
+    });
+</code></pre><p>注：<a href="https://zhuanlan.zhihu.com/p/70200202" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/70200202</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/23/SpringMVC处理请求流程/" data-id="ckcmzlcdw000azcu7uoshj3z6" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2020/07/15/rabbitmq异常/" data-id="ckcmzlcf90015zcu79pyih4oo" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生产环境问题/">生产环境问题</a></li></ul>
 
     </footer>
   </div>
@@ -113,19 +142,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/05/25/kafka安装及配置/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          kafka安装及配置
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/05/23/Java中hashSet与treeSet的去重原理/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/07/02/hexo教程/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Java中hashSet与treeSet的去重原理</div>
+      <div class="article-nav-title">hexo教程</div>
     </a>
   
 </nav>

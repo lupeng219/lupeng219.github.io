@@ -5,23 +5,15 @@
   
 
   
-  <title>SpringMVC处理请求流程 | 鹿朋</title>
+  <title>Tag: 生产环境问题 | 鹿朋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="SpringMVC核心处理流程： 1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器 2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller） 3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndV">
-<meta name="keywords" content="java">
-<meta property="og:type" content="article">
-<meta property="og:title" content="SpringMVC处理请求流程">
-<meta property="og:url" content="http://lupeng219.github.io/2018/05/23/SpringMVC处理请求流程/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="鹿朋">
+<meta property="og:url" content="http://lupeng219.github.io/tags/生产环境问题/index.html">
 <meta property="og:site_name" content="鹿朋">
-<meta property="og:description" content="SpringMVC核心处理流程： 1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器 2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller） 3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndV">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://i.imgur.com/Jv5cYfb.jpg">
-<meta property="og:image" content="https://i.imgur.com/vNE3FMm.png">
-<meta property="og:updated_time" content="2018-05-23T07:14:10.335Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SpringMVC处理请求流程">
-<meta name="twitter:description" content="SpringMVC核心处理流程： 1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器 2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller） 3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndV">
-<meta name="twitter:image" content="https://i.imgur.com/Jv5cYfb.jpg">
+<meta name="twitter:title" content="鹿朋">
   
   
     <link rel="icon" href="/favicon.png">
@@ -64,74 +56,40 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-SpringMVC处理请求流程" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/05/23/SpringMVC处理请求流程/" class="article-date">
-  <time datetime="2018-05-23T07:10:40.000Z" itemprop="datePublished">2018-05-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      SpringMVC处理请求流程
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2020/07/15/rabbitmq异常/" class="archive-article-date">
+  <time datetime="2020-07-15T06:13:23.000Z" itemprop="datePublished">7月 15</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/07/15/rabbitmq异常/">rabbitmq异常</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://i.imgur.com/Jv5cYfb.jpg" alt=""></p>
-<p>SpringMVC核心处理流程：</p>
-<p>1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器</p>
-<p>2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller）</p>
-<p>3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndView对象（包括模型数据、逻辑视图名）</p>
-<p>4、ViewResolver视图解析器，先根据ModelAndView中设置的View解析具体视图</p>
-<p>5、然后再将Model模型中的数据渲染到View上</p>
-<p>这些过程都是以DispatcherServlet为中轴线进行的。</p>
-<p>下面简要说一下，用户是如何从发出请求到DispatcherServlet前端控制器</p>
-<p>1、web.xml中配置了SpringMVC的servlet</p>
-<p><img src="https://i.imgur.com/vNE3FMm.png" alt=""></p>
-<p>2、服务器启动时就会初始化servlet，然后会根据url-pattern设定的规则拦截用户发来的请求</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/23/SpringMVC处理请求流程/" data-id="ckcmzlcdw000azcu7uoshj3z6" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2018/05/25/kafka安装及配置/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          kafka安装及配置
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/05/23/Java中hashSet与treeSet的去重原理/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Java中hashSet与treeSet的去重原理</div>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
+
 
 </section>
         
