@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-GC" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-redis-tomcat-session" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/15/GC/" class="article-date">
-  <time datetime="2018-05-15T02:58:16.000Z" itemprop="datePublished">2018-05-15</time>
+    <a href="/2018/05/15/redis-tomcat-session/" class="article-date">
+  <time datetime="2018-05-15T03:01:56.000Z" itemprop="datePublished">2018-05-15</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/15/GC/">GC</a>
+      <a class="article-title" href="/2018/05/15/redis-tomcat-session/">redis-tomcat-session</a>
     </h1>
   
 
@@ -80,28 +80,66 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Minor GC、Major GC和Full GC之间的区别</p>
-<p>文章要求读者熟悉 JVM 内置的通用垃圾回收原则。堆内存划分为 Eden、Survivor 和 Tenured/Old 空间，代假设和其他不同的 GC 算法超出了本文讨论的范围。<br>Minor GC</p>
-<p>从年轻代空间（包括 Eden 和 Survivor 区域）回收内存被称为 Minor GC。这一定义既清晰又易于理解。但是，当发生Minor GC事件的时候，有一些有趣的地方需要注意到：</p>
-<pre><code>当 JVM 无法为一个新的对象分配空间时会触发 Minor GC，比如当 Eden 区满了。所以分配率越高，越频繁执行 Minor GC。
+        <p>目前的web应用集群，使用Nginx做负载均衡，将upstream配置成ip_hash的方式，这种模式下，Nginx会根据来源IP和后端配置来做hash分配，确保固定IP只访问一个后端</p>
+<p>upstream YOUR_NAME {</p>
+<p>ip_hash;<br>server 192.168.8.15:8080;<br>server 192.168.8.17:8080;</p>
+<p>}</p>
+<p>但是，由于固定某个IP只能访问单独的一个后端，如果宕机或者需要升级程序时做停机重启，正在操作的用户就会退出到登录页面，不仅用户体验很差，而且正在做的操作不能保证成功，容易产生脏数据等。<br>从Nginx upstream配置说起</p>
+<p>1）轮询<br>upstream YOUR_NAME {</p>
+<p>server 192.168.8.15:8080;<br>server 192.168.8.17:8080;</p>
+<p>}</p>
+<p>2）权重：该策略可解决服务器性能不等的情况下轮询比率的调配</p>
+<p>upstream YOUR_NAME {</p>
+<p>server 192.168.8.15:8080 weight=2;<br>server 192.168.8.17:8080 weight=3;</p>
+<p>}</p>
+<p>3）ip_hash<br>upstream YOUR_NAME {</p>
+<p>ip_hash;<br>server 192.168.8.15:8080;<br>server 192.168.8.17:8080;</p>
+<p>}</p>
+<p>4）fair：需要安装Upstream Fair Balancer Module。该策略根据后端服务的响应时间来分配，响应时间短的后端优先分配<br>upstream YOUR_NAME {</p>
+<p>server 192.168.8.15:8080;<br>server 192.168.8.17:8080;<br>fair;</p>
+<p>}</p>
+<p>5）一致性Hash：需要安装Upstream Consistent Hash Module，该策略可以根据给定的字符串进行Hash分配，具体参见官方Wiki。</p>
+<p>由此可见，我们迫切的需要使用轮训的方式来做负载均衡，那对于大规模集群部署的web应用来讲，轮训的方式就要Session必须进行共享。<br>Session共享机制</p>
+<p>在集群系统下实现Session共享机制一般有如下两种方案：</p>
+<pre><code>应用服务器间的Session复制共享（如Tomcat自带的Session共享）
 
-内存池被填满的时候，其中的内容全部会被复制，指针会从0开始跟踪空闲内存。Eden 和 Survivor 区进行了标记和复制操作，取代了经典的标记、扫描、压缩、清理操作。所以 Eden 和 Survivor 区不存在内存碎片。写指针总是停留在所使用内存池的顶部。
+基于缓存数据库的Session共享（如使用Memcached、Redis）
+</code></pre><p>应用服务器间的Session复制共享</p>
+<p>Session复制共享，主要是指集群环境下，多台应用服务器之间同步Session，使其保持一致，对外透明。如果其中一台服务器发生故障，根据负载均衡的原理，Web服务器（Apache/Nginx）会遍历寻找可用节点，分发请求，由于Session已同步，故能保证用户的Session信息不会丢失。</p>
+<p>此方案的不足之处：</p>
+<pre><code>技术复杂,必须在同一种中间件之间完成(如Tomcat-Tomcat之间).
 
-执行 Minor GC 操作时，不会影响到永久代。从永久代到年轻代的引用被当成 GC roots，从年轻代到永久代的引用在标记阶段被直接忽略掉。
-质疑常规的认知，所有的 Minor GC 都会触发“全世界的暂停（stop-the-world）”，停止应用程序的线程。对于大部分应用程序，停顿导致的延迟都是可以忽略不计的。其中的真相就 是，大部分 Eden 区中的对象都能被认为是垃圾，永远也不会被复制到 Survivor 区或者老年代空间。如果正好相反，Eden 区大部分新生对象不符合 GC 条件，Minor GC 执行时暂停的时间将会长很多.
-</code></pre><p>所以 Minor GC 的情况就相当清楚了——每次 Minor GC 会清理年轻代的内存。<br>Major GC vs Full GC</p>
-<p>大家应该注意到，目前，这些术语无论是在 JVM 规范还是在垃圾收集研究论文中都没有正式的定义。但是我们一看就知道这些在我们已经知道的基础之上做出的定义是正确的，Minor GC 清理年轻带内存应该被设计得简单：</p>
-<pre><code>Major GC 是清理老年代。
+Session复制带来的性能损失会快速增加.特别是当Session中保存了较大的对象,而且对象变化较快时, 性能下降更加显著. 这种特性使得Web应用的水平扩展受到了限制。
 
-Full GC 是清理整个堆空间—包括年轻代和老年代。
-</code></pre><p>很不幸，实际上它还有点复杂且令人困惑。首先，许多 Major GC 是由 Minor GC 触发的，所以很多情况下将这两种 GC 分离是不太可能的。另一方面，许多现代垃圾收集机制会清理部分永久代空间，所以使用“cleaning”一词只是部分正确。<br>结论</p>
-<p>考虑到这种情况，最好避免以 Minor、Major、Full GC 这种方式来思考问题。而应该监控应用延迟或者吞吐量，然后将 GC 事件和结果联系起来。</p>
-<p>随着这些 GC 事件的发生，你需要额外的关注某些信息，GC 事件是强制所有应用程序线程停止了还是并行的处理了部分事件。</p>
+Session内容序列化（Serialize），会消耗系统性能。
+
+Session内容通过广播同步给成员，会造成网络流量瓶颈，即便是内网瓶颈。
+</code></pre><p>基于缓存数据库的Session共享</p>
+<p>基于缓存数据库的Session共享是指使用如Memcached、Redis等Cache DB来存取Session信息：应用服务器接受新请求将Session信息保存到Cache DB中，当应用服务器发生故障，Web服务器（Apache/Nginx）会遍历寻找可用节点，分发请求，当应用服务器发现Session不在本机内存，则会去Cache DB中查找，如果找到，则复制到本机，这样就实现了Session的共享和高可用。</p>
+<p>我选用的是redis而不是Memcached，是因为Redis具有更丰富的数据结构，比如可以为Key指定过期时间，从而不需要我们定期的刷新缓存。</p>
+<ol>
+<li>下载jar包</li>
+</ol>
+<p>下载tomcat-redis-session-manager相应的jar包，</p>
+<p>下载地址<br><a href="http://download.csdn.net/detail/u014230881/9870474" target="_blank" rel="noopener">http://download.csdn.net/detail/u014230881/9870474</a></p>
+<p>把下载的jar包拷贝到Tomcat目录下的lib中。</p>
+<ol start="2">
+<li>在Tomcat的conf目录下，编辑context.xml。</li>
+</ol>
+<p>如果你是用Redis单点，则可以仿照如下配置：</p>
+<p>&lt;Valve className=”com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve” /》</p>
+<p>&lt;Manager className=”com.orangefunction.tomcat.redissessions.RedisSessionManager”<br>host=”47.93.60.217”<br>port=”6379”<br>database=”0”<br>maxInactiveInterval=”60” /》</p>
+<p>如果是Redis集群环境，则可仿照如下配置：</p>
+<p>&lt;Valve className=”com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve” /》</p>
+<p>&lt;Manager className=”com.orangefunction.tomcat.redissessions.RedisSessionManager”<br>database=”1”<br>maxInactiveInterval=”60”<br>sentinelMaster=”mymaster”<br>sentinels=”192.168.8.43:26379,192.168.8.45:26379,192.168.8.47:26379”</p>
+<p>启动Tomcat，访问应用，即可在Redis中看到效果。</p>
+<p>关于测试，可以将Nginx Upstream配置为轮询后，仅留一台应用服务器启动，登陆操作，然后启动另外一台，停止第一台服务，继续操作，发现并未受任何影响，即可。</p>
+<p>资料：<a href="http://blog.csdn.net/onlysunnyboy/article/details/50513305" target="_blank" rel="noopener">http://blog.csdn.net/onlysunnyboy/article/details/50513305</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/15/GC/" data-id="ckggatttr0000gku75jfdkc6c" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2018/05/15/redis-tomcat-session/" data-id="ckjmadk4u001ctsu705ix98ro" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -117,7 +155,7 @@ Full GC 是清理整个堆空间—包括年轻代和老年代。
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/33/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="page-number" href="/page/33/">33</a><span class="page-number current">34</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/35/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/33/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="page-number" href="/page/33/">33</a><span class="page-number current">34</span><a class="page-number" href="/page/35/">35</a><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/35/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -150,7 +188,7 @@ Full GC 是清理整个堆空间—包括年轻代和老年代。
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
     </div>
   </div>
 
@@ -161,6 +199,10 @@ Full GC 是清理整个堆空间—包括年轻代和老年代。
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/01/07/mysql/">mysql</a>
+          </li>
         
           <li>
             <a href="/2020/07/15/rabbitmq异常/">rabbitmq异常</a>
@@ -178,10 +220,6 @@ Full GC 是清理整个堆空间—包括年轻代和老年代。
             <a href="/2019/12/12/doubleWriteBuffer/">doubleWriteBuffer</a>
           </li>
         
-          <li>
-            <a href="/2019/11/07/区块链技术驱动金融/">区块链技术驱动金融</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -194,7 +232,7 @@ Full GC 是清理整个堆空间—包括年轻代和老年代。
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2020 lupeng<br>
+      &copy; 2021 lupeng<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
