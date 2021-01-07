@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="鹿朋">
 <meta property="og:description" content="1. 数据库三范式及判断、E-R图第一范式（1NF）：数据表中的每一列必须是不可拆分的最小单元。也就是保证每一列为原子性。 第二范式（2NF）: 满足1NF后，要求表中的所有列都必须依赖于主键。一个表只能描述一件事情。 第三范式（3NF）：要求一个数据库表中不包含已在其他表中的已包含的非主关键字信息。 2.数据库五大约束 primary key: 主键约束 UNIQUE:设置唯一性约束，不能有重复">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-01-07T08:26:30.595Z">
+<meta property="og:updated_time" content="2021-01-07T09:10:30.050Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql知识">
 <meta name="twitter:description" content="1. 数据库三范式及判断、E-R图第一范式（1NF）：数据表中的每一列必须是不可拆分的最小单元。也就是保证每一列为原子性。 第二范式（2NF）: 满足1NF后，要求表中的所有列都必须依赖于主键。一个表只能描述一件事情。 第三范式（3NF）：要求一个数据库表中不包含已在其他表中的已包含的非主关键字信息。 2.数据库五大约束 primary key: 主键约束 UNIQUE:设置唯一性约束，不能有重复">
@@ -107,7 +107,7 @@
 2.InnoDB行级锁是通过给索引项加锁来实现的，即只有通过索引条件检索数据，InnoDB才使用行级锁，否则将所有表锁；行级锁在每次获取锁和释放锁都需要消耗比表锁更多的资源。在InnoDB两个事务发生死锁的时候，会计算出每个事务影响的行数，然后回滚行数少的那个事务。当锁定的场景中不涉及InnoBD的时候，InnoDB是检测不到的。只能依靠锁定超时来解决。
 </code></pre><p><strong>是否保存数据库表中表的具体行数</strong></p>
 <pre><code>InnoDB中不保存表的具体行数。也就是说：（select count(*) from table）时，需要扫描一下全表，来计算有多少行，但是MyISAM只需简单的读出保存好的数据即可。
-注意的是，当count(*)语句包含where条件时，两种表的操作是一样的。也就是 上述“6”中介绍到的InnoDB使用表锁的一种情况。
+注意的是，当count(*)语句包含where条件时，两种表的操作是一样的。也就是 上述介绍到的InnoDB使用表锁的一种情况。
 </code></pre><p><strong>其他区别：</strong></p>
 <p>1、对于AUTO_INCREMENT类型的字段，InnoDB中必须包含只有该字段的索引，但是在MyISAM表中，可以和其他字段一起建立联合索引。</p>
 <p>2、DELETE FROM table时，InnoDB不会重新建立表，而是一行一行的删除。</p>
@@ -115,11 +115,13 @@
 <p>4、 InnoDB存储引擎被完全与MySQL服务器整合，InnoDB存储引擎为在主内存中缓存数据和索引而维持它自己的缓冲池。</p>
 <p>5、对于自增长的字段，InnoDB中必须包含只有该字段的索引，但是在MyISAM表中可以和其他字段一起建立联合索引。</p>
 <p>6、清空整个表时，InnoDB是一行一行的删除，效率非常慢。MyISAM则会重建表。</p>
+<h2 id="5-B树、B-树区别，索引为何使用B-树"><a href="#5-B树、B-树区别，索引为何使用B-树" class="headerlink" title="5.B树、B+树区别，索引为何使用B+树"></a>5.B树、B+树区别，索引为何使用B+树</h2><p><strong>1.B树</strong></p>
+<p>B树是一种树状数据结构，它能够存储数据、对其进行排序并允许以O(long n)的时间复杂度运行进行查找，顺序读取，插入和删除的数据结构。B树，概括来说：一个节点可以用于多于两个子节点的二叉查询树。与自平衡二叉查找树不同，B树为系统最优化大块数据的读和写操作。B-TREE算法减少定位记录时所经历的中间过程，从而加快存取速度。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2021/01/07/mysql/" data-id="ckjml774s000vecu70wcfn5ja" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2021/01/07/mysql/" data-id="ckjmpksxn001assu76g0gwgn9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
