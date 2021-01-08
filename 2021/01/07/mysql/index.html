@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="鹿朋">
 <meta property="og:description" content="1. 数据库三范式及判断、E-R图第一范式（1NF）：数据表中的每一列必须是不可拆分的最小单元。也就是保证每一列为原子性。 第二范式（2NF）: 满足1NF后，要求表中的所有列都必须依赖于主键。一个表只能描述一件事情。 第三范式（3NF）：要求一个数据库表中不包含已在其他表中的已包含的非主关键字信息。 2.数据库五大约束 primary key: 主键约束 UNIQUE:设置唯一性约束，不能有重复">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-01-08T07:13:03.409Z">
+<meta property="og:updated_time" content="2021-01-08T11:01:19.059Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql知识">
 <meta name="twitter:description" content="1. 数据库三范式及判断、E-R图第一范式（1NF）：数据表中的每一列必须是不可拆分的最小单元。也就是保证每一列为原子性。 第二范式（2NF）: 满足1NF后，要求表中的所有列都必须依赖于主键。一个表只能描述一件事情。 第三范式（3NF）：要求一个数据库表中不包含已在其他表中的已包含的非主关键字信息。 2.数据库五大约束 primary key: 主键约束 UNIQUE:设置唯一性约束，不能有重复">
@@ -146,11 +146,50 @@
 <li><strong>B+树更便于遍历。</strong></li>
 <li><strong>B+树更适合基于范围的查询。</strong></li>
 </ol>
+<h2 id="6-索引分类"><a href="#6-索引分类" class="headerlink" title="6.索引分类"></a>6.索引分类</h2><p>1.按着功能逻辑来分：</p>
+<pre><code>- 普通索引 INDEX 没有任何约束
+- 唯一索引 UNIQUE INDEX 在不同索引上添加了唯一约束，允许多个null值
+- 主键索引 PRIMARY KEY 主键约束= UNIQUE+NOT NULL,一张表只能有一个。
+- 外键索引 CONSTRAINT 
+- 全文索引 FULLTEXT INDEX MYSQL自带的全文索引仅支持英文，一般我们使用专门的全文搜索引擎（Elasticsearch）或者solr.
+</code></pre><p>2.按着物理实现方式来分（也是按照叶子结点的内容来分）</p>
+<pre><code>- 聚集索引 （InnoDB主键索引），叶子节点存放的是整行数据。一张表只能有一个聚集（InnoDB索引）。查询时，尽量选用主键进行查询，这样可以减少回表次数。
+- 非聚集索引（InnoDB非主键索引/二级索引/辅助索引），叶子节点存放的是主键的值，为了找到数据，它单独维护了一个索引表（树），先在索引表（树）中查询主键值，再到主键索引上查找对应的真实数据，这个过程叫做回表。
+- 区别：
+    - 聚集索引叶子节点存储整行数据，非聚集索引叶子节点存放的是主键值（数据的位置），非聚集索引不会影响数据表的物理存储顺序。（而聚集索引会决定物理存储结构）
+    - 一张表只能有一个聚集索引，但可以有多个非聚集索引。
+    - 主键索引的查询效率高，但对数据的增删改的效率比非主键索引低。
+    - 在InnoDB中主键是一个聚集索引，但当一个表中没有主键和索引时，innodb也会有对应的处理逻辑（1.如果主键有了则作为聚集索引。2.如果没有主键索引，那么该表的第一个唯一非空索引则认为是聚集索引。3.如果1.2都没有则innodb内部会生成一个隐藏的主键作为聚集索引，这个隐藏的主键是一个6字节的列，该列的值会随着插入数据递增）
+</code></pre><p>3.按着字段个数来分</p>
+<pre><code>- 单一索引
+- 联合（组合）索引
+</code></pre><h2 id="7-最左前缀原则"><a href="#7-最左前缀原则" class="headerlink" title="7.最左前缀原则"></a>7.最左前缀原则</h2><p><strong>创建联合索引时我们要注意联合索引的字段顺序</strong></p>
+<p>因为B+树的结构，所以有最左前缀原则/最左匹配原则，意思就是，对于联合索引，只要查询条件与联合索引从左到右部分字段顺序相匹配，该次查询就可以利用联合索引进行加速。</p>
+<p>例如现有联合索引（x,y,z）</p>
+<p>如果查询条件是WHERE x=1 AND y=2 AND z=3；那么就是对该联合索引的完全匹配。</p>
+<p>如果查询条件是WHERE x=1 AND y=2；那么就是利用了该联合索引（符合最左匹配原则）</p>
+<p>当然，WHRER x=1;可以以利用该联合索引</p>
+<p>如果是WHERE y=2 AND z=3；或者 WHERE z=3；等，就无法利用联合索引（x,y,z）</p>
+<p><strong>如何安排联合索引的字段顺序</strong></p>
+<p>原则一：精简索引数量</p>
+<p>如果联合索引的顺序可以让我们少维护一个索引，那么这个联合索引顺序就该被优先考虑</p>
+<p>比如说现在你有两个字段</p>
+<p>那么只需要建立（a,b）+（b）两个索引即可。而不是（a）+（b）+（a+b）</p>
+<p>因为最左前缀原则给予了联合索引复用能力</p>
+<p>当然，如果仅有根据字段a来进行索引的要求，b字段的单一索引可以不创建。如无必要，勿增实体</p>
+<p>原则二：精简索引占用的空间</p>
+<p>那么在a，b两个字段，中我们应该选用哪个字段来做单独的索引（b）呢</p>
+<p>这时候就需要考虑空间了，一般将字段长度比较小的当做这里的单一索引（b）。</p>
+<p>比如说有name和age两个字段，name字段比age大，如果我们使用（age,name）+（name）的形式，所占用的空间就比（name，age）+（age）的要大</p>
+<p><strong>索引下推</strong></p>
+<p>MySQL5.6版本引入索引下推，就是在只能利用部分联合索引时，对剩余联合索引的字段（不符和最左匹配原则的字段）进行先判断，先过滤，通过先过滤来减少回表的次数。</p>
+<p>例如有索引（name，age），然后执行SELECT * FORM student WHERE name like ‘高%’ and age=21;</p>
+<p>5.6后，MySQL就会先利用联合索引找出所有姓高的名字，然后仅对age=21的主键值进行回表，而不是找出所有姓高的同学之后，对他们的所有主键值都进行回表。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2021/01/07/mysql/" data-id="ckjny16nb000v5ou77nxtwbiw" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2021/01/07/mysql/" data-id="ckjo65tq1001160u7nvnan7la" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
