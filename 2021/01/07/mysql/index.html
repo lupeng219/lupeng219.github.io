@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="鹿朋">
 <meta property="og:description" content="1. 数据库三范式及判断、E-R图第一范式（1NF）：数据表中的每一列必须是不可拆分的最小单元。也就是保证每一列为原子性。 第二范式（2NF）: 满足1NF后，要求表中的所有列都必须依赖于主键。一个表只能描述一件事情。 第三范式（3NF）：要求一个数据库表中不包含已在其他表中的已包含的非主关键字信息。 2.数据库五大约束 primary key: 主键约束 UNIQUE:设置唯一性约束，不能有重复">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-01-11T08:52:57.445Z">
+<meta property="og:updated_time" content="2021-01-11T09:02:17.428Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql知识">
 <meta name="twitter:description" content="1. 数据库三范式及判断、E-R图第一范式（1NF）：数据表中的每一列必须是不可拆分的最小单元。也就是保证每一列为原子性。 第二范式（2NF）: 满足1NF后，要求表中的所有列都必须依赖于主键。一个表只能描述一件事情。 第三范式（3NF）：要求一个数据库表中不包含已在其他表中的已包含的非主关键字信息。 2.数据库五大约束 primary key: 主键约束 UNIQUE:设置唯一性约束，不能有重复">
@@ -227,11 +227,18 @@ show variables like &apos;profiling&apos;
 set priofiling = ON;
 开启后执行的sql语句会被记录下来，我们只要执行show profiles;
 show profile cpu,block io for query 这里放我们上边找到执行时间长的对应的 query_id 的值 //sql 慢要么是 cpu 计算复杂 要么是 io 频繁开销所以我们只看 cpu 和 block io 即可！
+</code></pre><p><strong>4.explain</strong></p>
+<pre><code>字段解析：
+table:显示这一行的数据是关于哪个表的
+possible_keys:显示可能用的索引。如果为空，没有可用的索引。可以为相关的域从WHERE语句中选择合适的索引。
+key:实际使用的索引。如果为空，则没有使用索引。
+ref:显示哪个字段使用了索引。
+type:显示使用的哪种索引类型，从最好到最差：system，const,eq_reg,ref,range,index和all
 </code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2021/01/07/mysql/" data-id="ckjsbwbz10015bcu7n4uma61o" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2021/01/07/mysql/" data-id="ckjsca5t80018rsu72yfks5ym" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
