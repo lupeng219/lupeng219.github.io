@@ -182,11 +182,18 @@
 <p>MySQL5.6版本引入索引下推，就是在只能利用部分联合索引时，对剩余联合索引的字段（不符和最左匹配原则的字段）进行先判断，先过滤，通过先过滤来减少回表的次数。</p>
 <p>例如有索引（name，age），然后执行SELECT * FORM student WHERE name like ‘高%’ and age=21;</p>
 <p>5.6后，MySQL就会先利用联合索引找出所有姓高的名字，然后仅对age=21的主键值进行回表，而不是找出所有姓高的同学之后，对他们的所有主键值都进行回表。</p>
-
+<h2 id="8-事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）"><a href="#8-事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）" class="headerlink" title="8.事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）"></a>8.事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）</h2><p><strong>1.概述</strong></p>
+<pre><code>sql标准定义了四种隔离级别，而且每种隔离级别都规范了一个事务所做的修改。较低级别的隔离级别能执行更高的并发，系统的消耗更低。
+</code></pre><p><strong>2.重要概念</strong></p>
+<pre><code>1. 脏读：当存在两个事务时，A事务能读到B事务未提交的的内容，B失败回滚，导致A读到B未提交的记录。
+2. 不可重复读：在A事务中对同一数据两次查询结果不一致，导致的原因可能是A事务提交之前，其他事务对该数据进行了修改。
+3. 幻读：幻读与不可重复读类似，当某个事务在读取某个范围的记录时，另一个事务又插入了一条新的记录，当前事务再次读取相同范围的数据时会出现幻行。不可重复读侧重于修改，而幻读更侧重于新增和删除。避免不可重复读需要添加行锁，而解决幻读需要添加表锁。
+4. MVCC:MVCC是行级锁的变种，但是在很多情况下避免了加锁的操作，因此开销低，大都实现了非阻塞读，锁定必要行写的效果，然而不同的引擎实现的mvcc不同，典型的分为两种，乐观并发控制，悲观锁并发控制。在InnoDB的mvcc是通过每行保存了两个隐藏列实现的，一个保存行创建版本号，一个保存了行的过期（或删除）版本号，而这个字段相当于版本号的作用，每开始一个新的事务，版本号就会递增，事务开始的时间的版本号就会作为事务的版本号。
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2021/01/07/mysql/" data-id="ckjo65tq1001160u7nvnan7la" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2021/01/07/mysql/" data-id="ckjs0xgql000xu0u74fn8qimv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
