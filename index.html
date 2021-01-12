@@ -231,11 +231,24 @@ possible_keys:显示可能用的索引。如果为空，没有可用的索引。
 key:实际使用的索引。如果为空，则没有使用索引。
 ref:显示哪个字段使用了索引。
 type:显示使用的哪种索引类型，从最好到最差：system，const,eq_reg,ref,range,index和all
+</code></pre><h2 id="10-主从复制，读写分离"><a href="#10-主从复制，读写分离" class="headerlink" title="10.主从复制，读写分离"></a>10.主从复制，读写分离</h2><p><strong>mysql支持的复制类型</strong></p>
+<pre><code>- 基于语句的复制。在服务器上执行sql语句时，在从服务器上执行相同的sql，mysql默认采用基于语句的复制，执行效率高。
+- 基于行的复制。把改变的内容复制过去。
+- 混合类型的复制。默认采用基于语句的复制，一但发现服务精确复制时，就会采用行的复制。
+</code></pre><p><strong>复制的过程</strong></p>
+<pre><code>在每个事务更新数据完成之前，master在二进制日志中记录这些变化，写入二进制日志完成后，master通知存储引擎提交事务。
+- slave将master的binary log 复制到中继日志，首先slave开启一个工作线程（I/0），io线程在master上打开一个普通的链接，然后开始binlog dump process。 binlog dump process从master的二进制日志中读取事件。如果已经跟上master，它会睡眠等待master产生新的事件。io线程把这些事件写入到中继日志。
+- sql slave thread （sql从线程）处理该过程的最后一步，sql线程从中继日志中读取事件，并重放其中的事件而更新slave数据，使其通master一致，只要该线程与io线程保持一致，中继日志会位于os缓存中，所以中继日志开销很小。
+</code></pre><p><strong>mysql读写分离原理</strong></p>
+<pre><code>读写分离就是在主服务器上修改，数据会同步到从服务器，从服务器只负责读数据，不能写入，实现备份的同时也实现了数据库性能的优化，以及提升了服务器安全。
+比较常见的读写分离方式存在两种：
+    基于程序内部实现。在代码中根据select，insert 进行路由分类。
+    基于中间代理层实现 
 </code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2021/01/07/mysql/" data-id="ckjsca5t80018rsu72yfks5ym" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2021/01/07/mysql/" data-id="ckjtxltcy000wj4u7yt1esodm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
