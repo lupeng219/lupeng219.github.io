@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-mysql" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-数据结构" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/01/07/mysql/" class="article-date">
-  <time datetime="2021-01-07T03:22:30.000Z" itemprop="datePublished">2021-01-07</time>
+    <a href="/2021/01/13/数据结构/" class="article-date">
+  <time datetime="2021-01-13T08:19:24.000Z" itemprop="datePublished">2021-01-13</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/07/mysql/">mysql知识</a>
+      <a class="article-title" href="/2021/01/13/数据结构/">数据结构</a>
     </h1>
   
 
@@ -80,178 +80,25 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-数据库三范式及判断、E-R图"><a href="#1-数据库三范式及判断、E-R图" class="headerlink" title="1. 数据库三范式及判断、E-R图"></a>1. 数据库三范式及判断、E-R图</h2><p>第一范式（1NF）：数据表中的每一列必须是不可拆分的最小单元。也就是保证每一列为原子性。</p>
-<p>第二范式（2NF）: 满足1NF后，要求表中的所有列都必须依赖于主键。一个表只能描述一件事情。</p>
-<p>第三范式（3NF）：要求一个数据库表中不包含已在其他表中的已包含的非主关键字信息。</p>
-<h2 id="2-数据库五大约束"><a href="#2-数据库五大约束" class="headerlink" title="2.数据库五大约束"></a>2.数据库五大约束</h2><ol>
-<li>primary key: 主键约束</li>
-<li>UNIQUE:设置唯一性约束，不能有重复值。</li>
-<li>DEFAUTL:设置默认值</li>
-<li>NOT NULL:设置非空约束。</li>
-<li>FOREIGN key:设置外键约束。</li>
-</ol>
-<h2 id="3-E-R图"><a href="#3-E-R图" class="headerlink" title="3.E-R图"></a>3.E-R图</h2><p>E-R模型即实体-联系模型</p>
-<h2 id="4-innodb和myisam存储引擎的区别"><a href="#4-innodb和myisam存储引擎的区别" class="headerlink" title="4.innodb和myisam存储引擎的区别"></a>4.innodb和myisam存储引擎的区别</h2><p>MyISAM存储引擎特点：表级锁，不支持事务和全文索引，适合一些CMS内容管理系统使用作为数据库后台使用。不适合并发场景。可以提供高速的存储和检索。</p>
-<p>innodb存储引擎特点：行级锁、事务安全（ACID兼容）、支持外键</p>
-<p><strong>结构上区别：</strong></p>
-<pre><code>1.每个MyISAM在磁盘上存储为三个文件。
-    第一个文件名称以表的名字开始，扩展名指出文件类型，.frm文件存储表定义。
-    第二个文件是数据文件，其扩展名为.MYD(MYData)
-    第三个文件是索引文件，其扩展名为.MYI(MYIndex)    
-2.基于磁盘的资源是InnoDB表空间数据文件和它的日志文件，InnoDB表的大小只受限于操作系统文件的大小，一般为2GB.
-</code></pre><p><strong>MyISAM与InnoDB表锁与行锁区别</strong></p>
-<pre><code>1.MyISAM表级锁有两种模式：表共享读锁（Table Read Look）,表独占写锁（Table Write Look）.MyISAM表进行读数据时，它不会阻塞其他用户对同一表的读请求。但会阻塞对同一表的写操作；而对于写数据时，则会阻塞其他用户对同一表的读和写操作。
-2.InnoDB行级锁是通过给索引项加锁来实现的，即只有通过索引条件检索数据，InnoDB才使用行级锁，否则将所有表锁；行级锁在每次获取锁和释放锁都需要消耗比表锁更多的资源。在InnoDB两个事务发生死锁的时候，会计算出每个事务影响的行数，然后回滚行数少的那个事务。当锁定的场景中不涉及InnoBD的时候，InnoDB是检测不到的。只能依靠锁定超时来解决。
-</code></pre><p><strong>是否保存数据库表中表的具体行数</strong></p>
-<pre><code>InnoDB中不保存表的具体行数。也就是说：（select count(*) from table）时，需要扫描一下全表，来计算有多少行，但是MyISAM只需简单的读出保存好的数据即可。
-注意的是，当count(*)语句包含where条件时，两种表的操作是一样的。也就是 上述介绍到的InnoDB使用表锁的一种情况。
-</code></pre><p><strong>其他区别：</strong></p>
-<p>1、对于AUTO_INCREMENT类型的字段，InnoDB中必须包含只有该字段的索引，但是在MyISAM表中，可以和其他字段一起建立联合索引。</p>
-<p>2、DELETE FROM table时，InnoDB不会重新建立表，而是一行一行的删除。</p>
-<p>3、LOAD TABLE FROMMASTER操作对InnoDB是不起作用的，解决方法是首先把InnoDB表改成MyISAM表，导入数据后再改成InnoDB表，但是对于使用的额外的InnoDB特性(例如外键)的表不适用。</p>
-<p>4、 InnoDB存储引擎被完全与MySQL服务器整合，InnoDB存储引擎为在主内存中缓存数据和索引而维持它自己的缓冲池。</p>
-<p>5、对于自增长的字段，InnoDB中必须包含只有该字段的索引，但是在MyISAM表中可以和其他字段一起建立联合索引。</p>
-<p>6、清空整个表时，InnoDB是一行一行的删除，效率非常慢。MyISAM则会重建表。</p>
-<h2 id="5-B树、B-树区别，索引为何使用B-树"><a href="#5-B树、B-树区别，索引为何使用B-树" class="headerlink" title="5.B树、B+树区别，索引为何使用B+树"></a>5.B树、B+树区别，索引为何使用B+树</h2><p><strong>1.B树</strong></p>
-<p>B树是一种树状数据结构，它能够存储数据、对其进行排序并允许以O(long n)的时间复杂度运行进行查找，顺序读取，插入和删除的数据结构。B树，概括来说：一个节点可以用于多于两个子节点的二叉查询树。与自平衡二叉查找树不同，B树为系统最优化大块数据的读和写操作。B-TREE算法减少定位记录时所经历的中间过程，从而加快存取速度。</p>
-<p><strong>2.B+树</strong></p>
-<p>B+树是B树的一种变形树。它与B树的差异在于：</p>
-<ul>
-<li>有k个子结点的结点必然有k个关键码</li>
-<li>非叶结点仅具有索引作用，跟记录有关的信息均存在叶子节点。</li>
-<li>树的所有叶节点构成一个有序链表，可以按照关键码排序的次序遍历所有记录。</li>
-</ul>
-<p><strong>3.B树与B+树区别</strong></p>
-<ul>
-<li>B+树的非叶子节点只包含索引信息，不包含实际的值，所有的叶子节点和相连的节点使用链表相连，便于区间查找和遍历。</li>
-<li><p>B+树的优点在于：</p>
-<ul>
-<li>IO次数更少：由于B+树在内部节点上不包含数据信息，因此在内存页中能够存放更多的key，数据存放的更加紧密，具有更好的空间局部性，因此访问叶子节点上关联的数据也具有更好的缓存命中率。</li>
-<li>遍历更加便利：叶子节点都是相连的，因此对整棵树的遍历只需一次线性遍历叶子节点即可。而且由于数据顺序排放并且相连，所有便于区间查找和搜索。而B树则需要每一次层的递归遍历。相邻的元素可能在内存中不相邻，所有缓存命中率没有B+树好。</li>
-</ul>
-</li>
-<li><p>B树优点：</p>
-<ul>
-<li>由于B-树的每个节点都包含key与value，因此经常访问的元素可能离根节点更近，因此访问也更迅速。</li>
-</ul>
-</li>
-</ul>
-<p><strong>4.为什么mysql使用B+树做索引</strong></p>
+        <h1 id="1-红黑树简介"><a href="#1-红黑树简介" class="headerlink" title="1. 红黑树简介"></a>1. 红黑树简介</h1><p>R-B Tree 全称是Red-Black Tree,又称红黑树，它是一种特殊的二叉查找树。红黑树每个节点上都有存储位表示节点的颜色，可以是红色或者黑色。</p>
+<p><strong>红黑树特点</strong></p>
 <ol>
-<li><strong>B+树的磁盘读写代价更低。</strong></li>
-<li><strong>B+树的查找效率更加稳定</strong></li>
-<li><strong>B+树更便于遍历。</strong></li>
-<li><strong>B+树更适合基于范围的查询。</strong></li>
+<li>每个节点或者是黑色或者是红色。</li>
+<li>根节点是黑色。</li>
+<li>每个叶子节点（NIL）是黑色.这里叶子节点是指为空（NIL或NULL）的叶子节点。</li>
+<li>如果一个节点是红色的，则它的子节点必须是黑色的。</li>
+<li>从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点。<h1 id="2-红黑树应用"><a href="#2-红黑树应用" class="headerlink" title="2. 红黑树应用"></a>2. 红黑树应用</h1></li>
 </ol>
-<h2 id="6-索引分类"><a href="#6-索引分类" class="headerlink" title="6.索引分类"></a>6.索引分类</h2><p>1.按着功能逻辑来分：</p>
-<pre><code>- 普通索引 INDEX 没有任何约束
-- 唯一索引 UNIQUE INDEX 在不同索引上添加了唯一约束，允许多个null值
-- 主键索引 PRIMARY KEY 主键约束= UNIQUE+NOT NULL,一张表只能有一个。
-- 外键索引 CONSTRAINT 
-- 全文索引 FULLTEXT INDEX MYSQL自带的全文索引仅支持英文，一般我们使用专门的全文搜索引擎（Elasticsearch）或者solr.
-</code></pre><p>2.按着物理实现方式来分（也是按照叶子结点的内容来分）</p>
-<pre><code>- 聚集索引 （InnoDB主键索引），叶子节点存放的是整行数据。一张表只能有一个聚集（InnoDB索引）。查询时，尽量选用主键进行查询，这样可以减少回表次数。
-- 非聚集索引（InnoDB非主键索引/二级索引/辅助索引），叶子节点存放的是主键的值，为了找到数据，它单独维护了一个索引表（树），先在索引表（树）中查询主键值，再到主键索引上查找对应的真实数据，这个过程叫做回表。
-- 区别：
-    - 聚集索引叶子节点存储整行数据，非聚集索引叶子节点存放的是主键值（数据的位置），非聚集索引不会影响数据表的物理存储顺序。（而聚集索引会决定物理存储结构）
-    - 一张表只能有一个聚集索引，但可以有多个非聚集索引。
-    - 主键索引的查询效率高，但对数据的增删改的效率比非主键索引低。
-    - 在InnoDB中主键是一个聚集索引，但当一个表中没有主键和索引时，innodb也会有对应的处理逻辑（1.如果主键有了则作为聚集索引。2.如果没有主键索引，那么该表的第一个唯一非空索引则认为是聚集索引。3.如果1.2都没有则innodb内部会生成一个隐藏的主键作为聚集索引，这个隐藏的主键是一个6字节的列，该列的值会随着插入数据递增）
-</code></pre><p>3.按着字段个数来分</p>
-<pre><code>- 单一索引
-- 联合（组合）索引
-</code></pre><h2 id="7-最左前缀原则"><a href="#7-最左前缀原则" class="headerlink" title="7.最左前缀原则"></a>7.最左前缀原则</h2><p><strong>创建联合索引时我们要注意联合索引的字段顺序</strong></p>
-<p>因为B+树的结构，所以有最左前缀原则/最左匹配原则，意思就是，对于联合索引，只要查询条件与联合索引从左到右部分字段顺序相匹配，该次查询就可以利用联合索引进行加速。</p>
-<p>例如现有联合索引（x,y,z）</p>
-<p>如果查询条件是WHERE x=1 AND y=2 AND z=3；那么就是对该联合索引的完全匹配。</p>
-<p>如果查询条件是WHERE x=1 AND y=2；那么就是利用了该联合索引（符合最左匹配原则）</p>
-<p>当然，WHRER x=1;可以以利用该联合索引</p>
-<p>如果是WHERE y=2 AND z=3；或者 WHERE z=3；等，就无法利用联合索引（x,y,z）</p>
-<p><strong>如何安排联合索引的字段顺序</strong></p>
-<p>原则一：精简索引数量</p>
-<p>如果联合索引的顺序可以让我们少维护一个索引，那么这个联合索引顺序就该被优先考虑</p>
-<p>比如说现在你有两个字段</p>
-<p>那么只需要建立（a,b）+（b）两个索引即可。而不是（a）+（b）+（a+b）</p>
-<p>因为最左前缀原则给予了联合索引复用能力</p>
-<p>当然，如果仅有根据字段a来进行索引的要求，b字段的单一索引可以不创建。如无必要，勿增实体</p>
-<p>原则二：精简索引占用的空间</p>
-<p>那么在a，b两个字段，中我们应该选用哪个字段来做单独的索引（b）呢</p>
-<p>这时候就需要考虑空间了，一般将字段长度比较小的当做这里的单一索引（b）。</p>
-<p>比如说有name和age两个字段，name字段比age大，如果我们使用（age,name）+（name）的形式，所占用的空间就比（name，age）+（age）的要大</p>
-<p><strong>索引下推</strong></p>
-<p>MySQL5.6版本引入索引下推，就是在只能利用部分联合索引时，对剩余联合索引的字段（不符和最左匹配原则的字段）进行先判断，先过滤，通过先过滤来减少回表的次数。</p>
-<p>例如有索引（name，age），然后执行SELECT * FORM student WHERE name like ‘高%’ and age=21;</p>
-<p>5.6后，MySQL就会先利用联合索引找出所有姓高的名字，然后仅对age=21的主键值进行回表，而不是找出所有姓高的同学之后，对他们的所有主键值都进行回表。</p>
-<h2 id="8-事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）"><a href="#8-事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）" class="headerlink" title="8.事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）"></a>8.事务隔离级别和各自存在的问题（脏读、不可重复读、幻读）和解决方式（间隙锁及MVCC）</h2><p><strong>1.概述</strong></p>
-<pre><code>sql标准定义了四种隔离级别，而且每种隔离级别都规范了一个事务所做的修改。较低级别的隔离级别能执行更高的并发，系统的消耗更低。
-</code></pre><p><strong>2.重要概念</strong></p>
-<pre><code>1. 脏读：当存在两个事务时，A事务能读到B事务未提交的的内容，B失败回滚，导致A读到B未提交的记录。
-2. 不可重复读：在A事务中对同一数据两次查询结果不一致，导致的原因可能是A事务提交之前，其他事务对该数据进行了修改。
-3. 幻读：幻读与不可重复读类似，当某个事务在读取某个范围的记录时，另一个事务又插入了一条新的记录，当前事务再次读取相同范围的数据时会出现幻行。不可重复读侧重于修改，而幻读更侧重于新增和删除。避免不可重复读需要添加行锁，而解决幻读需要添加表锁。
-4. MVCC:MVCC是行级锁的变种，但是在很多情况下避免了加锁的操作，因此开销低，大都实现了非阻塞读，锁定必要行写的效果，然而不同的引擎实现的mvcc不同，典型的分为两种，乐观并发控制，悲观锁并发控制。在InnoDB的mvcc是通过每行保存了两个隐藏列实现的，一个保存行创建版本号，一个保存了行的过期（或删除）版本号，而这个字段相当于版本号的作用，每开始一个新的事务，版本号就会递增，事务开始的时间的版本号就会作为事务的版本号。
-</code></pre><p><strong>3.隔离级别</strong></p>
-<ul>
-<li><p>read-uncommitted(未提交读)</p>
-<pre><code>该级别表示在事务处理中，事务的修改，即使未提交，对于其他事务也是可见的（脏读）
-</code></pre></li>
-<li><p>read-committed(提交读)</p>
-<pre><code>该级别表示在事务处理中，事务对记录的修改，对于其它事务时不可见的，之能读取已提交的事务的信息。大多数的数据库默认级别是可提交读（mysql不是），这也叫做不可重复读，因为执行两次相同的查询，可能得到的结果不一致。
-</code></pre></li>
-<li><p>repeatable-read(可重复读)</p>
-<pre><code>该级别表示在同一个事务处理中，多次读取的相同的记录时一样的。这就解决了脏读的问题。但是不能解决幻读的问题。可重复读是mysql默认的级别。innnodb使用mvcc解决幻读问题。
-</code></pre></li>
-<li><p>serializable(可串行化)</p>
-<pre><code>是最高的隔离级别，该级别是通过强制事务串行执行，来避免幻读问题，也就是读取的每一行都要加锁，这种隔离级别会导致超时或锁争用的问题。实际应用很少。
-</code></pre></li>
-</ul>
-<h2 id="9-慢查询"><a href="#9-慢查询" class="headerlink" title="9.慢查询"></a>9.慢查询</h2><p><strong>1.慢查询日志是什么</strong></p>
-<pre><code>MYSQL慢查询日志是用来记录查询慢的sql。执行时间超过阈值，具体指执行时间超过long_query_time值的SQL。long_query_time默认值为10S.
-</code></pre><p><strong>2.怎么用</strong></p>
-<pre><code>默认情况下，mysql默认是没打开慢查询日志的。需要手动打开（打开后会有一定的性能影响）
-
---查看开启情况
-SHOW VARIABLES LIKE &apos;%slow_query_log%&apos;
---开启（只对当前数据库生效，如果需要永久生效，需要修改配置文件 my.cnf）
-set global slow_query_log = 1
-
-如何查看我的慢 sql 日志当中有多少条慢 sql 呢？
-show global status like ‘%Slow_queries%’;
-</code></pre><p><strong>3.Show Profile</strong></p>
-<pre><code>是mysql提供用于分析当前会话中语句执行的资源消耗情况，mysql默认保存最近15次的运行结果
-首先查看show profile 状态
-show variables like &apos;profiling&apos;
-开启
-set priofiling = ON;
-开启后执行的sql语句会被记录下来，我们只要执行show profiles;
-show profile cpu,block io for query 这里放我们上边找到执行时间长的对应的 query_id 的值 //sql 慢要么是 cpu 计算复杂 要么是 io 频繁开销所以我们只看 cpu 和 block io 即可！
-</code></pre><p><strong>4.explain</strong></p>
-<pre><code>字段解析：
-table:显示这一行的数据是关于哪个表的
-possible_keys:显示可能用的索引。如果为空，没有可用的索引。可以为相关的域从WHERE语句中选择合适的索引。
-key:实际使用的索引。如果为空，则没有使用索引。
-ref:显示哪个字段使用了索引。
-type:显示使用的哪种索引类型，从最好到最差：system，const,eq_reg,ref,range,index和all
-</code></pre><h2 id="10-主从复制，读写分离"><a href="#10-主从复制，读写分离" class="headerlink" title="10.主从复制，读写分离"></a>10.主从复制，读写分离</h2><p><strong>mysql支持的复制类型</strong></p>
-<pre><code>- 基于语句的复制。在服务器上执行sql语句时，在从服务器上执行相同的sql，mysql默认采用基于语句的复制，执行效率高。
-- 基于行的复制。把改变的内容复制过去。
-- 混合类型的复制。默认采用基于语句的复制，一但发现服务精确复制时，就会采用行的复制。
-</code></pre><p><strong>复制的过程</strong></p>
-<pre><code>在每个事务更新数据完成之前，master在二进制日志中记录这些变化，写入二进制日志完成后，master通知存储引擎提交事务。
-- slave将master的binary log 复制到中继日志，首先slave开启一个工作线程（I/0），io线程在master上打开一个普通的链接，然后开始binlog dump process。 binlog dump process从master的二进制日志中读取事件。如果已经跟上master，它会睡眠等待master产生新的事件。io线程把这些事件写入到中继日志。
-- sql slave thread （sql从线程）处理该过程的最后一步，sql线程从中继日志中读取事件，并重放其中的事件而更新slave数据，使其通master一致，只要该线程与io线程保持一致，中继日志会位于os缓存中，所以中继日志开销很小。
-</code></pre><p><strong>mysql读写分离原理</strong></p>
-<pre><code>读写分离就是在主服务器上修改，数据会同步到从服务器，从服务器只负责读数据，不能写入，实现备份的同时也实现了数据库性能的优化，以及提升了服务器安全。
-比较常见的读写分离方式存在两种：
-    基于程序内部实现。在代码中根据select，insert 进行路由分类。
-    基于中间代理层实现 
-</code></pre>
+<p>主要应用存在有序的数据，它的时间复杂度为O（lgn）,效率非常高</p>
+<p>例如：java集合中TreeSet和TreeMap,以及liunx虚拟内存的管理，都是通过红黑树实现的</p>
+<h1 id="3-红黑树时间复杂度"><a href="#3-红黑树时间复杂度" class="headerlink" title="3. 红黑树时间复杂度"></a>3. 红黑树时间复杂度</h1><h1 id="4-红黑树基本操作（一）左旋右旋"><a href="#4-红黑树基本操作（一）左旋右旋" class="headerlink" title="4. 红黑树基本操作（一）左旋右旋"></a>4. 红黑树基本操作（一）左旋右旋</h1><h1 id="5-红黑树基本操作（二）添加"><a href="#5-红黑树基本操作（二）添加" class="headerlink" title="5. 红黑树基本操作（二）添加"></a>5. 红黑树基本操作（二）添加</h1><h1 id="6-红黑树基本操作（三）删除"><a href="#6-红黑树基本操作（三）删除" class="headerlink" title="6. 红黑树基本操作（三）删除"></a>6. 红黑树基本操作（三）删除</h1>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2021/01/07/mysql/" data-id="ckjtxltcy000wj4u7yt1esodm" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2021/01/13/数据结构/" data-id="ckjv6q5g5001xpou71kywkdkf" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
 
     </footer>
   </div>
@@ -264,7 +111,7 @@ type:显示使用的哪种索引类型，从最好到最差：system，const,eq_
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -288,7 +135,7 @@ type:显示使用的哪种索引类型，从最好到最差：system，const,eq_
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 16.67px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 13.33px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a> <a href="/tags/生产环境问题/" style="font-size: 10px;">生产环境问题</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
+      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 17.5px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a> <a href="/tags/生产环境问题/" style="font-size: 10px;">生产环境问题</a> <a href="/tags/算法/" style="font-size: 12.5px;">算法</a>
     </div>
   </div>
 
@@ -310,6 +157,10 @@ type:显示使用的哪种索引类型，从最好到最差：system，const,eq_
       <ul>
         
           <li>
+            <a href="/2021/01/13/数据结构/">数据结构</a>
+          </li>
+        
+          <li>
             <a href="/2021/01/07/mysql/">mysql知识</a>
           </li>
         
@@ -323,10 +174,6 @@ type:显示使用的哪种索引类型，从最好到最差：system，const,eq_
         
           <li>
             <a href="/2020/07/02/两链表相加/">两链表相加</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/12/doubleWriteBuffer/">doubleWriteBuffer</a>
           </li>
         
       </ul>

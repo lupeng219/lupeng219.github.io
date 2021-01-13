@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-doubleWriteBuffer" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-两链表相加" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/12/12/doubleWriteBuffer/" class="article-date">
-  <time datetime="2019-12-12T12:11:14.000Z" itemprop="datePublished">2019-12-12</time>
+    <a href="/2020/07/02/两链表相加/" class="article-date">
+  <time datetime="2020-07-02T08:27:56.000Z" itemprop="datePublished">2020-07-02</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/12/doubleWriteBuffer/">doubleWriteBuffer</a>
+      <a class="article-title" href="/2020/07/02/两链表相加/">两链表相加</a>
     </h1>
   
 
@@ -80,35 +80,84 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://mp.weixin.qq.com/s/bkoQ9g4cIcFFZBnpVh8ERQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/bkoQ9g4cIcFFZBnpVh8ERQ</a></p>
-<p>MySQL的buffer一页的大小为16k，文件系统一页的大小为4k,MySQL把一页的数据刷新到磁盘上需要文件系统4页。<br>以上操作并不是原子操作。如果执行到一半断电后，数据是会丢失的。页数据会丢失。重启后redo是无法进行修复这类页数据丢失问题的。修复的前提是页数据完整性正常。</p>
-<p>MySQL是如果解决这个问题的？</p>
-<p>能有一个副本对原来的页数据进行备份。这个存储副本的地方就是“Double writer buffer”.</p>
-<p>它与传统的buffer不同，它分为内存和磁盘两部分。</p>
-<p>第一步：页数据先memcopy到DWB的内存中。</p>
-<p>第二步：DWB内存会刷到DWB磁盘上。（DWB内存只有2M，由128个页组成）</p>
-<p>第三步：DWB内存会刷新到数据磁盘上。</p>
-<p>DWB要写两次磁盘会不会影响性能？</p>
-<p>分析DWB执行的三个步骤：</p>
-<p>1）.页数据memcopy到DWB的内存，速度很快。</p>
-<p>2）.DWB内存fsync刷到DWB的磁盘，属于顺序追加写，速度很快。</p>
-<p>3）.刷磁盘，随机写，本来就需要进行，不属于额外操作。</p>
-<p>画外音：<br>（1）write­-ahead-log之所以性能高，就是因为顺序追加写；<br>（2）有第三方测评，评估约10%性能损失；</p>
-<p>结尾</p>
-<p>MySQL有很强的数据安全性机制：</p>
-<p>（1）在异常崩溃时，如果不出现“页数据损坏”，能够通过redo恢复数据；</p>
-<p>（2）在出现“页数据损坏”时，能够通过double write buffer恢复页数据；</p>
-<p>double write buffer：</p>
-<p>（1）不是一个内存buffer，是一个内存/磁盘两层的结构，是InnoDB里On-Disk架构里很重要的一部分；</p>
-<p>（2）是一个通过写两次，保证页完整性的机制；</p>
+        <p>给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。</p>
+<p>如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。</p>
+<p>您可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
+<hr>
+<p>示例：</p>
+<p>输入：(2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)</p>
+<p>输出：7 -&gt; 0 -&gt; 8</p>
+<p>原因：342 + 465 = 807</p>
+<hr>
+<pre><code>  public static void main(String[] args) {
+    ListNode l1 = new ListNode(2);
+    ListNode l1_4 = new ListNode(3);
+    ListNode l1_3 = new ListNode(5);
+    l1.next = l1_4;
+    l1_4.next = l1_3;
 
+    ListNode l2 = new ListNode(9);
+    ListNode l2_6 = new ListNode(1);
+    ListNode l2_4 = new ListNode(5);
+    l2.next = l2_6;
+    l2_6.next = l2_4;
+    System.out.println(addTwoNumbers(l1, l2));
+}
+
+  /**
+ * 两个链表相加
+ * @param l1  2-&gt;3-&gt;5
+ * @param l2  9-&gt;1-&gt;5
+ * @return 1-&gt;5-&gt;0-&gt;1
+ */
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ * int val;
+ * ListNode next;
+ * ListNode(int x) { val = x; }
+ * }
+ */
+static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+    ListNode ret = new ListNode(0);
+    ListNode one = l1, two = l2, curr = ret;
+    // 满10进1
+    int a = 10;
+    int c = 0;
+    while (one != null || two != null) {
+        int x = one == null ? 0 : one.val;
+        int y = two == null ? 0 : two.val;
+        int sum = c + x + y;
+        c = sum / a;
+        curr.next = new ListNode(sum % a);
+        curr = curr.next;
+        one = one == null ? null : one.next;
+        two = two == null ? null : two.next;
+    }
+    if (c != 0) {
+        curr.next = new ListNode(c);
+    }
+    return ret.next;
+}
+// 链表结构
+@Data
+static class ListNode {
+    int val; //当前值
+    ListNode next; // 链表下一个值
+
+    ListNode(int x) {
+        val = x;
+    }
+}
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2019/12/12/doubleWriteBuffer/" data-id="ckjtxltcr000mj4u7hfxvae4c" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2020/07/02/两链表相加/" data-id="ckjv6q5fz001npou7hj0hkf6u" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
 
     </footer>
   </div>
@@ -121,7 +170,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/4/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/6/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/6/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -145,7 +194,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 16.67px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 13.33px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a> <a href="/tags/生产环境问题/" style="font-size: 10px;">生产环境问题</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
+      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 17.5px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a> <a href="/tags/生产环境问题/" style="font-size: 10px;">生产环境问题</a> <a href="/tags/算法/" style="font-size: 12.5px;">算法</a>
     </div>
   </div>
 
@@ -167,6 +216,10 @@
       <ul>
         
           <li>
+            <a href="/2021/01/13/数据结构/">数据结构</a>
+          </li>
+        
+          <li>
             <a href="/2021/01/07/mysql/">mysql知识</a>
           </li>
         
@@ -180,10 +233,6 @@
         
           <li>
             <a href="/2020/07/02/两链表相加/">两链表相加</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/12/doubleWriteBuffer/">doubleWriteBuffer</a>
           </li>
         
       </ul>

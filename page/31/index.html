@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-noun" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-rule" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/15/noun/" class="article-date">
-  <time datetime="2018-05-15T03:11:21.000Z" itemprop="datePublished">2018-05-15</time>
+    <a href="/2018/05/15/rule/" class="article-date">
+  <time datetime="2018-05-15T03:13:09.000Z" itemprop="datePublished">2018-05-15</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/15/noun/">noun</a>
+      <a class="article-title" href="/2018/05/15/rule/">rule</a>
     </h1>
   
 
@@ -80,62 +80,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>SOA :</p>
-<p>SOA全英文是Service-Oriented Architecture，中文意思是面向服务编程，是一种思想，一种方法论，一种分布式的服务架构.</p>
-<p>SOA的好处：</p>
-<p>1、降低用户成本，用户不需要关心各服务之间是什么语言的、不需要知道如果调用他们，只要通过统一标准找数据总线就可以了。</p>
-<p>2、程序之间关系服务简单</p>
-<p>3、识别哪些程序有问题（挂掉）</p>
-<p>缺点：提示了系统的复杂程度，性能有相应影响.<br>RPC :</p>
-<p>远程过程调用<br>Dubbo</p>
-<p>一款分布式服务框架<br>高性能和透明化的RPC远程服务调用方案<br>SOA服务治理方案<br>EHCACHE :</p>
-<p>ehcache 是一个纯Java的进程内缓存框架，具有快速、精干等特点，是Hibernate中默认CacheProvider。Ehcache是一种广泛使用的开源Java分布式缓存。主要面向通用缓存,Java EE和轻量级容器。它具有内存和磁盘存储，缓存加载器,缓存扩展,缓存异常处理程序,一个gzip缓存servlet过滤器,支持REST和SOAP api等特点。<br>ZOOKEEPER :</p>
-<p>ZooKeeper是一种为分布式应用所设计的高可用、高性能且一致的开源协调服务，它提供了一项基本服务：分布式锁服务。由于ZooKeeper的开源特性，</p>
-<p>后来我们的开发者在分布式锁的基础上，摸索了出了其他的使用方法：配置维护、组服务、分布式消息队列、分布式通知/协调等。ZooKeeper所提供的</p>
-<p>服务主要是通过：数据结构（Znode）+原语+watcher机制，三个部分来实现的。<br>报文传输签名：</p>
-<p>发送方用一个哈希函数从报文文本中生成报文摘要,然后用自己的私人密钥对这个摘要进行加密，得到的就是这个报文对应的数字签名。通常来说，发送方会把数字签名和报文原文一并发送给接受者。<br>报文传输验签：</p>
-<p>接收方得到原始报文和数字签名后，用同一个哈希函数从报文中生成摘要A，另外，用发送方提供的公钥对数字签名进行解密，得到摘要B，对比A和B是否相同，就可以得知报文有没有被篡改过<br>报文传输加密与解密：</p>
-<p>加密:发送方利用接收方的公钥对要发送的明文进行加密。</p>
-<p>解密:接受方利用自己的私钥进行解密。</p>
-<p>公钥和私钥配对的，用公钥加密的文件，只有对应的私钥才能解密。当然也可以反过来，用私钥加密，用对应的公钥进行解密。<br>报文传输签名与加密：</p>
-<p>其实， 数字签名有两种功效：一是能确定消息确实是由发送方签名并发出来的，因为别人假冒不了发送方的签名。二是数字签名能确定消息的完整性。</p>
-<p>很容易看得出来，数字签名技术有一个问题，就是原始报文是明文传输的，这对一些敏感内容来说通常是不合适的，所以有些时候，这两种技术会结合起来使用。</p>
-<p>发送方用自己的私钥完成数字签名，然后再用接收方的公钥对报文进行加密，将数字签名和报文传送给接收方。<br>接收方在拿到密文和数字签名后，先用自己的私钥对密文进行解密，得到明文，然后再用发送方提供的公钥进行验签，确保发送方身份的准确性，以及报文并没有被篡改过。<br>CAP理论(分布式领域)</p>
-<p>① C：Consistency，一致性，数据一致更新，所有数据变动都是同步的。</p>
-<p>② A：Availability，可用性，系统具有好的响应性能。</p>
-<p>③ P：Partition tolerance，分区容错性。以实际效果而言，分区相当于对通信的时限要求。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C和A之间做出选择，也就是说无论任何消息丢失，系统都可用。</p>
-<p>该理论已被证明：任何分布式系统只可同时满足两点，无法三者兼顾。 因此，将精力浪费在思考如何设计能满足三者的完美系统上是愚钝的，应该根据应用场景进行适当取舍。<br>REST</p>
-<p>URL定位资源，用HTTP动词（GET,POST,DELETE,DETC）描述操作。</p>
-<pre><code>REST描述的是在网络中client和server的一种交互形式；REST本身不实用，实用的是如何设计 RESTful API（REST风格的网络接口）；
-Server提供的RESTful API中，URL中只使用名词来指定资源，原则上不使用动词。“资源”是REST架构或者说整个网络处理的核心。
-用HTTP协议里的动词来实现资源的添加，修改，删除等操作。即通过HTTP动词来实现资源的状态扭转：
-</code></pre><p>Server的API如何设计才满足RESTful要求?</p>
-<pre><code>URL root:https://example.org/api/v1/*https://api.example.com/v1/*
-API versioning:可以放在URL里面，也可以用HTTP的header：/api/v1/3.
-URI使用名词而不是动词，且推荐用复数。BAD/getProducts/listOrders/retrieveClientByOrder?orderId=1
-</code></pre><p>java集合</p>
-<p>Collection</p>
-<p>├List</p>
-<p>│├LinkedList</p>
-<p>│├ArrayList</p>
-<p>│└Vector</p>
-<p>│　└Stack</p>
-<p>└Set</p>
-<p>Map</p>
-<p>├Hashtable</p>
-<p>├HashMap</p>
-<p>└WeakHashMap<br>MyBatis工作原理（持久层框架）</p>
-<p>SQL语句的执行才是MyBatis的重要职责，该过程就是通过封装JDBC进行操作，然后使用Java反射技术完成JavaBean对象到数据库参数之间的相互转换，这种映射关系就是有TypeHandler对象来完成的，在获取数据表对应的元数据时，会保存该表所有列的数据库类型。</p>
-<p>把sql配置加载到内存中生成一个对应的MappedStatement对象，然后会以key=”com.louis.mybatis.dao.EmployeesMapper.selectByMinSalary” ，value为MappedStatement对象的形式维护到Configuration的一个Map中。当以后需要使用的时候，只需要通过Id值来获取就可以了。</p>
-<p>SqlSession根据Statement ID, 在mybatis配置对象Configuration中获取到对应的MappedStatement对象，然后调用mybatis执行器来执行具体的操作</p>
+        <p>（1） WHY——为什么？为什么要这么做？理由何在？原因是什么？</p>
+<p>（2） WHAT——是什么？目的是什么？做什么工作？</p>
+<p>（3） WHERE——何处？在哪里做？从哪里入手？</p>
+<p>（4） WHEN——何时？什么时间完成？什么时机最适宜？</p>
+<p>（5） WHO——谁？由谁来承担？谁来完成？谁负责？</p>
+<p>（6） HOW——怎么做？如何提高效率？如何实施？方法怎样？</p>
+<p>（7） HOW MUCH——多少？</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/15/noun/" data-id="ckjtxltd10010j4u7rph5rezg" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2018/05/15/rule/" data-id="ckjv6q5hc002epou736hporw1" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人/">个人</a></li></ul>
 
     </footer>
   </div>
@@ -148,7 +107,7 @@ URI使用名词而不是动词，且推荐用复数。BAD/getProducts/listOrders
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/30/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><span class="page-number current">31</span><a class="page-number" href="/page/32/">32</a><a class="page-number" href="/page/33/">33</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/32/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/30/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><span class="page-number current">31</span><a class="page-number" href="/page/32/">32</a><a class="page-number" href="/page/33/">33</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/32/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -172,7 +131,7 @@ URI使用名词而不是动词，且推荐用复数。BAD/getProducts/listOrders
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 16.67px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 13.33px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a> <a href="/tags/生产环境问题/" style="font-size: 10px;">生产环境问题</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
+      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 17.5px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a> <a href="/tags/生产环境问题/" style="font-size: 10px;">生产环境问题</a> <a href="/tags/算法/" style="font-size: 12.5px;">算法</a>
     </div>
   </div>
 
@@ -194,6 +153,10 @@ URI使用名词而不是动词，且推荐用复数。BAD/getProducts/listOrders
       <ul>
         
           <li>
+            <a href="/2021/01/13/数据结构/">数据结构</a>
+          </li>
+        
+          <li>
             <a href="/2021/01/07/mysql/">mysql知识</a>
           </li>
         
@@ -207,10 +170,6 @@ URI使用名词而不是动词，且推荐用复数。BAD/getProducts/listOrders
         
           <li>
             <a href="/2020/07/02/两链表相加/">两链表相加</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/12/doubleWriteBuffer/">doubleWriteBuffer</a>
           </li>
         
       </ul>

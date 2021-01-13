@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hexo教程" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-rabbitmq异常" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/07/02/hexo教程/" class="article-date">
-  <time datetime="2020-07-02T08:37:37.000Z" itemprop="datePublished">2020-07-02</time>
+    <a href="/2020/07/15/rabbitmq异常/" class="article-date">
+  <time datetime="2020-07-15T06:13:23.000Z" itemprop="datePublished">2020-07-15</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/02/hexo教程/">hexo教程</a>
+      <a class="article-title" href="/2020/07/15/rabbitmq异常/">rabbitmq异常</a>
     </h1>
   
 
@@ -80,21 +80,78 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="常用命令："><a href="#常用命令：" class="headerlink" title="常用命令："></a>常用命令：</h2><p>创建： hexo new 文件名</p>
-<p>构建：hexo g</p>
-<p>发布：hexo d</p>
-<hr>
-<p><a href="https://www.cnblogs.com/wsmrzx/p/9439448.html" target="_blank" rel="noopener">https://www.cnblogs.com/wsmrzx/p/9439448.html</a></p>
-<p><a href="http://tengj.top/2016/02/22/hexo1/" target="_blank" rel="noopener">http://tengj.top/2016/02/22/hexo1/</a></p>
-<p> <a href="https://hexo.bootcss.com/" title="hexo官网" target="_blank" rel="noopener">https://hexo.bootcss.com/</a></p>
+        <h2 id="1-钉钉报警，查看日志"><a href="#1-钉钉报警，查看日志" class="headerlink" title="1.钉钉报警，查看日志"></a>1.钉钉报警，查看日志</h2><pre><code>2020-07-15 14:00:02.660 ERROR [cash-loan-flow, 6e6394c11fbe52f8, 1179b55f3078ce15, true] [          ] --- [AMQP Connection 172.**.**.***:*****] [PublisherCallbackChannelImpl.java:771] org.springframework.amqp.rabbit.support.PublisherCallbackChannelImpl - No listener for seq:965
+</code></pre><p>发现日志有No listener for seq 错误信息。</p>
+<p>查看源码PublisherCallbackChannelImpl.java</p>
+<pre><code>else {
+        Listener listener = this.listenerForSeq.remove(seq);
+        if (listener != null) {
+            SortedMap&lt;Long, PendingConfirm&gt; confirmsForListener = this.pendingConfirms.get(listener);
+            PendingConfirm pendingConfirm;
+            if (remove) {
+                pendingConfirm = confirmsForListener.remove(seq);
+            }
+            else {
+                pendingConfirm = confirmsForListener.get(seq);
+            }
+            if (pendingConfirm != null) {
+                doHandleConfirm(ack, listener, pendingConfirm);
+            }
+        }
+        else {
+            logger.error(&quot;No listener for seq:&quot; + seq);
+        }
+    }
+</code></pre><h2 id="2-查看代码分析原因"><a href="#2-查看代码分析原因" class="headerlink" title="2.查看代码分析原因"></a>2.查看代码分析原因</h2><p>客户端使用的是java RabbitTemplate ，查看mq配置项有 factory.setPublisherConfirms(true);但是RabbitTemplate方法没有实现 rabbitTemplate.setConfirmCallback();导致mq在成功收到消息后回调生产者时失败</p>
+<pre><code> @Bean(&quot;contractTaskMessageConnectionFactory&quot;)
+public CachingConnectionFactory connectionFactory() {
+    CachingConnectionFactory factory = new CachingConnectionFactory();
+    factory.setChannelCacheSize(1024);
+    factory.setCacheMode(CachingConnectionFactory.CacheMode.CONNECTION);
+    factory.setChannelCacheSize(180 * 1000);
+    factory.setConnectionCacheSize(1024);
+    factory.setHost(uhost);
+    factory.setPort(uport);
+    factory.setUsername(uuser);
+    factory.setPassword(upassword);
+    factory.setVirtualHost(uvirtualHost);
+    // 开启了确认机制
+    factory.setPublisherConfirms(true);
+
+@Bean(&quot;contractTaskMessageRabbitTemplate&quot;)
+public RabbitTemplate rabbitTemplate(@Qualifier(&quot;asyncTaskConnectionFactory&quot;) CachingConnectionFactory connectionFactory) {
+
+    RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+    rabbitTemplate.setExchange(exchangeName);
+    rabbitTemplate.setRetryTemplate(attemptsRetry());
+    rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+      // 此处没有实现确认机制
+
+    return rabbitTemplate;
+}
+</code></pre><h2 id="3-解决问题"><a href="#3-解决问题" class="headerlink" title="3.解决问题"></a>3.解决问题</h2><p>在RabbitTemplate方法中实现 rabbitTemplate.setConfirmCallback();</p>
+<pre><code> @Bean(&quot;contractTaskMessageRabbitTemplate&quot;)
+public RabbitTemplate rabbitTemplate(@Qualifier(&quot;asyncTaskConnectionFactory&quot;) CachingConnectionFactory connectionFactory) {
+
+    RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+    rabbitTemplate.setExchange(exchangeName);
+    rabbitTemplate.setRetryTemplate(attemptsRetry());
+    rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+    // 此处实现确认机制
+    rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -&gt; {
+        if (!ack) {
+            log.error(&quot;消息确认失败，correlationData={},cause={},重新发送&quot;, correlationData, cause);
+        }
+    });
+</code></pre><p>注：<a href="https://zhuanlan.zhihu.com/p/70200202" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/70200202</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2020/07/02/hexo教程/" data-id="ckjtxltcu000qj4u7yfhs6zso" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2020/07/15/rabbitmq异常/" data-id="ckjv6q5fr001apou7xr3ls2x5" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人/">个人</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生产环境问题/">生产环境问题</a></li></ul>
 
     </footer>
   </div>
@@ -107,7 +164,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -131,7 +188,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 16.67px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 13.33px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a> <a href="/tags/生产环境问题/" style="font-size: 10px;">生产环境问题</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
+      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 17.5px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a> <a href="/tags/生产环境问题/" style="font-size: 10px;">生产环境问题</a> <a href="/tags/算法/" style="font-size: 12.5px;">算法</a>
     </div>
   </div>
 
@@ -153,6 +210,10 @@
       <ul>
         
           <li>
+            <a href="/2021/01/13/数据结构/">数据结构</a>
+          </li>
+        
+          <li>
             <a href="/2021/01/07/mysql/">mysql知识</a>
           </li>
         
@@ -166,10 +227,6 @@
         
           <li>
             <a href="/2020/07/02/两链表相加/">两链表相加</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/12/doubleWriteBuffer/">doubleWriteBuffer</a>
           </li>
         
       </ul>

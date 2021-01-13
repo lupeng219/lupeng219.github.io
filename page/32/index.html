@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-docker" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-noun" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/15/docker/" class="article-date">
-  <time datetime="2018-05-15T03:09:41.000Z" itemprop="datePublished">2018-05-15</time>
+    <a href="/2018/05/15/noun/" class="article-date">
+  <time datetime="2018-05-15T03:11:21.000Z" itemprop="datePublished">2018-05-15</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/15/docker/">docker</a>
+      <a class="article-title" href="/2018/05/15/noun/">noun</a>
     </h1>
   
 
@@ -80,57 +80,59 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>一、下载镜像、启动容器</p>
-<p>1、下载镜像<br>docker pull ubuntu :版本号<br>完成后执行 docker images 就能看到一个刚刚更新的镜像了。</p>
-<p>2、启动容器</p>
-<p>容器是在镜像的基础上来运行的，一旦容器启动了，我们就可以登录到容器中，安装自己所需的软件或应用程序。既然镜像已经下载到本地，那么如何才能启动容器呢？<br>只需使用以下命令即可启动容器：<br>[plain] view plain copy<br>docker run -i -t -v /user/docker/:/mnt/software/ 2a4cca5ac898/bin/bash</p>
-<p>这条命令比较长，我们稍微分解一下，其实包含以下三个部分：<br>[html] view plain copy<br>docker run &lt;相关参数&gt; &lt;镜像 ID&gt; &lt;初始命令&gt;<br>如果看到以上输出，说明您可以使用“docker.cn/docker/centos”这个镜像了，或将其称为仓库（Repository），该镜像有一个名为“centos6”的标签（Tag），此外还有一个名为“25c5298b1a36 ”的镜像 ID（可能您所看到的镜像 ID 与此处的不一致，那是正常现象，因为这个数字是随机生成的）。此外，我们可以看到该镜像只有 215.8 MB，非常小巧，而不像虚拟机的镜像文件那样庞大。<br>现在镜像已经有了，我们下面就需要使用该镜像，来启动容器。<br>[plain] view plain copy<br>其中，相关参数包括：<br>-i：表示以“交互模式”运行容器<br>-t：表示容器启动后会进入其命令行<br>-v：表示需要将本地哪个目录挂载到容器中，格式：-v &lt;宿主机目录&gt;:&lt;容器目录&gt;<br>假设我们的所有安装程序都放在了宿主机的/download/目录下，现在需要将其挂载到容器的/mnt/software/目录下。<br>需要说明的是，不一定要使用“镜像 ID”，也可以使用“仓库名:标签名”，例如：oursuer/ubuntu:14.04。<br>初始命令表示一旦容器启动，需要运行的命令，此时使用“/bin/bash”，表示什么也不做，只需进入命令行即可。<br>退出容器使用Ctrl+d或输入exit<br>如果退出容器后，可以再次使用命令（注意，得先运行docker run之后然后被stop掉的容器才可以使用如下命令）<br>docker start 容器ID<br>然后再次启动已启动过但现在是关闭的容器<br>[plain] view plain copy<br>docker start sick_mestorf<br>这个命令只会启动容器，不会进入容器。要进入容器得用命令<br>[plain] view plain copy<br>docker attach 容器ID或容器名<br>二、安装相关软件<br>首先先将JDK和tomcat的安装包.gz文件放在外面的/download文件夹下</p>
-<p>然后再次启动容器。进入容器</p>
-<p>然后看看是否有安装包。发现两个都在了，下面可以安装了</p>
-<p>1、JDK安装<br>直接使用<br>[plain] view plain copy<br>cd /usr<br>mkdir java<br>cd java<br>mkdir jdk<br>cd /mnt/software/<br>tar zxvf jdk-8u65-linux-x64.gz -C /usr/java/jdk<br>这里直接接文件解压到/usr/java/jdk目录，如下</p>
-<p>配置环境变量<br>输入：<br>[plain] view plain copy<br>vi /etc/profile<br>或<br>添加如下内容：<br>[plain] view plain copy</p>
-<p>#set java environment<br>export JAVA_HOME=/usr/java/jdk/jdk1.8.0_65<br>export JRE_HOME=/usr/java/jdk/jdk1.8.0_65/jre<br>export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH<br>export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$JAVA_HOME:$PATH</p>
-<p>注意此处改成对应的jdk的目录，并且要以root用户来做修改，否则无法保存<br>保存后执行：<br>[plain] view plain copy<br>source /etc/profile<br>验证安装：<br>输入:<br>[plain] view plain copy<br>java -version</p>
-<p>如果出现如下内容，说明安装成功<br>2、tomcat安装<br>直接解压<br>[html] view plain copy<br>cd /usr/java<br>mkdir tomcat<br>tar zxvf -C /usr/java/tomcat<br>配置环境<br>进入到上面的tomcat的bin文件夹下：<br>打开<br>[plain] view plain copy<br>vi setclasspath.sh<br>或<br>[plain] view plain copy<br>gedit setclasspath.sh<br>添加如下内容：<br>[plain] view plain copy<br>export JAVA_HOME=/usr/java/jdk/jdk1.8.0_65<br>export JRE_HOME=/usr/java/jdk/jdk1.8.0_65/jre</p>
-<p>保存即可。<br>然后退回到bin目录下：<br>执行：<br>[plain] view plain copy<br>./startup.sh</p>
-<p>说明tomcat启动成功<br>或者使用如下命令查看：</p>
-<p>三、配置容器启动环境变量<br>（上面的JDK配置环境变量可以不要，但是这里的一定要写！！！！！！！！！！因为这里是设置容器启动时加载的环境变量）<br>1、设置环境变量</p>
-<p>首先，编辑.bashrc文件<br>[plain] view plain copy<br>vi ~/.bashrc<br>然后，在该文件末尾添加如下配置：<br>[plain] view plain copy<br>export JAVA_HOME=/usr/java/jdk/jdk1.8.0_65<br>export JRE_HOME=/usr/java/jdk/jdk1.8.0_65/jre<br>export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH<br>export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$JAVA_HOME:$PATH<br>最后，需要使用source命令，让环境变量生效：<br>[plain] view plain copy<br>source ~/.bashrc</p>
-<p>2、编写运行脚本</p>
-<p>我们需要编写一个运行脚本，当启动容器时，运行该脚本，启动 Tomcat，具体过程如下：<br>首先，创建运行脚本：<br>[html] view plain copy<br>vi /root/run.sh<br>然后，编辑脚本内容如下：<br>[html] view plain copy</p>
-<p>#!/bin/bash<br>source /etc/profile<br>source ~/.bashrc<br>sh /usr/java/tomcat/apache-tomcat-7.0.68/bin/catalina.sh run<br>注意：这里必须先加载环境变量，然后使用 Tomcat 的运行脚本来启动 Tomcat 服务。<br>最后，为运行脚本添加执行权限：<br>[html] view plain copy<br>chmod u+x /root/run.sh</p>
-<p>3、退出容器</p>
-<p>当以上步骤全部完成后，可使用exit或ctrl+d命令，退出容器。<br>随后，可使用如下命令查看正在运行的容器：<br>docker ps<br>此时，您应该看不到任何正在运行的程序，因为刚才已经使用exit命令退出的容器，此时容器处于停止状态，可使用如下命令查看所有容器：<br>docker ps -a<br>输出如下内容：</p>
-<p>记住以上CONTAINER ID（容器 ID），随后我们将通过该容器，创建一个可运行 Java Web 的镜像。<br>四、创建 Java Web 镜像<br>使用以下命令，根据某个“容器 ID”来创建一个新的“镜像”：<br>[plain] view plain copy<br>docker commit 89a47b5b749e lin_javaweb:0.1<br>该容器的 ID 是“89a47b5b749e”，所创建的镜像名是“lin_javaweb:0.1”，随后可使用镜像来启动 Java Web 容器。<br>这是创建成功后</p>
-<p>同样可以查看下镜像</p>
-<p>五、启动 Java Web 容器<br>有必要首先使用docker images命令，查看当前所有的镜像：</p>
-<p>可见，此时已经看到了最新创建的镜像“lin_javaweb:0.1”，其镜像 ID 是“4487bd38df06”。正如上面所描述的那样，我们可以通过“镜像名”或“镜像 ID”来启动容器，与上次启动容器不同的是，我们现在不再进入容器的命令行，而是直接启动容器内部的 Tomcat 服务。此时，需要使用以下命令：<br>[plain] view plain copy<br>docker run -d -p 58080:8080 –name javaweb lin_javaweb:0.1 /root/run.sh<br>稍作解释：<br>[html] view plain copy<br>-d：表示以“守护模式”执行/root/run.sh脚本，此时 Tomcat 控制台不会出现在输出终端上。<br>-p：表示宿主机与容器的端口映射，此时将容器内部的 8080 端口映射为宿主机的 58080 端口，这样就向外界暴露了 58080 端口，可通过 Docker 网桥来访问容器内部的 8080 端口了。<br>–name：表示容器名称，用一个有意义的名称命名即可。</p>
-<p>关于 Docker 网桥的内容，需要补充说明一下。实际上 Docker 在宿主机与容器之间，搭建了一座网络通信的桥梁，我们可通过宿主机 IP 地址与端口号来映射容器内部的 IP 地址与端口号，<br>在一系列参数后面的是“镜像名”或“镜像 ID”，怎么方便就怎么来。最后是“初始命令”，它是上面编写的运行脚本，里面封装了加载环境变量并启动 Tomcat 服务的命令。<br>当运行以上命令后，会立即输出一长串“容器 ID”，我们可通过docker ps命令来查看当前正在运行的容器。</p>
-<p>在浏览器中，输入以下地址，即可访问 Tomcat 首页：<br><a href="http://127.0.0.1:58080/" target="_blank" rel="noopener">http://127.0.0.1:58080/</a><br>或者<br><a href="http://localhost:58080/" target="_blank" rel="noopener">http://localhost:58080/</a><br>注意：这里使用的是宿主机的 IP 地址，与对外暴露的端口号 58080，它映射容器内部的端口号 8080。</p>
-<p>六.常用命令</p>
-<p>1、 #从官网拉取镜像<br>docker pull &lt;镜像名:tag&gt;<br>如：docker pull centos(拉取centos的镜像到本机)</p>
-<p>2、#搜索在线可用镜像名<br>docker search &lt;镜像名&gt;<br>如：docker search centos( 在线查找centos的镜像)</p>
-<p>3、#查询所有的镜像，默认是最近创建的排在最上<br>docker images</p>
-<p>4、#查看正在运行的容器<br>docker ps</p>
-<p>5、#删除单个镜像<br>docker rmi -f &lt;镜像ID&gt;</p>
-<p>6、#启动、停止操作</p>
-<p>docker stop &lt;容器名or ID&gt; #停止某个容器</p>
-<p>docker start &lt;容器名or ID&gt; #启动某个容器</p>
-<p>docker kill &lt;容器名or ID&gt; #杀掉某个容器</p>
-<p>7、#查询某个容器的所有操作记录。</p>
-<p>docker logs {容器ID|容器名称}</p>
-<p>8、# 制作镜像 使用以下命令，根据某个“容器 ID”来创建一个新的“镜像”：<br>docker commit 93639a83a38e wsl/javaweb:0.1</p>
-<p>9、#启动一个容器<br>docker run -d -p 58080:8080 –name javaweb wsl/javaweb:0.1 /root/run.sh<br>解释：-d：表示以“守护模式”执行/root/run.sh脚本<br>-p：表示宿主机与容器的端口映射，此时将容器内部的 8080 端口映射为宿主机的 58080 端口，这样就向外界暴露了 58080 端口，可通过 Docker 网桥来访问容器内部的 8080 端口了。<br>-name:为容器命名</p>
-<p>10、#最后补充一个启动docker服务的命令<br>很简单：<br>service docker start</p>
-<p>11、使用docker exec -it ‘服务名’ /bin/bash 可以登录进该容器</p>
-<p>12、#宿主机和容器互传文件<br>从容器里面拷文件到宿主机？<br>答：在宿主机里面执行以下命令<br>docker cp 容器名：要拷贝的文件在容器里面的路径 要拷贝到宿主机的相应路径</p>
-<p>示例： 假设容器名为testtomcat,要从容器里面拷贝的文件路为：/usr/local/tomcat/webapps/test/js/test.js,                     现在要将test.js从容器里面拷到宿主机的/opt路径下面，那么命令应该怎么写呢？<br>答案：在宿主机上面执行命令<br>            docker cp testtomcat：/usr/local/tomcat/webapps/test/js/test.js /opt</p>
-<p>2、从宿主机拷文件到容器里面<br>答：在宿主机里面执行如下命令<br>docker cp 要拷贝的文件路径 容器名：要拷贝到容器里面对应的路径<br>示例：假设容器名为testtomcat,现在要将宿主机/opt/test.js文件拷贝到容器里面 的/usr/local/tomcat/webapps/test/js路径下面，那么命令该怎么写呢？<br>答案：在宿主机上面执行如下命令<br>docker cp /opt/test.js testtomcat：/usr/local/tomcat/webapps/test/js</p>
+        <p>SOA :</p>
+<p>SOA全英文是Service-Oriented Architecture，中文意思是面向服务编程，是一种思想，一种方法论，一种分布式的服务架构.</p>
+<p>SOA的好处：</p>
+<p>1、降低用户成本，用户不需要关心各服务之间是什么语言的、不需要知道如果调用他们，只要通过统一标准找数据总线就可以了。</p>
+<p>2、程序之间关系服务简单</p>
+<p>3、识别哪些程序有问题（挂掉）</p>
+<p>缺点：提示了系统的复杂程度，性能有相应影响.<br>RPC :</p>
+<p>远程过程调用<br>Dubbo</p>
+<p>一款分布式服务框架<br>高性能和透明化的RPC远程服务调用方案<br>SOA服务治理方案<br>EHCACHE :</p>
+<p>ehcache 是一个纯Java的进程内缓存框架，具有快速、精干等特点，是Hibernate中默认CacheProvider。Ehcache是一种广泛使用的开源Java分布式缓存。主要面向通用缓存,Java EE和轻量级容器。它具有内存和磁盘存储，缓存加载器,缓存扩展,缓存异常处理程序,一个gzip缓存servlet过滤器,支持REST和SOAP api等特点。<br>ZOOKEEPER :</p>
+<p>ZooKeeper是一种为分布式应用所设计的高可用、高性能且一致的开源协调服务，它提供了一项基本服务：分布式锁服务。由于ZooKeeper的开源特性，</p>
+<p>后来我们的开发者在分布式锁的基础上，摸索了出了其他的使用方法：配置维护、组服务、分布式消息队列、分布式通知/协调等。ZooKeeper所提供的</p>
+<p>服务主要是通过：数据结构（Znode）+原语+watcher机制，三个部分来实现的。<br>报文传输签名：</p>
+<p>发送方用一个哈希函数从报文文本中生成报文摘要,然后用自己的私人密钥对这个摘要进行加密，得到的就是这个报文对应的数字签名。通常来说，发送方会把数字签名和报文原文一并发送给接受者。<br>报文传输验签：</p>
+<p>接收方得到原始报文和数字签名后，用同一个哈希函数从报文中生成摘要A，另外，用发送方提供的公钥对数字签名进行解密，得到摘要B，对比A和B是否相同，就可以得知报文有没有被篡改过<br>报文传输加密与解密：</p>
+<p>加密:发送方利用接收方的公钥对要发送的明文进行加密。</p>
+<p>解密:接受方利用自己的私钥进行解密。</p>
+<p>公钥和私钥配对的，用公钥加密的文件，只有对应的私钥才能解密。当然也可以反过来，用私钥加密，用对应的公钥进行解密。<br>报文传输签名与加密：</p>
+<p>其实， 数字签名有两种功效：一是能确定消息确实是由发送方签名并发出来的，因为别人假冒不了发送方的签名。二是数字签名能确定消息的完整性。</p>
+<p>很容易看得出来，数字签名技术有一个问题，就是原始报文是明文传输的，这对一些敏感内容来说通常是不合适的，所以有些时候，这两种技术会结合起来使用。</p>
+<p>发送方用自己的私钥完成数字签名，然后再用接收方的公钥对报文进行加密，将数字签名和报文传送给接收方。<br>接收方在拿到密文和数字签名后，先用自己的私钥对密文进行解密，得到明文，然后再用发送方提供的公钥进行验签，确保发送方身份的准确性，以及报文并没有被篡改过。<br>CAP理论(分布式领域)</p>
+<p>① C：Consistency，一致性，数据一致更新，所有数据变动都是同步的。</p>
+<p>② A：Availability，可用性，系统具有好的响应性能。</p>
+<p>③ P：Partition tolerance，分区容错性。以实际效果而言，分区相当于对通信的时限要求。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C和A之间做出选择，也就是说无论任何消息丢失，系统都可用。</p>
+<p>该理论已被证明：任何分布式系统只可同时满足两点，无法三者兼顾。 因此，将精力浪费在思考如何设计能满足三者的完美系统上是愚钝的，应该根据应用场景进行适当取舍。<br>REST</p>
+<p>URL定位资源，用HTTP动词（GET,POST,DELETE,DETC）描述操作。</p>
+<pre><code>REST描述的是在网络中client和server的一种交互形式；REST本身不实用，实用的是如何设计 RESTful API（REST风格的网络接口）；
+Server提供的RESTful API中，URL中只使用名词来指定资源，原则上不使用动词。“资源”是REST架构或者说整个网络处理的核心。
+用HTTP协议里的动词来实现资源的添加，修改，删除等操作。即通过HTTP动词来实现资源的状态扭转：
+</code></pre><p>Server的API如何设计才满足RESTful要求?</p>
+<pre><code>URL root:https://example.org/api/v1/*https://api.example.com/v1/*
+API versioning:可以放在URL里面，也可以用HTTP的header：/api/v1/3.
+URI使用名词而不是动词，且推荐用复数。BAD/getProducts/listOrders/retrieveClientByOrder?orderId=1
+</code></pre><p>java集合</p>
+<p>Collection</p>
+<p>├List</p>
+<p>│├LinkedList</p>
+<p>│├ArrayList</p>
+<p>│└Vector</p>
+<p>│　└Stack</p>
+<p>└Set</p>
+<p>Map</p>
+<p>├Hashtable</p>
+<p>├HashMap</p>
+<p>└WeakHashMap<br>MyBatis工作原理（持久层框架）</p>
+<p>SQL语句的执行才是MyBatis的重要职责，该过程就是通过封装JDBC进行操作，然后使用Java反射技术完成JavaBean对象到数据库参数之间的相互转换，这种映射关系就是有TypeHandler对象来完成的，在获取数据表对应的元数据时，会保存该表所有列的数据库类型。</p>
+<p>把sql配置加载到内存中生成一个对应的MappedStatement对象，然后会以key=”com.louis.mybatis.dao.EmployeesMapper.selectByMinSalary” ，value为MappedStatement对象的形式维护到Configuration的一个Map中。当以后需要使用的时候，只需要通过Id值来获取就可以了。</p>
+<p>SqlSession根据Statement ID, 在mybatis配置对象Configuration中获取到对应的MappedStatement对象，然后调用mybatis执行器来执行具体的操作</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/15/docker/" data-id="ckjtxltcp000ij4u7ohilorhf" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2018/05/15/noun/" data-id="ckjv6q5fn0015pou7vduqeu3j" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -146,7 +148,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/31/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="page-number current">32</span><a class="page-number" href="/page/33/">33</a><a class="page-number" href="/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/33/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/31/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="page-number current">32</span><a class="page-number" href="/page/33/">33</a><a class="page-number" href="/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/33/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -170,7 +172,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 16.67px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 13.33px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a> <a href="/tags/生产环境问题/" style="font-size: 10px;">生产环境问题</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a>
+      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 17.5px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a> <a href="/tags/生产环境问题/" style="font-size: 10px;">生产环境问题</a> <a href="/tags/算法/" style="font-size: 12.5px;">算法</a>
     </div>
   </div>
 
@@ -192,6 +194,10 @@
       <ul>
         
           <li>
+            <a href="/2021/01/13/数据结构/">数据结构</a>
+          </li>
+        
+          <li>
             <a href="/2021/01/07/mysql/">mysql知识</a>
           </li>
         
@@ -205,10 +211,6 @@
         
           <li>
             <a href="/2020/07/02/两链表相加/">两链表相加</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/12/doubleWriteBuffer/">doubleWriteBuffer</a>
           </li>
         
       </ul>
