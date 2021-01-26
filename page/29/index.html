@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Java中hashSet与treeSet的去重原理" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-SpringMVC处理请求流程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/23/Java中hashSet与treeSet的去重原理/" class="article-date">
-  <time datetime="2018-05-23T06:53:36.000Z" itemprop="datePublished">2018-05-23</time>
+    <a href="/2018/05/23/SpringMVC处理请求流程/" class="article-date">
+  <time datetime="2018-05-23T07:10:40.000Z" itemprop="datePublished">2018-05-23</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/23/Java中hashSet与treeSet的去重原理/">Java中hashSet与treeSet的去重原理</a>
+      <a class="article-title" href="/2018/05/23/SpringMVC处理请求流程/">SpringMVC处理请求流程</a>
     </h1>
   
 
@@ -80,18 +80,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>地球人都知道set集合是不含重复元素的，那么其去重原理是什么，我们又可以做哪些用途呢？</p>
-<p><strong>1. treeSet去重原理：compareTo</strong></p>
-<p>可以实现排序及去重：如果compareTo返回0，说明是重复的，返回的是自己的某个属性和另一个对象的某个属性的差值，如果是负数，则往前面排，如果是正数，往后面排；</p>
-<p>应用：类实现compareable接口，覆写其compareto方法，根据自己的需要改变其排序及去重规则，比如person类，根据其年龄进行去重和排序。</p>
-<p><strong>2.hashSet去重原理</strong>：<strong>hashCode,equals是否相同</strong></p>
-<p>两个方法可以快速生成，hashCode是几个属性的hashCode共同计算的结果</p>
-<p>（基本数据类型的实现类生成的hashCode是其拆箱后的值的比较，跟引用数据类型的规则不同，如Integer类）</p>
+        <p><img src="https://i.imgur.com/Jv5cYfb.jpg" alt=""></p>
+<p>SpringMVC核心处理流程：</p>
+<p>1、DispatcherServlet前端控制器接收发过来的请求，交给HandlerMapping处理器映射器</p>
+<p>2、HandlerMapping处理器映射器，根据请求路径找到相应的HandlerAdapter处理器适配器（处理器适配器就是那些拦截器或Controller）</p>
+<p>3、HandlerAdapter处理器适配器，处理一些功能请求，返回一个ModelAndView对象（包括模型数据、逻辑视图名）</p>
+<p>4、ViewResolver视图解析器，先根据ModelAndView中设置的View解析具体视图</p>
+<p>5、然后再将Model模型中的数据渲染到View上</p>
+<p>这些过程都是以DispatcherServlet为中轴线进行的。</p>
+<p>下面简要说一下，用户是如何从发出请求到DispatcherServlet前端控制器</p>
+<p>1、web.xml中配置了SpringMVC的servlet</p>
+<p><img src="https://i.imgur.com/vNE3FMm.png" alt=""></p>
+<p>2、服务器启动时就会初始化servlet，然后会根据url-pattern设定的规则拦截用户发来的请求</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/05/23/Java中hashSet与treeSet的去重原理/" data-id="ckjy7nwma000g3su7p6g9fjwn" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2018/05/23/SpringMVC处理请求流程/" data-id="ckkdplfo6000d7ku708tv1ofq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -107,7 +112,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/28/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/30/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/28/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><a class="extend next" rel="next" href="/page/30/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -153,6 +158,10 @@
       <ul>
         
           <li>
+            <a href="/2021/01/18/springCloud/">springCloud</a>
+          </li>
+        
+          <li>
             <a href="/2021/01/13/数据结构/">数据结构</a>
           </li>
         
@@ -166,10 +175,6 @@
         
           <li>
             <a href="/2020/07/02/hexo教程/">hexo教程</a>
-          </li>
-        
-          <li>
-            <a href="/2020/07/02/两链表相加/">两链表相加</a>
           </li>
         
       </ul>

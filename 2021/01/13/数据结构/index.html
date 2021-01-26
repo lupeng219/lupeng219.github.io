@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="鹿朋">
 <meta property="og:description" content="1.树1.1 树定义：是n&amp;gt;0个结点的有序集。n=0时称为空树，在任何一颗非空树中：     1）：有且仅有一个特定的称为根（Root）的节点。     2）：当n&amp;gt;1时，其余结点可分为m(m&amp;gt;0)个互不相交的有限集T1，T2----Tn,其中每一个集合又是一棵树，并且称为根的子数。     由树的定义可以看出，树的定义使用了递归的方式，递归在树的学习过程中起着重要作用。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-01-15T11:40:26.691Z">
+<meta property="og:updated_time" content="2021-01-26T07:36:25.219Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构">
 <meta name="twitter:description" content="1.树1.1 树定义：是n&amp;gt;0个结点的有序集。n=0时称为空树，在任何一颗非空树中：     1）：有且仅有一个特定的称为根（Root）的节点。     2）：当n&amp;gt;1时，其余结点可分为m(m&amp;gt;0)个互不相交的有限集T1，T2----Tn,其中每一个集合又是一棵树，并且称为根的子数。     由树的定义可以看出，树的定义使用了递归的方式，递归在树的学习过程中起着重要作用。">
@@ -114,11 +114,15 @@
 </ol>
 <p>主要应用存在有序的数据，它的时间复杂度为O（lgn）,效率非常高</p>
 <p>例如：java集合中TreeSet和TreeMap,以及liunx虚拟内存的管理，都是通过红黑树实现的</p>
-<h1 id="2-2-红黑树时间复杂度"><a href="#2-2-红黑树时间复杂度" class="headerlink" title="2.2 红黑树时间复杂度"></a>2.2 红黑树时间复杂度</h1><h1 id="2-3-红黑树基本操作（一）左旋右旋"><a href="#2-3-红黑树基本操作（一）左旋右旋" class="headerlink" title="2.3 红黑树基本操作（一）左旋右旋"></a>2.3 红黑树基本操作（一）左旋右旋</h1><h1 id="2-4-红黑树基本操作（二）添加"><a href="#2-4-红黑树基本操作（二）添加" class="headerlink" title="2.4 红黑树基本操作（二）添加"></a>2.4 红黑树基本操作（二）添加</h1><h1 id="2-5-红黑树基本操作（三）删除"><a href="#2-5-红黑树基本操作（三）删除" class="headerlink" title="2.5 红黑树基本操作（三）删除"></a>2.5 红黑树基本操作（三）删除</h1>
+<h1 id="2-2-红黑树时间复杂度"><a href="#2-2-红黑树时间复杂度" class="headerlink" title="2.2 红黑树时间复杂度"></a>2.2 红黑树时间复杂度</h1><p>红黑树的时间复杂度为：o(lgn)</p>
+<h1 id="2-3-红黑树基本操作（一）左旋右旋"><a href="#2-3-红黑树基本操作（一）左旋右旋" class="headerlink" title="2.3 红黑树基本操作（一）左旋右旋"></a>2.3 红黑树基本操作（一）左旋右旋</h1><p>红黑树的基本操作是增加，删除。在对红黑树进行增加删除后需要使用旋转来保持红黑树的特性</p>
+<p>左旋：<br>对x进行左旋，就是以x节点右节点作为父节点，即将x变成一个左节点。因此左旋中的左意味着被旋转的节点将变成一个左节点。</p>
+<p>右旋：<br>对x进行右旋，就是以x节点左节点作为父节点，即将x变成一个右节点。因此右旋中的右意味着被旋转的节点将变成一个右节点。</p>
+<h1 id="2-4-红黑树基本操作（二）添加"><a href="#2-4-红黑树基本操作（二）添加" class="headerlink" title="2.4 红黑树基本操作（二）添加"></a>2.4 红黑树基本操作（二）添加</h1><h1 id="2-5-红黑树基本操作（三）删除"><a href="#2-5-红黑树基本操作（三）删除" class="headerlink" title="2.5 红黑树基本操作（三）删除"></a>2.5 红黑树基本操作（三）删除</h1>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2021/01/13/数据结构/" data-id="ckjy7nwn3001s3su7k75875qp" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2021/01/13/数据结构/" data-id="ckkdplfp3001w7ku7uf1ebx0v" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
@@ -128,6 +132,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2021/01/18/springCloud/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          springCloud
+        
+      </div>
+    </a>
   
   
     <a href="/2021/01/07/mysql/" id="article-nav-older" class="article-nav-link-wrap">
@@ -183,6 +196,10 @@
       <ul>
         
           <li>
+            <a href="/2021/01/18/springCloud/">springCloud</a>
+          </li>
+        
+          <li>
             <a href="/2021/01/13/数据结构/">数据结构</a>
           </li>
         
@@ -196,10 +213,6 @@
         
           <li>
             <a href="/2020/07/02/hexo教程/">hexo教程</a>
-          </li>
-        
-          <li>
-            <a href="/2020/07/02/两链表相加/">两链表相加</a>
           </li>
         
       </ul>
