@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-数据结构" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-springCloud" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/01/13/数据结构/" class="article-date">
-  <time datetime="2021-01-13T08:19:24.000Z" itemprop="datePublished">2021-01-13</time>
+    <a href="/2021/01/18/springCloud/" class="article-date">
+  <time datetime="2021-01-18T11:20:09.000Z" itemprop="datePublished">2021-01-18</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/13/数据结构/">数据结构</a>
+      <a class="article-title" href="/2021/01/18/springCloud/">springCloud</a>
     </h1>
   
 
@@ -80,50 +80,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1-树"><a href="#1-树" class="headerlink" title="1.树"></a>1.树</h1><pre><code>1.1 树定义：是n&gt;0个结点的有序集。n=0时称为空树，在任何一颗非空树中：
-    1）：有且仅有一个特定的称为根（Root）的节点。
-    2）：当n&gt;1时，其余结点可分为m(m&gt;0)个互不相交的有限集T1，T2----Tn,其中每一个集合又是一棵树，并且称为根的子数。
-    由树的定义可以看出，树的定义使用了递归的方式，递归在树的学习过程中起着重要作用。
-    3）结点拥有的子树数目称为结点的度。
-1.2 二叉树
-    1）定义：
-    二叉树是n（n&gt;=0）个结点的有限集合，改集合或者为空集（空二叉树），或者由一个根结点和两颗互不相交的，分别称为根节点的左子树和右子树
-    2）特点
-    - 每个节点最多有两颗子树，所以二叉树中不存在度大于2的特征
-    - 左子树和右子树是有序的，次序不能任意颠倒。
-    - 及时树中只有一颗子树，也要区分是左树和右树。
-    3）斜树
-    所有的结点都只有左子树的二叉树叫左斜树。所有结点都只有右子树的二叉树叫右斜树。这两者统称为斜树。
-    4）满二叉树
-    在一颗二叉树上，如果所有分支结点都存在左子树和右子树，并且所有的叶子节点都在同一层，这样的二叉树叫做满二叉树。
-    5）完全二叉树
-    对一颗具有n个结点的二叉树按层编号，如果编号为1&lt;=i&lt;=n的结点与同样深度的满二叉树中编号为i的结点在二叉树中位置完全相同，则这颗二叉树称为完全二叉树。
-    注：满二叉树一定是完全二叉树，反之则不一定成立。
-1.3 二叉树的存储结构
-</code></pre><h1 id="2-红黑树简介"><a href="#2-红黑树简介" class="headerlink" title="2. 红黑树简介"></a>2. 红黑树简介</h1><p>R-B Tree 全称是Red-Black Tree,又称红黑树，它是一种特殊的二叉查找树。红黑树每个节点上都有存储位表示节点的颜色，可以是红色或者黑色。</p>
-<p><strong>红黑树特点</strong></p>
-<ol>
-<li>每个节点或者是黑色或者是红色。</li>
-<li>根节点是黑色。</li>
-<li>每个叶子节点（NIL）是黑色.这里叶子节点是指为空（NIL或NULL）的叶子节点。</li>
-<li>如果一个节点是红色的，则它的子节点必须是黑色的。</li>
-<li>从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点。<h1 id="2-1-红黑树应用"><a href="#2-1-红黑树应用" class="headerlink" title="2.1 红黑树应用"></a>2.1 红黑树应用</h1></li>
-</ol>
-<p>主要应用存在有序的数据，它的时间复杂度为O（lgn）,效率非常高</p>
-<p>例如：java集合中TreeSet和TreeMap,以及liunx虚拟内存的管理，都是通过红黑树实现的</p>
-<h1 id="2-2-红黑树时间复杂度"><a href="#2-2-红黑树时间复杂度" class="headerlink" title="2.2 红黑树时间复杂度"></a>2.2 红黑树时间复杂度</h1><p>红黑树的时间复杂度为：o(lgn)</p>
-<h1 id="2-3-红黑树基本操作（一）左旋右旋"><a href="#2-3-红黑树基本操作（一）左旋右旋" class="headerlink" title="2.3 红黑树基本操作（一）左旋右旋"></a>2.3 红黑树基本操作（一）左旋右旋</h1><p>红黑树的基本操作是增加，删除。在对红黑树进行增加删除后需要使用旋转来保持红黑树的特性</p>
-<p>左旋：<br>对x进行左旋，就是以x节点右节点作为父节点，即将x变成一个左节点。因此左旋中的左意味着被旋转的节点将变成一个左节点。</p>
-<p>右旋：<br>对x进行右旋，就是以x节点左节点作为父节点，即将x变成一个右节点。因此右旋中的右意味着被旋转的节点将变成一个右节点。</p>
-<h1 id="2-4-红黑树基本操作（二）添加"><a href="#2-4-红黑树基本操作（二）添加" class="headerlink" title="2.4 红黑树基本操作（二）添加"></a>2.4 红黑树基本操作（二）添加</h1><h1 id="2-5-红黑树基本操作（三）删除"><a href="#2-5-红黑树基本操作（三）删除" class="headerlink" title="2.5 红黑树基本操作（三）删除"></a>2.5 红黑树基本操作（三）删除</h1>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2021/01/13/数据结构/" data-id="ckkdplfp3001w7ku7uf1ebx0v" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2021/01/18/springCloud/" data-id="ckkq9ehgq001g74u725jdaon8" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
-
     </footer>
   </div>
   
@@ -135,7 +98,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -168,7 +131,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
     </div>
   </div>
 
@@ -179,6 +142,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/02/04/算法思想/">算法思想</a>
+          </li>
         
           <li>
             <a href="/2021/01/18/springCloud/">springCloud</a>
@@ -194,10 +161,6 @@
         
           <li>
             <a href="/2020/07/15/rabbitmq异常/">rabbitmq异常</a>
-          </li>
-        
-          <li>
-            <a href="/2020/07/02/hexo教程/">hexo教程</a>
           </li>
         
       </ul>
