@@ -7,18 +7,18 @@
   
   <title>算法思想 | 鹿朋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="https://www.sohu.com/a/283968230_100028126 常用的算法：枚举、递推、递归、分治、贪心、试探法、动态迭代和模拟等 ##  1. 枚举 (暴力算法)将问题的所有答案一一列举，根据判断条件进行选取，通常使用循环实现。 2. 递推3. 递归4. 分治5. 贪心6. 试探法7. 动态迭代8. 模拟">
+  <meta name="description" content="https://www.sohu.com/a/283968230_100028126 常用的算法：枚举、递推、递归、分治、贪心、试探法、动态迭代和模拟等 ##  1. 枚举 (暴力算法)将问题的所有答案一一列举，根据判断条件进行选取，通常使用循环实现。 经典运用：百钱买百鸡 题目：公鸡5元一只，母鸡3元一只，小鸡3只一元，用100元买100只鸡，需要3种鸡都买到。问三种鸡各买多少 解题一： 1.x">
 <meta name="keywords" content="算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="算法思想">
 <meta property="og:url" content="http://lupeng219.github.io/2021/02/04/算法思想/index.html">
 <meta property="og:site_name" content="鹿朋">
-<meta property="og:description" content="https://www.sohu.com/a/283968230_100028126 常用的算法：枚举、递推、递归、分治、贪心、试探法、动态迭代和模拟等 ##  1. 枚举 (暴力算法)将问题的所有答案一一列举，根据判断条件进行选取，通常使用循环实现。 2. 递推3. 递归4. 分治5. 贪心6. 试探法7. 动态迭代8. 模拟">
+<meta property="og:description" content="https://www.sohu.com/a/283968230_100028126 常用的算法：枚举、递推、递归、分治、贪心、试探法、动态迭代和模拟等 ##  1. 枚举 (暴力算法)将问题的所有答案一一列举，根据判断条件进行选取，通常使用循环实现。 经典运用：百钱买百鸡 题目：公鸡5元一只，母鸡3元一只，小鸡3只一元，用100元买100只鸡，需要3种鸡都买到。问三种鸡各买多少 解题一： 1.x">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-02-04T03:40:20.221Z">
+<meta property="og:updated_time" content="2021-02-04T08:06:03.133Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="算法思想">
-<meta name="twitter:description" content="https://www.sohu.com/a/283968230_100028126 常用的算法：枚举、递推、递归、分治、贪心、试探法、动态迭代和模拟等 ##  1. 枚举 (暴力算法)将问题的所有答案一一列举，根据判断条件进行选取，通常使用循环实现。 2. 递推3. 递归4. 分治5. 贪心6. 试探法7. 动态迭代8. 模拟">
+<meta name="twitter:description" content="https://www.sohu.com/a/283968230_100028126 常用的算法：枚举、递推、递归、分治、贪心、试探法、动态迭代和模拟等 ##  1. 枚举 (暴力算法)将问题的所有答案一一列举，根据判断条件进行选取，通常使用循环实现。 经典运用：百钱买百鸡 题目：公鸡5元一只，母鸡3元一只，小鸡3只一元，用100元买100只鸡，需要3种鸡都买到。问三种鸡各买多少 解题一： 1.x">
   
   
     <link rel="icon" href="/favicon.png">
@@ -87,11 +87,48 @@
 <p>常用的算法：枚举、递推、递归、分治、贪心、试探法、动态迭代和模拟等</p>
 <p>## </p>
 <h2 id="1-枚举-暴力算法"><a href="#1-枚举-暴力算法" class="headerlink" title="1. 枚举 (暴力算法)"></a>1. 枚举 (暴力算法)</h2><p>将问题的所有答案一一列举，根据判断条件进行选取，通常使用循环实现。</p>
-<h2 id="2-递推"><a href="#2-递推" class="headerlink" title="2. 递推"></a>2. 递推</h2><h2 id="3-递归"><a href="#3-递归" class="headerlink" title="3. 递归"></a>3. 递归</h2><h2 id="4-分治"><a href="#4-分治" class="headerlink" title="4. 分治"></a>4. 分治</h2><h2 id="5-贪心"><a href="#5-贪心" class="headerlink" title="5. 贪心"></a>5. 贪心</h2><h2 id="6-试探法"><a href="#6-试探法" class="headerlink" title="6. 试探法"></a>6. 试探法</h2><h2 id="7-动态迭代"><a href="#7-动态迭代" class="headerlink" title="7. 动态迭代"></a>7. 动态迭代</h2><h2 id="8-模拟"><a href="#8-模拟" class="headerlink" title="8. 模拟"></a>8. 模拟</h2>
+<p>经典运用：百钱买百鸡</p>
+<p>题目：公鸡5元一只，母鸡3元一只，小鸡3只一元，用100元买100只鸡，需要3种鸡都买到。问三种鸡各买多少</p>
+<p>解题一：</p>
+<pre><code>1.x+y+z = 100
+2.5x+3y+3/z = 100
+3.得：5x&lt;100; 3Y&lt;100; z=100-x-y;
+</code></pre><p>程序：</p>
+<pre><code>//公鸡上限
+for (int x = 1; x &lt; 20; x++)
+ {
+     //母鸡的上限
+     for (int y = 1; y &lt; 33; y++)
+    {
+        //剩余小鸡
+        var z = 100 - x - y;
+        if ((z % 3 == 0) &amp;&amp; (x * 5 + y * 3 + z / 3 == 100))
+        {
+            log.info(&quot;公鸡:{}只，母鸡:{}只,小鸡:{}只&quot;, x, y, z);
+        }
+    }
+}
+</code></pre><p>解题二：</p>
+<pre><code>1.x+y+z = 100
+2.5x+3y+3/z = 100
+3.由2.乘3得：15x+9y+z = 300
+4.由3.-2.得：y=25-(7/4)x
+5.令 x = 4k
+6.把5.带入4.得：y = 25-7k
+7.把5.6.带入1.得：z = 75+3k
+8.因为0&lt;x,y,z&lt;100得：z的取值为1,2,3
+</code></pre><p>程序：</p>
+<pre><code>int x,y,z;
+for(int k = 1; k &lt;=3; k++) {
+    x = 4k;
+    y = 25-7k;
+    z = 75+3k;
+}
+</code></pre><h2 id="2-递推"><a href="#2-递推" class="headerlink" title="2. 递推"></a>2. 递推</h2><h2 id="3-递归"><a href="#3-递归" class="headerlink" title="3. 递归"></a>3. 递归</h2><h2 id="4-分治"><a href="#4-分治" class="headerlink" title="4. 分治"></a>4. 分治</h2><h2 id="5-贪心"><a href="#5-贪心" class="headerlink" title="5. 贪心"></a>5. 贪心</h2><h2 id="6-试探法"><a href="#6-试探法" class="headerlink" title="6. 试探法"></a>6. 试探法</h2><h2 id="7-动态迭代"><a href="#7-动态迭代" class="headerlink" title="7. 动态迭代"></a>7. 动态迭代</h2><h2 id="8-模拟"><a href="#8-模拟" class="headerlink" title="8. 模拟"></a>8. 模拟</h2>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2021/02/04/算法思想/" data-id="ckkqbazf1002crou7jj6ukgn6" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2021/02/04/算法思想/" data-id="ckkqktffh0021mou7n54bbtfm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
