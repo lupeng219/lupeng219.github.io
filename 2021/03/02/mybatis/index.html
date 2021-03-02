@@ -7,15 +7,18 @@
   
   <title>mybatis | 鹿朋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="源码解析">
+  <meta name="description" content="mybatis核心概念SqlSession:作为MyBatis的主要API，表示和数据库连接的会话，完成数据的增删改查。 Executer:Mybatis的核心调度器，负责sql语句的生成和查询缓存的维护 StatementHandler:封装了jdbc的statement操作，负责对jdbc的statement操作，如设置参数，将statement结果集转换为list。 parameterHan">
+<meta name="keywords" content="源码解析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mybatis">
 <meta property="og:url" content="http://lupeng219.github.io/2021/03/02/mybatis/index.html">
 <meta property="og:site_name" content="鹿朋">
+<meta property="og:description" content="mybatis核心概念SqlSession:作为MyBatis的主要API，表示和数据库连接的会话，完成数据的增删改查。 Executer:Mybatis的核心调度器，负责sql语句的生成和查询缓存的维护 StatementHandler:封装了jdbc的statement操作，负责对jdbc的statement操作，如设置参数，将statement结果集转换为list。 parameterHan">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-03-02T00:49:49.245Z">
+<meta property="og:updated_time" content="2021-03-02T01:42:51.392Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mybatis">
+<meta name="twitter:description" content="mybatis核心概念SqlSession:作为MyBatis的主要API，表示和数据库连接的会话，完成数据的增删改查。 Executer:Mybatis的核心调度器，负责sql语句的生成和查询缓存的维护 StatementHandler:封装了jdbc的statement操作，负责对jdbc的statement操作，如设置参数，将statement结果集转换为list。 parameterHan">
   
   
     <link rel="icon" href="/favicon.png">
@@ -80,11 +83,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="mybatis核心概念"><a href="#mybatis核心概念" class="headerlink" title="mybatis核心概念"></a>mybatis核心概念</h2><p>SqlSession:作为MyBatis的主要API，表示和数据库连接的会话，完成数据的增删改查。</p>
+<p>Executer:Mybatis的核心调度器，负责sql语句的生成和查询缓存的维护</p>
+<p>StatementHandler:封装了jdbc的statement操作，负责对jdbc的statement操作，如设置参数，将statement结果集转换为list。</p>
+<p>parameterHandler:负责对用户传入的参数转为statement所需要的参数。</p>
+<p>ResultsetHandler: 负责将jdbc返回的结果集转换为List集合。</p>
+<p>configuraton: Mybatis的所有的配置信息都维护在Configuration对象之中。</p>
+<p><a href="https://blog.csdn.net/qq_35393693/article/details/80556007" target="_blank" rel="noopener">https://blog.csdn.net/qq_35393693/article/details/80556007</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2021/03/02/mybatis/" data-id="cklransb0000ymku7cbrc0wvj" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2021/03/02/mybatis/" data-id="cklrcjum400121ou724m3z6q3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码解析/">源码解析</a></li></ul>
