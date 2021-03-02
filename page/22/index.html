@@ -58,10 +58,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-springCloud-zuul" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-springCloud-Eureka" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/11/01/springCloud-zuul/" class="article-date">
-  <time datetime="2018-11-01T09:33:13.000Z" itemprop="datePublished">2018-11-01</time>
+    <a href="/2018/11/02/springCloud-Eureka/" class="article-date">
+  <time datetime="2018-11-02T07:02:01.000Z" itemprop="datePublished">2018-11-02</time>
 </a>
     
   </div>
@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/01/springCloud-zuul/">springCloud-zuul</a>
+      <a class="article-title" href="/2018/11/02/springCloud-Eureka/">springCloud-Eureka</a>
     </h1>
   
 
@@ -80,47 +80,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-zuul是什么"><a href="#1-zuul是什么" class="headerlink" title="1.zuul是什么"></a>1.zuul是什么</h2><p>zuul 是netflix开源的一个API Gateway 服务器, 本质上是一个web servlet应用。<br>Zuul 在云平台上提供动态路由，监控，弹性，安全等边缘服务的框架。Zuul 相当于是设备和 Netflix 流应用的 Web 网站后端所有请求的前门。</p>
-<h2 id="2-zuul的工作原理"><a href="#2-zuul的工作原理" class="headerlink" title="2.zuul的工作原理"></a>2.zuul的工作原理</h2><p><strong>1、过滤器机制</strong></p>
-<p>zuul的核心是一系列的filters, 其作用可以类比Servlet框架的Filter，或者AOP。</p>
-<p>zuul把Request route到 用户处理逻辑 的过程中，这些filter参与一些过滤处理，比如Authentication，Load Shedding等。  </p>
-<p><strong>Zuul提供了一个框架，可以对过滤器进行动态的加载，编译，运行。</strong></p>
-<p>下面有几种标准的过滤器类型：</p>
-<p>Zuul大部分功能都是通过过滤器来实现的。Zuul中定义了四种标准过滤器类型，这些过滤器类型对应于请求的典型生命周期。</p>
-<p>(1) PRE：这种过滤器在请求被路由之前调用。我们可利用这种过滤器实现身份验证、在集群中选择请求的微服务、记录调试信息等。</p>
-<p>(2) ROUTING：这种过滤器将请求路由到微服务。这种过滤器用于构建发送给微服务的请求，并使用Apache HttpClient或Netfilx Ribbon请求微服务。</p>
-<p>(3) POST：这种过滤器在路由到微服务以后执行。这种过滤器可用来为响应添加标准的HTTP Header、收集统计信息和指标、将响应从微服务发送给客户端等。</p>
-<p>(4) ERROR：在其他阶段发生错误时执行该过滤器。</p>
-<h2 id="3-zuul-能做什么"><a href="#3-zuul-能做什么" class="headerlink" title="3.zuul 能做什么"></a>3.zuul 能做什么</h2><p>Zuul可以通过加载动态过滤机制，从而实现以下各项功能：</p>
-<ul>
-<li>验证与安全保障: 识别面向各类资源的验证要求并拒绝那些与要求不符的请求。</li>
-<li>审查与监控: 在边缘位置追踪有意义数据及统计结果，从而为我们带来准确的生产状态结论。</li>
-<li>动态路由: 以动态方式根据需要将请求路由至不同后端集群处。</li>
-<li>压力测试: 逐渐增加指向集群的负载流量，从而计算性能水平。</li>
-<li>负载分配: 为每一种负载类型分配对应容量，并弃用超出限定值的请求。</li>
-<li>静态响应处理: 在边缘位置直接建立部分响应，从而避免其流入内部集群。</li>
-<li>多区域弹性: 跨越AWS区域进行请求路由，旨在实现ELB使用多样化并保证边缘位置与使用者尽可能接近。<br>除此之外，Netflix公司还利用Zuul的功能通过金丝雀版本实现精确路由与压力测试。</li>
-</ul>
-<h2 id="4-zuul-与应用的集成方式"><a href="#4-zuul-与应用的集成方式" class="headerlink" title="4.zuul 与应用的集成方式"></a>4.zuul 与应用的集成方式</h2><p>1、ZuulServlet - 处理请求（调度不同阶段的filters，处理异常等）<br>ZuulServlet类似SpringMvc的DispatcherServlet，所有的Request都要经过ZuulServlet的处理</p>
-<p>三个核心的方法preRoute(),route(), postRoute()，zuul对request处理逻辑都在这三个方法里</p>
-<p>ZuulServlet交给ZuulRunner去执行。</p>
-<p>由于ZuulServlet是单例，因此ZuulRunner也仅有一个实例。</p>
-<p>ZuulRunner直接将执行逻辑交由FilterProcessor处理，FilterProcessor也是单例，其功能就是依据filterType执行filter的处理逻辑</p>
-<p>FilterProcessor对filter的处理逻辑。</p>
-<p>首先根据Type获取所有输入该Type的filter，List<zuulfilter> list。<br>遍历该list，执行每个filter的处理逻辑，processZuulFilter(ZuulFilter filter)<br>RequestContext对每个filter的执行状况进行记录，应该留意，此处的执行状态主要包括其执行时间、以及执行成功或者失败，如果执行失败则对异常封装后抛出。<br>到目前为止，zuul框架对每个filter的执行结果都没有太多的处理，它没有把上一filter的执行结果交由下一个将要执行的filter，仅仅是记录执行状态，如果执行失败抛出异常并终止执行。</zuulfilter></p>
-<p>2、ContextLifeCycleFilter - RequestContext 的生命周期管理<br>ContextLifecycleFilter的核心功能是为了清除RequestContext； 请求上下文RequestContext通过ThreadLocal存储，需要在请求完成后删除该对象。 </p>
-<p>RequestContext提供了执行filter Pipeline所需要的Context，因为Servlet是单例多线程，这就要求RequestContext即要线程安全又要Request安全。</p>
-<p>context使用ThreadLocal保存，这样每个worker线程都有一个与其绑定的RequestContext，因为worker仅能同时处理一个Request，这就保证了Request Context 即是线程安全的由是Request安全的。</p>
-<p>3、GuiceFilter - GOOLE-IOC(Guice是Google开发的一个轻量级，基于Java5（主要运用泛型与注释特性）的依赖注入框架(IOC)。Guice非常小而且快。) </p>
-<p>4、StartServer - 初始化 zuul 各个组件 （ioc、插件、filters、数据库等）</p>
-<p>5、FilterScriptManagerServlet -  uploading/downloading/managing scripts， 实现热部署<br>Filter源码文件放在zuul 服务特定的目录， zuul server会定期扫描目录下的文件的变化，动态的读取\编译\运行这些filter,</p>
-<p>如果有Filter文件更新，源文件会被动态的读取，编译加载进入服务，接下来的Request处理就由这些新加入的filter处理。</p>
-<p>标签: zuul</p>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://lupeng219.github.io/2018/11/01/springCloud-zuul/" data-id="ckkqktff3001kmou726goguec" class="article-share-link">Share</a>
+      <a data-url="http://lupeng219.github.io/2018/11/02/springCloud-Eureka/" data-id="cklransb9001emku7nkmoeb1m" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -136,7 +100,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/21/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><a class="extend next" rel="next" href="/page/23/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/21/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><a class="extend next" rel="next" href="/page/23/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -150,7 +114,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人/">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法论/">方法论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生产环境问题/">生产环境问题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人/">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法论/">方法论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码解析/">源码解析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生产环境问题/">生产环境问题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
     </div>
   </div>
 
@@ -160,7 +124,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 17.5px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a> <a href="/tags/生产环境问题/" style="font-size: 10px;">生产环境问题</a> <a href="/tags/算法/" style="font-size: 12.5px;">算法</a>
+      <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/个人/" style="font-size: 17.5px;">个人</a> <a href="/tags/区块链/" style="font-size: 10px;">区块链</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/方法论/" style="font-size: 10px;">方法论</a> <a href="/tags/源码解析/" style="font-size: 10px;">源码解析</a> <a href="/tags/生产环境问题/" style="font-size: 10px;">生产环境问题</a> <a href="/tags/算法/" style="font-size: 12.5px;">算法</a>
     </div>
   </div>
 
@@ -169,7 +133,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
     </div>
   </div>
 
@@ -180,6 +144,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/03/02/mybatis/">mybatis</a>
+          </li>
         
           <li>
             <a href="/2021/02/04/算法思想/">算法思想</a>
@@ -195,10 +163,6 @@
         
           <li>
             <a href="/2021/01/07/mysql/">mysql知识</a>
-          </li>
-        
-          <li>
-            <a href="/2020/07/15/rabbitmq异常/">rabbitmq异常</a>
           </li>
         
       </ul>
